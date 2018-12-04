@@ -42,12 +42,12 @@ export default [
         ],
       },
       {
-        path: '/item',
+        path: '/mall',
         icon: 'table',
-        name: 'item',
+        name: 'mall',
         routes: [
           {
-            path: '/item/recommend',
+            path: '/mall/recommend',
             name: 'recommend',
             component: './Item/Recommend',
           }
