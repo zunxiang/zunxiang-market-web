@@ -2,7 +2,7 @@ import React, { PureComponent, Fragment } from 'react';
 import { connect } from 'dva';
 import { Card, message, Popconfirm, Input, Badge } from 'antd';
 import update from 'immutability-helper';
-import PageHeaderLayout from '@/layouts/PageHeaderLayout';
+import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import DragSortingTable from '@/components/DragSortingTable';
 import { BaseImgUrl } from '../../common/config';
 import styles from './Style.less';
@@ -152,7 +152,7 @@ export default class BasicList extends PureComponent {
   render() {
     const { recommend: { data: { list } } } = this.props;
     return (
-      <PageHeaderLayout>
+      <PageHeaderWrapper>
         <div className={styles.standardList}>
           <Card
             className={styles.listCard}
@@ -176,7 +176,7 @@ export default class BasicList extends PureComponent {
             />
           </Card>
         </div>
-      </PageHeaderLayout>
+      </PageHeaderWrapper>
     );
   }
 }

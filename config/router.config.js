@@ -41,6 +41,18 @@ export default [
           },
         ],
       },
+      {
+        path: '/item',
+        icon: 'table',
+        name: 'item',
+        routes: [
+          {
+            path: '/item/recommend',
+            name: 'recommend',
+            component: './Item/Recommend',
+          }
+        ],
+      },
       // forms
       {
         path: '/form',
