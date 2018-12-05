@@ -53,6 +53,33 @@ export default [
           }
         ],
       },
+      {
+        path: '/porduct',
+        icon: 'table',
+        name: 'product',
+        routes: [
+          {
+            path: '/product/normal',
+            name: 'normal',
+            component: './Product/Normal',
+          },
+          {
+            path: '/product/presale',
+            name: 'presale',
+            component: './Product/Preslae',
+          },
+          {
+            path: '/product/normal-detail',
+            name: 'normal-detail',
+            component: './Product/NormalDetail',
+          },
+          {
+            path: '/product/presale-detial',
+            name: 'presale-detial',
+            component: './Product/PreslaeDetail',
+          }
+        ],
+      },
       // forms
       {
         path: '/form',
