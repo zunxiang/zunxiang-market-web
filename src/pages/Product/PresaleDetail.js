@@ -6,7 +6,7 @@ import { parse } from 'qs';
 import DescriptionList from '@/components/DescriptionList';
 import QRCode from 'qrcode-react';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
-import PackageList from './PackageList';
+import PackageList from './PresalePackageList';
 
 const { Description } = DescriptionList;
 

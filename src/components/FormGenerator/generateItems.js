@@ -69,7 +69,7 @@ const renderInput = item => {
   return InputItem;
 };
 const CreateFormItem = props => {
-  const { item, getFieldDecorator, layout, values } = props;
+  const { item, getFieldDecorator, layout, values = {} } = props;
   const { label, key, required = false, rules, parse } = item;
   return (
     <FormItem key={key} label={label} {...layout}>

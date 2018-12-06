@@ -38,6 +38,11 @@ export default class TableList extends PureComponent {
     qrcodeTitle: undefined,
     modalTitle: undefined,
     query: parse(this.props.location.search, { ignoreQueryPrefix: true }),
+    data: {
+      list: [],
+      pagination: {},
+      sum: {},
+    }
   };
 
   componentDidMount() {
@@ -58,6 +63,11 @@ export default class TableList extends PureComponent {
     dispatch({
       type: 'normal/find',
       payload: params,
+      callback: data => {
+        this.setState({
+          data: { ...data }
+        })
+      }
     });
   };
 
@@ -305,8 +315,8 @@ export default class TableList extends PureComponent {
   };
 
   render() {
-    const { normal: { data: { list, pagination } }, loading } = this.props;
-    const { query } = this.state;
+    const { loading } = this.props;
+    const { query, data: { list, pagination } } = this.state;
     const paginationProps = {
       showSizeChanger: true,
       showQuickJumper: true,

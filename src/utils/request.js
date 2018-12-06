@@ -133,23 +133,23 @@ export default function request(url, option) {
       if(Number.isInteger(res[0])) {
         const [status, data] = res;
         if(status === 0) {
-          return data
+          return res
         }
         if (status === 401) {
           window.g_app._store.dispatch({
             type: 'login/logout',
           });
-          return;
+          return res;
         }
         if (status === 403) {
           router.push('/exception/403');
-          return;
+          return res;
         }
         notification.error({
           message: `错误提示 ${status}`,
           description: data,
         });
-        return;
+        return res;
       }
       return res
     })

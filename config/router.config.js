@@ -49,35 +49,72 @@ export default [
           {
             path: '/mall/recommend',
             name: 'recommend',
-            component: './Item/Recommend',
+            component: './Mall/Recommend',
+          },
+          {
+            path: '/mall/banner',
+            name: 'banner',
+            component: './Mall/Banner',
+          },
+          {
+            path: '/mall/info',
+            name: 'info',
+            component: './Mall/info',
           }
         ],
       },
       {
-        path: '/porduct',
+        path: '/product',
         icon: 'table',
         name: 'product',
         routes: [
           {
             path: '/product/normal',
             name: 'normal',
-            component: './Product/Normal',
+            hideChildrenInMenu: true,
+            routes: [
+              {
+                path: '/product/normal',
+                redirect: '/product/normal/list',
+              },
+              {
+                path: '/product/normal/list',
+                name: 'normal-list',
+                component: './Product/Normal',
+              },
+              {
+                path: '/product/normal/detail',
+                name: 'normal-detail',
+                component: './Product/NormalDetail',
+              },
+            ]
           },
           {
             path: '/product/presale',
             name: 'presale',
-            component: './Product/Preslae',
+            hideChildrenInMenu: true,
+            routes: [
+              {
+                path: '/product/presale',
+                redirect: '/product/presale/list',
+              },
+              {
+                path: '/product/presale/list',
+                name: 'presale-list',
+                component: './Product/Presale',
+              },
+              {
+                path: '/product/presale/sort',
+                name: 'presale-sort',
+                component: './Product/PresaleSortList',
+              },
+              {
+                path: '/product/presale/detail',
+                name: 'presale-detail',
+                component: './Product/PresaleDetail',
+              },
+            ]
           },
-          {
-            path: '/product/normal-detail',
-            name: 'normal-detail',
-            component: './Product/NormalDetail',
-          },
-          {
-            path: '/product/presale-detial',
-            name: 'presale-detial',
-            component: './Product/PreslaeDetail',
-          }
         ],
       },
       // forms
@@ -121,7 +158,6 @@ export default [
           {
             path: '/form/advanced-form',
             name: 'advancedform',
-            authority: ['admin'],
             component: './Forms/AdvancedForm',
           },
         ],
@@ -238,10 +274,21 @@ export default [
         ],
       },
       {
+        name: 'salesman',
+        icon: 'user',
+        path: '/salesman/list',
+        component: './Salesman/List',
+      },
+      {
         name: 'account',
         icon: 'user',
         path: '/account',
         routes: [
+          {
+            path: '/account/child/list',
+            name: 'child-list',
+            component: './Account/Child',
+          },
           {
             path: '/account/center',
             name: 'center',

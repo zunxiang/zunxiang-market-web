@@ -1,5 +1,5 @@
 import { notification } from 'antd';
-import { GET } from '../services/api';
+import { GET } from '@/services/api';
 
 export default {
   namespace: 'recommend',
@@ -11,16 +11,16 @@ export default {
   },
   effects: {
     *find({ payload }, { call, put }) {
-      const { currentPage, pageSize, ...otherPayload } = payload;
+      const { currentPage, pageSize, ...params } = payload;
       const msg = {
         handler: '/v2/admin/item/xstj/find',
         message: JSON.stringify({
-          ...otherPayload,
+          ...params,
           limit: `${(currentPage - 1) * pageSize},${pageSize}`,
         }),
       };
-      const response = yield call(GET, msg);
-      if (!response) return;
+      const [code, response] = yield call(GET, msg);
+      if (code !== 0) return;
       yield put({
         type: 'findSuccess',
         payload: {
@@ -40,31 +40,31 @@ export default {
       });
       if (callback) callback();
     },
-    *postSorting({ payload, callback }, { call, put }) {
+    *postSorting({ payload, callback }, { call }) {
       const msg = {
         handler: '/v2/admin/item/xstj/puts',
         message: JSON.stringify(payload),
       };
-      const response = yield call(GET, msg);
-      if (!response) return;
+      const [code, response] = yield call(GET, msg);
+      if (code !== 0) return;
       if (callback) callback();
     },
-    *delete({ payload, callback }, { call, put }) {
+    *delete({ payload, callback }, { call }) {
       const msg = {
         handler: '/v2/admin/item/xstj/del',
         message: JSON.stringify(payload),
       };
-      const response = yield call(GET, msg);
-      if (!response) return;
+      const [code, response] = yield call(GET, msg);
+      if (code !== 0) return;
       if (callback) callback();
     },
-    *add({ payload, callback }, { call, put }) {
+    *add({ payload, callback }, { call }) {
       const msg = {
         handler: '/v2/admin/item/xstj/adds',
         message: JSON.stringify(payload),
       };
-      const response = yield call(GET, msg);
-      if (!response) return;
+      const [cdoe, response] = yield call(GET, msg);
+      if (code !== 0) return;
       if (callback) callback();
     },
   },

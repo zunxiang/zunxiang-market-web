@@ -1,4 +1,5 @@
 import { query as queryUsers, queryCurrent } from '@/services/user';
+import { routerRedux } from 'dva/router';
 import { GET } from '@/services/api';
 import { BaseImgUrl } from '@/common/config'
 
@@ -23,8 +24,8 @@ export default {
         handler: '/v2/admin/main/get_self',
         message: JSON.stringify({}),
       };
-      const response = yield call(GET, msg);
-      if (!response) return
+      const [code, response] = yield call(GET, msg);
+      if (code !== 0) return
       const user = {
         name: response.username,
         avatar: `${BaseImgUrl}/${response.logo || 'user.png'}`,

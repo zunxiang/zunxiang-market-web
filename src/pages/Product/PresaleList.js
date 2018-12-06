@@ -35,7 +35,7 @@ const PresaleListContent = props => {
             <div>
               <Link
                 to={{
-                  pathname: '/presale/detail',
+                  pathname: '/product/presale/detail',
                   search: `i=${item.i}`,
                 }}
               >

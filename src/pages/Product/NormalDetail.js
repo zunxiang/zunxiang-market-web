@@ -8,8 +8,8 @@ import Debounce from 'lodash-decorators/debounce';
 import Ellipsis from '@/components/Ellipsis/index';
 import QRCode from 'qrcode-react';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
-import PackageList from './PackageList';
-import { insuranceStatus, insuranceStatusMap } from '../Insurance/common';
+import PackageList from './NormalPackageList';
+import { insuranceStatus, insuranceStatusMap } from './common';
 
 const { Description } = DescriptionList;
 
