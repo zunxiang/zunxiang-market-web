@@ -1,7 +1,5 @@
-import React, { PureComponent, Fragment } from 'react';
-import { connect } from 'dva';
-import { Card, message, Popconfirm, Input, Badge, Form } from 'antd';
-import update from 'immutability-helper';
+import React, { PureComponent } from 'react';
+import { Card, Input, Form } from 'antd';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import Upload from '@/components/FormItems/Upload';
 import styles from './Style.less';
@@ -21,15 +19,8 @@ const formItemLayout = {
   },
 };
 
-const submitFormLayout = {
-  wrapperCol: {
-    xs: { span: 24, offset: 0 },
-    sm: { span: 10, offset: 10 },
-  },
-};
-
 @Form.create()
-export default class InfoSetting extends PureComponent {
+class InfoSetting extends PureComponent {
   render() {
     const {
       shareTitle,
@@ -86,3 +77,5 @@ export default class InfoSetting extends PureComponent {
     );
   }
 }
+
+export default InfoSetting;

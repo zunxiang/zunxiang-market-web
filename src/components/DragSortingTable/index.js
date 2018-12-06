@@ -18,6 +18,7 @@ const dragDirection = (
   if (dragIndex > hoverIndex && hoverClientY < hoverMiddleY) {
     return 'upward';
   }
+  return false;
 };
 
 let BodyRow = props => {
@@ -108,15 +109,16 @@ class DragSortingTable extends React.Component {
   };
 
   render() {
+    const { columns, dataSource, rowKey, moveRow } = this.props;
     return (
       <Table
-        columns={this.props.columns}
-        dataSource={this.props.dataSource}
+        columns={columns}
+        dataSource={dataSource}
         components={this.components}
-        rowKey={this.props.rowKey}
+        rowKey={rowKey}
         onRow={(record, index) => ({
           index,
-          moveRow: this.props.moveRow,
+          moveRow,
         })}
       />
     );

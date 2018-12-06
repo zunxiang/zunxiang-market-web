@@ -1,4 +1,4 @@
-import { query as queryUsers, queryCurrent } from '@/services/user';
+import { query as queryUsers } from '@/services/user';
 import { routerRedux } from 'dva/router';
 import { GET } from '@/services/api';
 import { BaseImgUrl } from '@/common/config';

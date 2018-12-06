@@ -1,4 +1,3 @@
-import { notification } from 'antd';
 import { GET } from '@/services/api';
 
 export default {
@@ -45,30 +44,30 @@ export default {
       });
       if (callback) callback();
     },
-    *postSorting({ payload, callback }, { call, put }) {
+    *postSorting({ payload, callback }, { call }) {
       const msg = {
         handler: '/v2/admin/setting/banner/sort',
         message: JSON.stringify(payload),
       };
-      const [code, response] = yield call(GET, msg);
+      const [code] = yield call(GET, msg);
       if (code !== 0) return;
       if (callback) callback();
     },
-    *delete({ payload, callback }, { call, put }) {
+    *delete({ payload, callback }, { call }) {
       const msg = {
         handler: '/v2/admin/setting/banner/delete',
         message: JSON.stringify(payload),
       };
-      const [code, response] = yield call(GET, msg);
+      const [code] = yield call(GET, msg);
       if (code !== 0) return;
       if (callback) callback();
     },
-    *add({ payload, callback }, { call, put }) {
+    *add({ payload, callback }, { call }) {
       const msg = {
         handler: '/v2/admin/setting/banner/add',
         message: JSON.stringify(payload),
       };
-      const [code, response] = yield call(GET, msg);
+      const [code] = yield call(GET, msg);
       if (code !== 0) return;
       if (callback) callback();
     },
@@ -77,7 +76,7 @@ export default {
         handler: '/v2/admin/setting/banner/add_popup',
         message: JSON.stringify(payload),
       };
-      const [code, response] = yield call(GET, msg);
+      const [code] = yield call(GET, msg);
       if (code !== 0) return;
       if (callback) callback();
     },

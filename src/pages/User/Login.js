@@ -1,12 +1,11 @@
 import React, { Component } from 'react';
 import { connect } from 'dva';
 import { formatMessage, FormattedMessage } from 'umi/locale';
-import Link from 'umi/link';
-import { Checkbox, Alert, Icon } from 'antd';
+import { Alert } from 'antd';
 import Login from '@/components/Login';
 import styles from './Login.less';
 
-const { Tab, UserName, Password, Mobile, Captcha, Code, Submit } = Login;
+const { Tab, UserName, Password, Code, Submit } = Login;
 
 @connect(({ login, loading }) => ({
   login,
@@ -15,7 +14,6 @@ const { Tab, UserName, Password, Mobile, Captcha, Code, Submit } = Login;
 class LoginPage extends Component {
   state = {
     type: 'account',
-    autoLogin: true,
     freshTime: Date.parse(new Date()),
   };
 
@@ -68,19 +66,13 @@ class LoginPage extends Component {
     }
   };
 
-  changeAutoLogin = e => {
-    this.setState({
-      autoLogin: e.target.checked,
-    });
-  };
-
   renderMessage = content => (
     <Alert style={{ marginBottom: 24 }} message={content} type="error" showIcon />
   );
 
   render() {
     const { login, submitting } = this.props;
-    const { type, autoLogin, freshTime } = this.state;
+    const { type, freshTime } = this.state;
     return (
       <div className={styles.main}>
         <Login

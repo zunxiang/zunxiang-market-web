@@ -44,7 +44,7 @@ const state = {
   ],
 };
 
-const SUM = {
+export const SUM = {
   type: 'select',
   parse: 'array',
   key: 'SUM',

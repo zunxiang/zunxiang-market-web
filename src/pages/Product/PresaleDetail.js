@@ -27,6 +27,7 @@ export default class BasicProfile extends Component {
     item: {},
     query: parse(this.props.location.search, { ignoreQueryPrefix: true }),
   };
+
   componentDidMount() {
     const { dispatch } = this.props;
     const {
@@ -113,74 +114,72 @@ export default class BasicProfile extends Component {
     });
   };
 
-  renderAction = record => {
-    return (
-      <Menu>
-        <Menu.Item>
-          <Link
-            to={{
+  renderAction = record => (
+    <Menu>
+      <Menu.Item>
+        <Link
+          to={{
               pathname: '/presale/diff-commission',
               search: `rush_i=${record.i}`,
             }}
-          >
+        >
             差异佣金
-          </Link>
-        </Menu.Item>
-        <Menu.Item>
-          <Link
-            to={{
+        </Link>
+      </Menu.Item>
+      <Menu.Item>
+        <Link
+          to={{
               pathname: '/presale/orders',
               search: `rush_i=${record.i}`,
             }}
-          >
+        >
             查看订单
-          </Link>
-        </Menu.Item>
-        <Menu.Item>
-          <Link
-            to={{
+        </Link>
+      </Menu.Item>
+      <Menu.Item>
+        <Link
+          to={{
               pathname: '/presale/books',
               search: `rush_i=${record.i}`,
             }}
-          >
+        >
             预约订单
-          </Link>
-        </Menu.Item>
-        <Menu.Item>
-          <Link
-            to={{
+        </Link>
+      </Menu.Item>
+      <Menu.Item>
+        <Link
+          to={{
               pathname: '/poster',
               search: `presale_i=${record.i}&type=presale`,
             }}
-          >
+        >
             产品海报
-          </Link>
-        </Menu.Item>
-        <Menu.Item>
-          <a onClick={() => this.handlePreview(record, 'preview')}>产品预览</a>
-        </Menu.Item>
-        <Menu.Item>
-          <a onClick={() => this.handlePreview(record, 'real')}>商城地址</a>
-        </Menu.Item>
-        <Menu.Item>
-          <a onClick={() => this.handleBookByPhoneUrl(record)}>无码预约网址</a>
-        </Menu.Item>
-        <Menu.Item>
-          <a onClick={() => this.handleBookByEcodeUrl(record)}>有码预约网址</a>
-        </Menu.Item>
-        <Menu.Item>
-          <Link
-            to={{
+        </Link>
+      </Menu.Item>
+      <Menu.Item>
+        <a onClick={() => this.handlePreview(record, 'preview')}>产品预览</a>
+      </Menu.Item>
+      <Menu.Item>
+        <a onClick={() => this.handlePreview(record, 'real')}>商城地址</a>
+      </Menu.Item>
+      <Menu.Item>
+        <a onClick={() => this.handleBookByPhoneUrl(record)}>无码预约网址</a>
+      </Menu.Item>
+      <Menu.Item>
+        <a onClick={() => this.handleBookByEcodeUrl(record)}>有码预约网址</a>
+      </Menu.Item>
+      <Menu.Item>
+        <Link
+          to={{
               pathname: '/log',
               search: `rush_i=${record.i}&info=预售产品${record.i}`,
             }}
-          >
+        >
             操作日志
-          </Link>
-        </Menu.Item>
-      </Menu>
+        </Link>
+      </Menu.Item>
+    </Menu>
     );
-  };
 
   render() {
     const { item } = this.state;

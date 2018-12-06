@@ -17,6 +17,69 @@ export default class BasicList extends PureComponent {
     currentPackage: {},
     editModalVisible: false,
   };
+
+  columns = [
+    {
+      title: '排序',
+      dataIndex: 'sort',
+      render: (val, record, index) => index + 1,
+    },
+    {
+      title: '套餐名',
+      dataIndex: 'name',
+    },
+    {
+      title: '床型',
+      dataIndex: 'room',
+    },
+    {
+      title: '包含',
+      dataIndex: 'content',
+    },
+    {
+      title: '操作',
+      render: (val, record, index) => {
+        const {
+          item: { i, texture },
+        } = this.props;
+        return (
+          <Fragment>
+            <a onClick={() => this.handleEditEvent(record)}>编辑套餐</a>
+            <Divider type="vertical" />
+            <Link
+              to={{
+                pathname: '/normal/pack-manage',
+                search: `package_i=${record.i}&item_i=${i}&package_name=${
+                  record.name
+                }&texture=${texture}`,
+              }}
+            >
+              套餐管理
+            </Link>
+            <Divider type="vertical" />
+            <Link
+              to={{
+                pathname: '/normal/diff-list',
+                search: `package_i=${record.i}&package_name=${record.name}`,
+              }}
+            >
+              差异佣金
+            </Link>
+            <Divider type="vertical" />
+            <Popconfirm
+              title="确认删除该套餐?"
+              onConfirm={() => this.handleDelete(record.i, index)}
+              okText="确认"
+              cancelText="取消"
+            >
+              <a style={{ color: '#f5222d' }}>删除</a>
+            </Popconfirm>
+          </Fragment>
+        );
+      },
+    },
+  ];
+
   componentDidMount() {
     this.loadData();
   }
@@ -145,70 +208,6 @@ export default class BasicList extends PureComponent {
       }
     );
   };
-
-  columns = [
-    {
-      title: '排序',
-      dataIndex: 'sort',
-      render: (val, record, index) => {
-        return index + 1;
-      },
-    },
-    {
-      title: '套餐名',
-      dataIndex: 'name',
-    },
-    {
-      title: '床型',
-      dataIndex: 'room',
-    },
-    {
-      title: '包含',
-      dataIndex: 'content',
-    },
-    {
-      title: '操作',
-      render: (val, record, index) => {
-        const {
-          item: { i, texture },
-        } = this.props;
-        return (
-          <Fragment>
-            <a onClick={() => this.handleEditEvent(record)}>编辑套餐</a>
-            <Divider type="vertical" />
-            <Link
-              to={{
-                pathname: '/normal/pack-manage',
-                search: `package_i=${record.i}&item_i=${i}&package_name=${
-                  record.name
-                }&texture=${texture}`,
-              }}
-            >
-              套餐管理
-            </Link>
-            <Divider type="vertical" />
-            <Link
-              to={{
-                pathname: '/normal/diff-list',
-                search: `package_i=${record.i}&package_name=${record.name}`,
-              }}
-            >
-              差异佣金
-            </Link>
-            <Divider type="vertical" />
-            <Popconfirm
-              title="确认删除该套餐?"
-              onConfirm={() => this.handleDelete(record.i, index)}
-              okText="确认"
-              cancelText="取消"
-            >
-              <a style={{ color: '#f5222d' }}>删除</a>
-            </Popconfirm>
-          </Fragment>
-        );
-      },
-    },
-  ];
 
   render() {
     const {

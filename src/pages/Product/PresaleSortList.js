@@ -1,6 +1,5 @@
-import React, { PureComponent, Fragment } from 'react';
+import React, { PureComponent } from 'react';
 import { connect } from 'dva';
-import { Link } from 'dva/router';
 import { parse, stringify } from 'qs';
 import QRCode from 'qrcode-react';
 import {
@@ -11,12 +10,8 @@ import {
   Input,
   Icon,
   Button,
-  Dropdown,
   Modal,
-  Menu,
   Badge,
-  Divider,
-  Popconfirm,
   message,
   Select,
 } from 'antd';
@@ -60,20 +55,81 @@ for (const key in status) {
   loading: loading.models.presale,
 }))
 @Form.create()
-export default class TableList extends PureComponent {
-  state = {
-    filters: {},
-    currentPage: 1,
-    pageSize: 10,
-    expandForm: false,
-    formValues: {},
-    sorter: 'sort:+',
-    modalVisible: false,
-    qrcodeSrc: undefined,
-    qrcodeTitle: undefined,
-    modalTitle: undefined,
-    query: parse(this.props.location.search, { ignoreQueryPrefix: true }),
-  };
+ class PresaleSort extends PureComponent {
+   constructor(props) {
+     super(props);
+     const { location: { search } } = this.props;
+     this.state = {
+      filters: {},
+      currentPage: 1,
+      pageSize: 10,
+      expandForm: false,
+      formValues: {},
+      sorter: 'sort:+',
+      modalVisible: false,
+      qrcodeSrc: undefined,
+      qrcodeTitle: undefined,
+      modalTitle: undefined,
+      query: parse(search, { ignoreQueryPrefix: true }),
+    };
+    this.columns = [
+      {
+        title: '排序',
+        dataIndex: 'sort',
+        sorter: true,
+      },
+      {
+        title: 'id',
+        sorter: true,
+        dataIndex: 'i',
+      },
+      {
+        title: '预售名称',
+        dataIndex: 'title',
+        render: val => (
+          <Ellipsis length={25} tooltip>
+            {val}
+          </Ellipsis>
+        ),
+      },
+      {
+        title: '价格',
+        dataIndex: 'price',
+        sorter: true,
+        render: val => `${val / 100}`,
+        // mark to display a total number
+        needTotal: true,
+      },
+      {
+        title: '佣金',
+        dataIndex: 'commission',
+        sorter: true,
+        render: val => `${val / 100}`,
+        // mark to display a total number
+        needTotal: true,
+      },
+      {
+        title: '销量',
+        dataIndex: 'sales',
+        sorter: true,
+      },
+      {
+        title: '状态',
+        dataIndex: 'state',
+        render(val) {
+          return <Badge status={statusMap[val]} text={status[val]} />;
+        },
+      },
+      {
+        title: '产品人',
+        dataIndex: 'product_person_name',
+      },
+      {
+        title: '供应商',
+        dataIndex: 'supplier_name',
+      },
+    ];
+  }
 
   componentDidMount() {
     this.loadData();
@@ -155,8 +211,9 @@ export default class TableList extends PureComponent {
   };
 
   toggleForm = () => {
+    const { expandForm } = this.state;
     this.setState({
-      expandForm: !this.state.expandForm,
+      expandForm,
     });
   };
 
@@ -260,12 +317,10 @@ export default class TableList extends PureComponent {
     const tempList = update(list, {
       $splice: [[dragIndex, 1], [hoverIndex, 0, dragRow]],
     });
-    const newList = tempList.map((val, index) => {
-      return {
+    const newList = tempList.map((val, index) => ({
         ...val,
         sort: pageSize * (currentPage - 1) + index + 1,
-      };
-    });
+      }));
     const len = newList.length;
     dispatch({
       type: 'presale/dragSorting',
@@ -306,66 +361,8 @@ export default class TableList extends PureComponent {
     window.open(`http://${location.host}/csv?${stringify(msg)}`);
   };
 
-  columns = [
-    {
-      title: '排序',
-      dataIndex: 'sort',
-      sorter: true,
-    },
-    {
-      title: 'id',
-      sorter: true,
-      dataIndex: 'i',
-    },
-    {
-      title: '预售名称',
-      dataIndex: 'title',
-      render: val => (
-        <Ellipsis length={25} tooltip>
-          {val}
-        </Ellipsis>
-      ),
-    },
-    {
-      title: '价格',
-      dataIndex: 'price',
-      sorter: true,
-      render: val => `${val / 100}`,
-      // mark to display a total number
-      needTotal: true,
-    },
-    {
-      title: '佣金',
-      dataIndex: 'commission',
-      sorter: true,
-      render: val => `${val / 100}`,
-      // mark to display a total number
-      needTotal: true,
-    },
-    {
-      title: '销量',
-      dataIndex: 'sales',
-      sorter: true,
-    },
-    {
-      title: '状态',
-      dataIndex: 'state',
-      render(val) {
-        return <Badge status={statusMap[val]} text={status[val]} />;
-      },
-    },
-    {
-      title: '产品人',
-      dataIndex: 'product_person_name',
-    },
-    {
-      title: '供应商',
-      dataIndex: 'supplier_name',
-    },
-  ];
-
   renderSimpleForm() {
-    const { getFieldDecorator } = this.props.form;
+    const { from: { getFieldDecorator } } = this.props;
     return (
       <Form onSubmit={this.handleSearch} layout="inline">
         <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
@@ -386,7 +383,9 @@ export default class TableList extends PureComponent {
                 重置
               </Button>
               <a style={{ marginLeft: 8 }} onClick={this.toggleForm}>
-                展开 <Icon type="down" />
+                展开
+                {' '}
+                <Icon type="down" />
               </a>
             </span>
           </Col>
@@ -396,7 +395,7 @@ export default class TableList extends PureComponent {
   }
 
   renderAdvancedForm() {
-    const { getFieldDecorator } = this.props.form;
+    const { form: { getFieldDecorator } } = this.props;
     return (
       <Form onSubmit={this.handleSearch} layout="inline">
         <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
@@ -446,7 +445,9 @@ export default class TableList extends PureComponent {
               导出
             </Button>
             <a style={{ marginLeft: 8 }} onClick={this.toggleForm}>
-              收起 <Icon type="up" />
+              收起
+              {' '}
+              <Icon type="up" />
             </a>
           </span>
         </div>
@@ -455,7 +456,8 @@ export default class TableList extends PureComponent {
   }
 
   renderForm() {
-    return this.state.expandForm ? this.renderAdvancedForm() : this.renderSimpleForm();
+    const { expandForm } = this.state;
+    return expandForm ? this.renderAdvancedForm() : this.renderSimpleForm();
   }
 
   render() {
@@ -465,6 +467,7 @@ export default class TableList extends PureComponent {
       },
       loading,
     } = this.props;
+    const { modalTitle, modalVisible, qrcodeSrc, qrcodeTitle } = this.state;
     const paginationProps = {
       showSizeChanger: true,
       showQuickJumper: true,
@@ -481,7 +484,9 @@ export default class TableList extends PureComponent {
             loading={loading}
           />
           <span>
-            共 <span style={{ color: '#1890ff' }}>{total}</span> 条数据
+            共
+            <span style={{ color: '#1890ff' }}>{total}</span>
+            条数据
           </span>
         </span>
       ),
@@ -507,7 +512,8 @@ export default class TableList extends PureComponent {
                   <Col span={4}>
                     <div>预售时间</div>
                     <div>
-                      {record.rush_begin_time.substring(0, 10)}~
+                      {record.rush_begin_time.substring(0, 10)}
+                      ~
                       {record.rush_end_time.substring(0, 10)}
                     </div>
                   </Col>
@@ -518,7 +524,8 @@ export default class TableList extends PureComponent {
                   <Col span={4}>
                     <div>使用时间</div>
                     <div>
-                      {record.use_begin_time.substring(0, 10)}~
+                      {record.use_begin_time.substring(0, 10)}
+                      ~
                       {record.use_end_time.substring(0, 10)}
                     </div>
                   </Col>
@@ -552,20 +559,20 @@ export default class TableList extends PureComponent {
           </div>
         </Card>
         <Modal
-          title={this.state.modalTitle}
-          visible={this.state.modalVisible}
+          title={modalTitle}
+          visible={modalVisible}
           onOk={() => this.handleModalVisible(false)}
           onCancel={() => this.handleModalVisible(false)}
           destroyOnClose
           footer={null}
         >
           <div style={{ textAlign: 'center' }}>
-            <div>{this.state.qrcodeTitle}</div>
+            <div>{qrcodeTitle}</div>
             <div style={{ margin: '10px' }}>
-              <a href={this.state.qrcodeSrc}>{this.state.qrcodeSrc}</a>
+              <a href={qrcodeSrc}>{qrcodeSrc}</a>
             </div>
             <div style={{ display: 'inline-block', marginLeft: 'auto', marginRight: 'auto' }}>
-              <QRCode value={this.state.qrcodeSrc} />
+              <QRCode value={qrcodeSrc} />
             </div>
           </div>
         </Modal>
@@ -573,3 +580,5 @@ export default class TableList extends PureComponent {
     );
   }
 }
+
+export default PresaleSort;

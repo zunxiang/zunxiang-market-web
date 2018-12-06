@@ -1,5 +1,7 @@
 import { routerRedux } from 'dva/router';
+/* eslint-disable */
 import secureCipher from 'secure';
+/* eslint-disable */
 import { stringify } from 'qs';
 import { GET, getFakeCaptcha } from '@/services/api';
 import { setAuthority } from '@/utils/authority';
@@ -68,7 +70,7 @@ export default {
         handler: '/v2/admin/main/logout',
         message: JSON.stringify({}),
       };
-      const [code, response] = yield call(GET, msg);
+      const [code] = yield call(GET, msg);
       if (code !== 0) return;
       yield put({
         type: 'changeLoginStatus',

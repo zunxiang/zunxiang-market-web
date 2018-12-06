@@ -96,13 +96,11 @@ export default class BasicForms extends PureComponent {
     const { loading, cancelCallback, packageName, menu, form } = this.props;
     const { getFieldDecorator } = form;
     const { suppliers } = this.state;
-    const options = suppliers.map(val => {
-      return (
-        <Option key={val.name} value={val.i}>
-          {val.name}
-        </Option>
-      );
-    });
+    const options = suppliers.map(val => (
+      <Option key={val.name} value={val.i}>
+        {val.name}
+      </Option>
+      ));
     return (
       <Form onSubmit={this.handleSubmit} hideRequiredMark style={{ marginTop: 8 }}>
         <FormItem {...formItemLayout} label="选择供应商">

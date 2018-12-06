@@ -1,4 +1,3 @@
-import { notification } from 'antd';
 import { routerRedux } from 'dva/router';
 import { stringify } from 'qs';
 import { GET } from '@/services/api';
@@ -50,7 +49,7 @@ export default {
       if (code !== 0) return;
       if (callback) callback(response);
     },
-    *open({ payload, callback }, { call, put }) {
+    *open({ payload, callback }, { call }) {
       const msg = {
         handler: '/v2/admin/item/main/listed',
         message: JSON.stringify(payload),
@@ -59,7 +58,7 @@ export default {
       if (code !== 0) return;
       if (callback) callback(response);
     },
-    *close({ payload, callback }, { call, put }) {
+    *close({ payload, callback }, { call }) {
       const msg = {
         handler: '/v2/admin/item/main/close',
         message: JSON.stringify(payload),
@@ -75,7 +74,7 @@ export default {
       });
       yield put(routerRedux.push(`/normal/public?${stringify(payload.query)}`));
     },
-    *publicAdd({ payload, callback }, { call, put }) {
+    *publicAdd({ payload, callback }, { call }) {
       const msg = {
         handler: '/v2/admin/item/main/add',
         message: JSON.stringify(payload),
@@ -84,7 +83,7 @@ export default {
       if (code !== 0) return;
       if (callback) callback(response);
     },
-    *publicPost({ payload, callback }, { call, put }) {
+    *publicPost({ payload, callback }, { call }) {
       const msg = {
         handler: '/v2/admin/item/main/post',
         message: JSON.stringify(payload),
@@ -93,7 +92,7 @@ export default {
       if (code !== 0) return;
       if (callback) callback(response);
     },
-    *wechatPush({ payload, callback }, { call, put }) {
+    *wechatPush({ payload, callback }, { call }) {
       const msg = {
         handler: '/v2/admin/item/main/wx_notice',
         message: JSON.stringify(payload),

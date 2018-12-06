@@ -1,4 +1,3 @@
-import { notification } from 'antd';
 import { GET } from '@/services/api';
 
 export default {
@@ -55,7 +54,7 @@ export default {
           list: response.list,
         },
       });
-      if (callback) callback(data);
+      if (callback) callback(response.list);
     },
     *dragSorting({ payload, callback }, { put }) {
       yield put({
@@ -69,7 +68,7 @@ export default {
         handler: '/v2/admin/item/package/post',
         message: JSON.stringify(payload),
       };
-      const [cdoe, response] = yield call(GET, msg);
+      const [code] = yield call(GET, msg);
       if (code !== 0) return;
       if (callback) callback();
     },
@@ -78,7 +77,7 @@ export default {
         handler: '/v2/admin/item/package/delete',
         message: JSON.stringify(payload),
       };
-      const [code, response] = yield call(GET, msg);
+      const [code] = yield call(GET, msg);
       if (code !== 0) return;
       if (callback) callback();
     },
@@ -87,7 +86,7 @@ export default {
         handler: '/v2/admin/item/package/add',
         message: JSON.stringify(payload),
       };
-      const [code, response] = yield call(GET, msg);
+      const [code] = yield call(GET, msg);
       if (code !== 0) return;
       if (callback) callback();
     },
@@ -96,7 +95,7 @@ export default {
         handler: '/v2/admin/item/package/post',
         message: JSON.stringify(payload),
       };
-      const [code, response] = yield call(GET, msg);
+      const [code] = yield call(GET, msg);
       if (code !== 0) return;
       if (callback) callback();
     },

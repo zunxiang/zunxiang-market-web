@@ -1,4 +1,3 @@
-import { notification } from 'antd';
 import { GET } from '@/services/api';
 
 export default {
@@ -35,39 +34,39 @@ export default {
       });
       if (callback) callback(data);
     },
-    *add({ payload, callback }, { call, put }) {
+    *add({ payload, callback }, { call }) {
       const msg = {
         handler: '/v2/admin/super/add',
         message: JSON.stringify(payload),
       };
-      const [code, response] = yield call(GET, msg);
+      const [code] = yield call(GET, msg);
       if (code !== 0) return;
       if (callback) callback();
     },
-    *edit({ payload, callback }, { call, put }) {
+    *edit({ payload, callback }, { call }) {
       const msg = {
         handler: '/v2/admin/super/post',
         message: JSON.stringify(payload),
       };
-      const [code, response] = yield call(GET, msg);
+      const [code] = yield call(GET, msg);
       if (code !== 0) return;
       if (callback) callback();
     },
-    *open({ payload, callback }, { call, put }) {
+    *open({ payload, callback }, { call }) {
       const msg = {
         handler: '/v2/admin/super/open',
         message: JSON.stringify(payload),
       };
-      const [code, response] = yield call(GET, msg);
+      const [code] = yield call(GET, msg);
       if (code !== 0) return;
       if (callback) callback();
     },
-    *close({ payload, callback }, { call, put }) {
+    *close({ payload, callback }, { call }) {
       const msg = {
         handler: '/v2/admin/super/close',
         message: JSON.stringify(payload),
       };
-      const [code, response] = yield call(GET, msg);
+      const [code] = yield call(GET, msg);
       if (code !== 0) return;
       if (callback) callback();
     },

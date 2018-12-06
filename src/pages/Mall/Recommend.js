@@ -25,6 +25,49 @@ const status = {
 }))
 export default class BasicList extends PureComponent {
   state = {};
+
+  columns = [
+    {
+      title: '排序',
+      dataIndex: 'sort',
+      render: (val, record, index) => index + 1,
+    },
+    {
+      title: '产品图片',
+      dataIndex: 'item.images',
+      render: val => {
+        const imgs = val.split(',');
+        return <img src={BaseImgUrl + imgs[0]} alt="产品图片" style={{ width: 100 }} />;
+      },
+    },
+    {
+      title: '产品标题',
+      dataIndex: 'item.name',
+    },
+    {
+      title: '状态',
+      dataIndex: 'item.state',
+      render(val) {
+        return <Badge status={statusMap[val]} text={status[val]} />;
+      },
+    },
+    {
+      title: '操作',
+      render: (val, record, index) => (
+        <Fragment>
+          <Popconfirm
+            title="确认取消推荐该产品?"
+            onConfirm={() => this.handleDelete(record.i, index)}
+            okText="确认"
+            cancelText="取消"
+          >
+            <a style={{ color: '#f5222d' }}>取消推荐</a>
+          </Popconfirm>
+        </Fragment>
+        ),
+    },
+  ];
+
   componentDidMount() {
     this.loadData();
   }
@@ -58,12 +101,10 @@ export default class BasicList extends PureComponent {
       callback: () => {
         dispatch({
           type: 'recommend/postSorting',
-          payload: newList.map((val, index) => {
-            return {
+          payload: newList.map((val, index) => ({
               i: val.i,
               sort: index + 1,
-            };
-          }),
+            })),
           callback: () => {
             message.success('排序成功');
           },
@@ -79,12 +120,10 @@ export default class BasicList extends PureComponent {
         data: { list },
       },
     } = this.props;
-    const params = ids.split(',').map((id, index) => {
-      return {
+    const params = ids.split(',').map((id, index) => ({
         item_i: id,
         sort: list.length + index + 1,
-      };
-    });
+      }));
     dispatch({
       type: 'recommend/add',
       payload: params,
@@ -117,52 +156,6 @@ export default class BasicList extends PureComponent {
       },
     });
   };
-
-  columns = [
-    {
-      title: '排序',
-      dataIndex: 'sort',
-      render: (val, record, index) => {
-        return index + 1;
-      },
-    },
-    {
-      title: '产品图片',
-      dataIndex: 'item.images',
-      render: val => {
-        const imgs = val.split(',');
-        return <img src={BaseImgUrl + imgs[0]} alt="产品图片" style={{ width: 100 }} />;
-      },
-    },
-    {
-      title: '产品标题',
-      dataIndex: 'item.name',
-    },
-    {
-      title: '状态',
-      dataIndex: 'item.state',
-      render(val) {
-        return <Badge status={statusMap[val]} text={status[val]} />;
-      },
-    },
-    {
-      title: '操作',
-      render: (val, record, index) => {
-        return (
-          <Fragment>
-            <Popconfirm
-              title="确认取消推荐该产品?"
-              onConfirm={() => this.handleDelete(record.i, index)}
-              okText="确认"
-              cancelText="取消"
-            >
-              <a style={{ color: '#f5222d' }}>取消推荐</a>
-            </Popconfirm>
-          </Fragment>
-        );
-      },
-    },
-  ];
 
   render() {
     const {

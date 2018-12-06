@@ -82,6 +82,7 @@ export default class TableList extends PureComponent {
       },
     });
   };
+
   handleOpen = i => {
     const { dispatch } = this.props;
     dispatch({
@@ -93,6 +94,7 @@ export default class TableList extends PureComponent {
       },
     });
   };
+
   handleTableChange = (pagination, filtersArg, sorter) => {
     const filters = Object.keys(filtersArg).reduce((obj, key) => {
       const newObj = { ...obj };
@@ -202,75 +204,74 @@ export default class TableList extends PureComponent {
     };
     window.open(`http://${location.host}/csv?${stringify(msg)}`);
   };
-  renderMenu = record => {
-    return (
-      <Menu>
-        <Menu.Item>
-          <Popconfirm
-            title="确认给所有管家推送该商品吗?"
-            onConfirm={() => this.handleWechatPush(record.i)}
-            okText="确认"
-            cancelText="取消"
-          >
-            <a>微信推送</a>
-          </Popconfirm>
-        </Menu.Item>
-        <Menu.Item>
-          <Link
-            to={{
+
+  renderMenu = record => (
+    <Menu>
+      <Menu.Item>
+        <Popconfirm
+          title="确认给所有管家推送该商品吗?"
+          onConfirm={() => this.handleWechatPush(record.i)}
+          okText="确认"
+          cancelText="取消"
+        >
+          <a>微信推送</a>
+        </Popconfirm>
+      </Menu.Item>
+      <Menu.Item>
+        <Link
+          to={{
               pathname: '/normal/detail',
               search: `i=${record.i}`,
             }}
-          >
+        >
             产品详情
-          </Link>
-        </Menu.Item>
-        <Menu.Item>
-          <Link
-            to={{
+        </Link>
+      </Menu.Item>
+      <Menu.Item>
+        <Link
+          to={{
               pathname: '/normal/orders',
               search: `item_i=${record.i}`,
             }}
-          >
+        >
             查看订单
-          </Link>
-        </Menu.Item>
-        <Menu.Item>
-          <Link
-            to={{
+        </Link>
+      </Menu.Item>
+      <Menu.Item>
+        <Link
+          to={{
               pathname: '/poster',
               search: `item_i=${record.i}&type=normal`,
             }}
-          >
+        >
             产品海报
-          </Link>
-        </Menu.Item>
-        <Menu.Item>
-          <Link
-            to={{
+        </Link>
+      </Menu.Item>
+      <Menu.Item>
+        <Link
+          to={{
               pathname: '/album',
               search: `item_i=${record.i}`,
             }}
-          >
+        >
             相册图库
-          </Link>
-        </Menu.Item>
-        <Menu.Item>
-          <a onClick={() => this.handlePreview(record)}>产品预览</a>
-        </Menu.Item>
-        <Menu.Item>
-          <Link
-            to={{
+        </Link>
+      </Menu.Item>
+      <Menu.Item>
+        <a onClick={() => this.handlePreview(record)}>产品预览</a>
+      </Menu.Item>
+      <Menu.Item>
+        <Link
+          to={{
               pathname: '/log',
               search: `item_i=${record.i}&info=常规产品${record.i}`,
             }}
-          >
+        >
             操作日志
-          </Link>
-        </Menu.Item>
-      </Menu>
+        </Link>
+      </Menu.Item>
+    </Menu>
     );
-  };
 
   renderOperate = record => {
     if (record.state === 1) {
@@ -293,7 +294,7 @@ export default class TableList extends PureComponent {
           </Dropdown>
         </div>
       );
-    } else {
+    } 
       return (
         <div>
           <Popconfirm
@@ -313,7 +314,7 @@ export default class TableList extends PureComponent {
           </Dropdown>
         </div>
       );
-    }
+    
   };
 
   render() {

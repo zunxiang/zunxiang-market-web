@@ -29,13 +29,75 @@ const status = {
   loading: loading.effects['normal/get'],
 }))
 export default class BasicProfile extends Component {
-  state = {
-    item: {},
-    insurances: [],
-    choosedInsurance: null,
-    loadingInsurance: false,
-    query: parse(this.props.location.search, { ignoreQueryPrefix: true }),
-  };
+  insuranceColumns = [
+    {
+      title: 'id',
+      dataIndex: 'i',
+      sorter: true,
+    },
+    {
+      title: '类型',
+      dataIndex: 'type',
+    },
+    {
+      title: '名称',
+      dataIndex: 'name',
+      render: val => (
+        <Ellipsis length={25} tooltip>
+          {val}
+        </Ellipsis>
+      ),
+    },
+    {
+      title: '价格',
+      dataIndex: 'price',
+      sorter: true,
+      render: val => `${val / 100}`,
+      // mark to display a total number
+      needTotal: true,
+    },
+    {
+      title: '销量',
+      dataIndex: 'sales',
+      sorter: true,
+    },
+    {
+      title: '状态',
+      dataIndex: 'state',
+      render(val) {
+        return <Badge status={insuranceStatusMap[val]} text={insuranceStatus[val]} />;
+      },
+    },
+    {
+      title: '操作',
+      key: 'operation',
+      render: (val, record) => (
+        <Popconfirm
+          title="确认下移除产品?"
+          onConfirm={() => {
+              this.handleRemoveInsurance(record.i);
+            }}
+          okText="确认"
+          cancelText="取消"
+        >
+          <a>移除</a>
+        </Popconfirm>
+        ),
+    },
+  ];
+
+  constructor(props) {
+    super(props);
+    const { location: { search } } = props;
+    this.state = {
+      item: {},
+      insurances: [],
+      choosedInsurance: null,
+      loadingInsurance: false,
+      query: parse(search, { ignoreQueryPrefix: true }),
+    };
+  }
+
   componentDidMount() {
     const { dispatch } = this.props;
     const {
@@ -228,120 +290,59 @@ export default class BasicProfile extends Component {
     });
   };
 
-  insuranceColumns = [
-    {
-      title: 'id',
-      dataIndex: 'i',
-      sorter: true,
-    },
-    {
-      title: '类型',
-      dataIndex: 'type',
-    },
-    {
-      title: '名称',
-      dataIndex: 'name',
-      render: val => (
-        <Ellipsis length={25} tooltip>
-          {val}
-        </Ellipsis>
-      ),
-    },
-    {
-      title: '价格',
-      dataIndex: 'price',
-      sorter: true,
-      render: val => `${val / 100}`,
-      // mark to display a total number
-      needTotal: true,
-    },
-    {
-      title: '销量',
-      dataIndex: 'sales',
-      sorter: true,
-    },
-    {
-      title: '状态',
-      dataIndex: 'state',
-      render(val) {
-        return <Badge status={insuranceStatusMap[val]} text={insuranceStatus[val]} />;
-      },
-    },
-    {
-      title: '操作',
-      key: 'operation',
-      render: (val, record) => {
-        return (
-          <Popconfirm
-            title="确认下移除产品?"
-            onConfirm={() => {
-              this.handleRemoveInsurance(record.i);
-            }}
-            okText="确认"
-            cancelText="取消"
-          >
-            <a>移除</a>
-          </Popconfirm>
-        );
-      },
-    },
-  ];
-
-  renderAction = record => {
-    return (
-      <Menu>
-        <Menu.Item>
-          <Link
-            to={{
+  renderAction = record => (
+    <Menu>
+      <Menu.Item>
+        <Link
+          to={{
               pathname: '/normal/orders',
               search: `item_i=${record.i}`,
             }}
-          >
+        >
             查看订单
-          </Link>
-        </Menu.Item>
-        <Menu.Item>
-          <Link
-            to={{
+        </Link>
+      </Menu.Item>
+      <Menu.Item>
+        <Link
+          to={{
               pathname: '/poster',
               search: `item_i=${record.i}&type=normal`,
             }}
-          >
+        >
             产品海报
-          </Link>
-        </Menu.Item>
-        <Menu.Item>
-          <Link
-            to={{
+        </Link>
+      </Menu.Item>
+      <Menu.Item>
+        <Link
+          to={{
               pathname: '/album',
               search: `item_i=${record.i}`,
             }}
-          >
+        >
             相册图库
-          </Link>
-        </Menu.Item>
-        <Menu.Item>
-          <a onClick={() => this.handlePreview(record, 'preview')}>产品预览</a>
-        </Menu.Item>
-        <Menu.Item>
-          <a onClick={() => this.handlePreview(record, 'real')}>商城地址</a>
-        </Menu.Item>
-        <Menu.Item>
-          <Link
-            to={{
+        </Link>
+      </Menu.Item>
+      <Menu.Item>
+        <a onClick={() => this.handlePreview(record, 'preview')}>产品预览</a>
+      </Menu.Item>
+      <Menu.Item>
+        <a onClick={() => this.handlePreview(record, 'real')}>商城地址</a>
+      </Menu.Item>
+      <Menu.Item>
+        <Link
+          to={{
               pathname: '/log',
               search: `item_i=${record.i}&info=常规产品${record.i}`,
             }}
-          >
+        >
             操作日志
-          </Link>
-        </Menu.Item>
-      </Menu>
+        </Link>
+      </Menu.Item>
+    </Menu>
     );
-  };
 
   render() {
-    const { item, insurances, loadingInsurance } = this.state;
+    const { item, insurances, loadingInsurance, modalTitle, modalVisible, qrcodeSrc, qrcodeTitle } = this.state;
     const Action = (
       <div>
         {item.state === 1 ? (
@@ -414,20 +415,20 @@ export default class BasicProfile extends Component {
           />
         </Card>
         <Modal
-          title={this.state.modalTitle}
-          visible={this.state.modalVisible}
+          title={modalTitle}
+          visible={modalVisible}
           onOk={() => this.handleModalVisible(false)}
           onCancel={() => this.handleModalVisible(false)}
           destroyOnClose
           footer={null}
         >
           <div style={{ textAlign: 'center' }}>
-            <div>{this.state.qrcodeTitle}</div>
+            <div>{qrcodeTitle}</div>
             <div style={{ margin: '10px' }}>
-              <a href={this.state.qrcodeSrc}>{this.state.qrcodeSrc}</a>
+              <a href={qrcodeSrc}>{qrcodeSrc}</a>
             </div>
             <div style={{ display: 'inline-block', marginLeft: 'auto', marginRight: 'auto' }}>
-              <QRCode value={this.state.qrcodeSrc} />
+              <QRCode value={qrcodeSrc} />
             </div>
           </div>
         </Modal>

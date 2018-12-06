@@ -2,15 +2,11 @@ import React, { PureComponent, Fragment } from 'react';
 import { connect } from 'dva';
 import {
   Table,
-  Row,
-  Col,
   Card,
   Form,
   Input,
   Select,
-  Icon,
   Button,
-  DatePicker,
   Modal,
   message,
   Badge,
@@ -25,7 +21,6 @@ import { searchItems } from './Search/items';
 import styles from './style.less';
 
 const FormItem = Form.Item;
-const { RangePicker } = DatePicker;
 const { Option } = Select;
 const RadioGroup = Radio.Group;
 
@@ -80,9 +75,9 @@ const AddForm = Form.create()(props => {
           )}
         </FormItem>
       );
-    } else {
-      return '';
     }
+      return '';
+
   };
   return (
     <Modal
@@ -137,12 +132,90 @@ export default class TableList extends PureComponent {
     filters: {},
     currentPage: 1,
     pageSize: 10,
-    expandForm: false,
     formValues: {},
     modalVisible: false,
     currentKey: undefined,
     accountInfo: {},
   };
+
+  columns = [
+    {
+      title: 'id',
+      dataIndex: 'i',
+    },
+    {
+      title: '用户名',
+      dataIndex: 'username',
+    },
+    {
+      title: '姓名',
+      dataIndex: 'name',
+    },
+    {
+      title: '手机',
+      dataIndex: 'mobile',
+    },
+    {
+      title: '状态',
+      dataIndex: 'state',
+      filters: [
+        {
+          text: status[0],
+          value: 0,
+        },
+        {
+          text: status[1],
+          value: 1,
+        },
+      ],
+      render(val) {
+        return <Badge status={statusMap[val]} text={status[val]} />;
+      },
+    },
+    {
+      title: '最后登录',
+      dataIndex: 'last_login',
+      render: val => val.substring(0, 19),
+    },
+    {
+      title: '操作',
+      render: (val, row) => {
+        if (row.state === 1) {
+          return (
+            <Fragment>
+              <Popconfirm
+                title="确认禁用该账号?"
+                onConfirm={() => this.handleClose(row.i)}
+                okText="确认"
+                cancelText="取消"
+              >
+                <a style={{ color: '#f5222d' }} href="#">
+                  禁用
+                </a>
+              </Popconfirm>
+              <Divider type="vertical" />
+              <a onClick={() => this.handleEditEvent(row)}>修改信息</a>
+            </Fragment>
+          );
+        }
+          return (
+            <Fragment>
+              <Popconfirm
+                title="确认启用该账号?"
+                onConfirm={() => this.handleOpen(row.i)}
+                okText="确认"
+                cancelText="取消"
+              >
+                <a style={{ color: '#5b8c00' }}>启用</a>
+              </Popconfirm>
+              <Divider type="vertical" />
+              <a onClick={() => this.handleEditEvent(row)}>修改信息</a>
+            </Fragment>
+          );
+
+      },
+    },
+  ];
 
   componentDidMount() {
     const { dispatch } = this.props;
@@ -273,7 +346,8 @@ export default class TableList extends PureComponent {
   };
 
   handleOpen = i => {
-    this.props.dispatch({
+    const { dispatch } = this.props;
+    dispatch({
       type: 'account/open',
       payload: { i },
       callback: () => {
@@ -284,7 +358,8 @@ export default class TableList extends PureComponent {
   };
 
   handleClose = i => {
-    this.props.dispatch({
+    const { dispatch } = this.props;
+    dispatch({
       type: 'account/close',
       payload: { i },
       callback: () => {
@@ -293,85 +368,6 @@ export default class TableList extends PureComponent {
       },
     });
   };
-
-  columns = [
-    {
-      title: 'id',
-      dataIndex: 'i',
-    },
-    {
-      title: '用户名',
-      dataIndex: 'username',
-    },
-    {
-      title: '姓名',
-      dataIndex: 'name',
-    },
-    {
-      title: '手机',
-      dataIndex: 'mobile',
-    },
-    {
-      title: '状态',
-      dataIndex: 'state',
-      filters: [
-        {
-          text: status[0],
-          value: 0,
-        },
-        {
-          text: status[1],
-          value: 1,
-        },
-      ],
-      render(val) {
-        return <Badge status={statusMap[val]} text={status[val]} />;
-      },
-    },
-    {
-      title: '最后登录',
-      dataIndex: 'last_login',
-      render: val => val.substring(0, 19),
-    },
-    {
-      title: '操作',
-      render: (val, row) => {
-        if (row.state === 1) {
-          return (
-            <Fragment>
-              <Popconfirm
-                title="确认禁用该账号?"
-                onConfirm={() => this.handleClose(row.i)}
-                okText="确认"
-                cancelText="取消"
-              >
-                <a style={{ color: '#f5222d' }} href="#">
-                  禁用
-                </a>
-              </Popconfirm>
-              <Divider type="vertical" />
-              <a onClick={() => this.handleEditEvent(row)}>修改信息</a>
-            </Fragment>
-          );
-        } else {
-          return (
-            <Fragment>
-              <Popconfirm
-                title="确认启用该账号?"
-                onConfirm={() => this.handleOpen(row.i)}
-                okText="确认"
-                cancelText="取消"
-              >
-                <a style={{ color: '#5b8c00' }}>启用</a>
-              </Popconfirm>
-              <Divider type="vertical" />
-              <a onClick={() => this.handleEditEvent(row)}>修改信息</a>
-            </Fragment>
-          );
-        }
-      },
-    },
-  ];
 
   render() {
     const {
@@ -386,7 +382,9 @@ export default class TableList extends PureComponent {
       showQuickJumper: true,
       showTotal: total => (
         <span>
-          共 <span style={{ color: '#1890ff' }}>{total}</span> 条数据
+          共
+          <span style={{ color: '#1890ff' }}>{total}</span>
+          条数据
         </span>
       ),
       ...pagination,

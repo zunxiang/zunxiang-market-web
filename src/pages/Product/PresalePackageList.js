@@ -17,6 +17,39 @@ export default class BasicList extends PureComponent {
     editModalVisible: false,
     currentPackage: {},
   };
+
+  columns = [
+    {
+      title: '排序',
+      dataIndex: 'sort',
+      render: (val, record, index) => index + 1,
+    },
+    {
+      title: '套餐名',
+      dataIndex: 'name',
+    },
+    {
+      title: '操作',
+      render: (val, record) => {
+        const { item } = this.props;
+        return (
+          <Fragment>
+            <a onClick={() => this.handleEditEvent(record)}>编辑套餐</a>
+            <Divider type="vertical" />
+            <Link
+              to={{
+                pathname: '/presale/pack-manage',
+                search: `package_i=${record.i}&rush_i=${item.i}&package_name=${record.name}`,
+              }}
+            >
+              套餐管理
+            </Link>
+          </Fragment>
+        );
+      },
+    },
+  ];
+
   componentDidMount() {
     this.loadData();
   }
@@ -137,40 +170,6 @@ export default class BasicList extends PureComponent {
       }
     );
   };
-
-  columns = [
-    {
-      title: '排序',
-      dataIndex: 'sort',
-      render: (val, record, index) => {
-        return index + 1;
-      },
-    },
-    {
-      title: '套餐名',
-      dataIndex: 'name',
-    },
-    {
-      title: '操作',
-      render: (val, record) => {
-        const { item } = this.props;
-        return (
-          <Fragment>
-            <a onClick={() => this.handleEditEvent(record)}>编辑套餐</a>
-            <Divider type="vertical" />
-            <Link
-              to={{
-                pathname: '/presale/pack-manage',
-                search: `package_i=${record.i}&rush_i=${item.i}&package_name=${record.name}`,
-              }}
-            >
-              套餐管理
-            </Link>
-          </Fragment>
-        );
-      },
-    },
-  ];
 
   render() {
     const {

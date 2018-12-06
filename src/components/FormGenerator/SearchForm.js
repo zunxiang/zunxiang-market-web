@@ -10,6 +10,7 @@ export default class SearchForm extends Component {
   state = {
     expandForm: false,
   };
+
   componentDidMount = () => {
     const { onMounted } = this.props;
     if (onMounted) onMounted(this);
@@ -77,13 +78,11 @@ export default class SearchForm extends Component {
       <div className={styles.tableListForm}>
         <Form onSubmit={this.onSubmit} layout="inline">
           <Row gutter={{ md: 8, lg: 24, xl: 48 }} type="flex" justify="start">
-            {generteItems(itemProps).map(Item => {
-              return (
-                <Col md={8} sm={24} key={Item.key}>
-                  {Item}
-                </Col>
-              );
-            })}
+            {generteItems(itemProps).map(Item => (
+              <Col md={8} sm={24} key={Item.key}>
+                {Item}
+              </Col>
+              ))}
             {expandForm ? null : (
               <Col md={8} sm={24}>
                 <span className={styles.submitButtons}>

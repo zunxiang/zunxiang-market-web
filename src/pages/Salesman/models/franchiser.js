@@ -1,4 +1,3 @@
-import { notification } from 'antd';
 import { GET } from '@/services/api';
 
 export default {
@@ -40,14 +39,14 @@ export default {
         type: 'findSuccess',
         payload: { ...data },
       });
-      if (callback) callback;
+      if (callback) callback();
     },
     *paltopen({ payload, callback }, { call }) {
       const msg = {
         handler: '/v2/admin/salesman/main/open',
         message: JSON.stringify(payload),
       };
-      const [code, response] = yield call(GET, msg);
+      const [code] = yield call(GET, msg);
       if (code !== 0) return;
       if (callback) callback();
     },
@@ -56,7 +55,7 @@ export default {
         handler: '/v2/admin/salesman/main/close',
         message: JSON.stringify(payload),
       };
-      const [code, response] = yield call(GET, msg);
+      const [code] = yield call(GET, msg);
       if (code !== 0) return;
       if (callback) callback();
     },
@@ -65,7 +64,7 @@ export default {
         handler: '/v2/admin/salesman/main/open_bonus',
         message: JSON.stringify(payload),
       };
-      const [code, response] = yield call(GET, msg);
+      const [code] = yield call(GET, msg);
       if (code !== 0) return;
       if (callback) callback();
     },
@@ -74,7 +73,7 @@ export default {
         handler: '/v2/admin/salesman/main/close_bonus',
         message: JSON.stringify(payload),
       };
-      const [code, response] = yield call(GET, msg);
+      const [code] = yield call(GET, msg);
       if (code !== 0) return;
       if (callback) callback();
     },

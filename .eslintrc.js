@@ -13,6 +13,12 @@ module.exports = {
     APP_TYPE: true,
     page: true,
   },
+  parserOptions: {
+    ecmaVersion: 2015,
+    ecmaFeatures: {
+      legacyDecorators: true,
+    },
+  },
   rules: {
     'react/jsx-filename-extension': [1, { extensions: ['.js'] }],
     'react/jsx-wrap-multilines': 0,
@@ -32,6 +38,10 @@ module.exports = {
     'jsx-a11y/no-static-element-interactions': 0,
     'jsx-a11y/anchor-is-valid': 0,
     'linebreak-style': 0,
+    'react/destructuring-assignment': 0,
+    'no-restricted-syntax': 0,
+    'no-restricted-globals': 0,
+    'import/prefer-default-export': 0,
   },
   settings: {
     polyfills: ['fetch', 'promises', 'url'],

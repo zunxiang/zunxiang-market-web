@@ -135,12 +135,15 @@ export default function request(url, option) {
         if (status === 0) {
           return res;
         }
+        /* eslint-disable */
         if (status === 401) {
           window.g_app._store.dispatch({
             type: 'login/logout',
           });
           return res;
         }
+        /* eslint-disable */
+
         if (status === 403) {
           router.push('/exception/403');
           return res;

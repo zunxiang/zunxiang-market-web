@@ -1,4 +1,3 @@
-import { notification } from 'antd';
 import { routerRedux } from 'dva/router';
 import { GET } from '@/services/api';
 
@@ -49,31 +48,21 @@ export default {
       if (code !== 0) return;
       if (callback) callback(response);
     },
-    *open({ payload, callback }, { call, put }) {
+    *open({ payload, callback }, { call }) {
       const msg = {
         handler: '/v2/admin/item/rush/open',
         message: JSON.stringify(payload),
       };
-      const response = yield call(GET, msg);
-      if (response[0] === 0) {
-        yield put({
-          type: 'operateSucces',
-          payload,
-        });
-        if (callback) callback();
-      } else {
-        notification.error({
-          message: '错误提示',
-          description: response[1],
-        });
-      }
+      const [code, response] = yield call(GET, msg);
+      if (code !== 0) return;
+      if (callback) callback(response);
     },
-    *close({ payload, callback }, { call, put }) {
+    *close({ payload, callback }, { call }) {
       const msg = {
         handler: '/v2/admin/item/rush/close',
         message: JSON.stringify(payload),
       };
-      const [cdoe, response] = yield call(GET, msg);
+      const [code] = yield call(GET, msg);
       if (code !== 0) return;
       if (callback) callback();
     },
@@ -89,7 +78,7 @@ export default {
         handler: '/v2/admin/item/rush/add',
         message: JSON.stringify(payload),
       };
-      const [code, response] = yield call(GET, msg);
+      const [code] = yield call(GET, msg);
       if (code !== 0) return;
       if (callback) callback();
       yield put(routerRedux.push('/presale/list'));
@@ -99,7 +88,7 @@ export default {
         handler: '/v2/admin/item/rush/post',
         message: JSON.stringify(payload),
       };
-      const [code, response] = yield call(GET, msg);
+      const [code] = yield call(GET, msg);
       if (code !== 0) return;
       if (callback) callback();
       yield put(routerRedux.push('/presale/list'));
@@ -109,7 +98,7 @@ export default {
         handler: '/v2/admin/item/rush/wx_notice',
         message: JSON.stringify(payload),
       };
-      const [code, response] = yield call(GET, msg);
+      const [code] = yield call(GET, msg);
       if (code !== 0) return;
       if (callback) callback();
       yield put(routerRedux.push('/presale/list'));
@@ -121,12 +110,12 @@ export default {
       });
       if (callback) callback();
     },
-    *postSorting({ payload, callback }, { call }) {
+    *postSorting({ payload, callback }, { call, put }) {
       const msg = {
         handler: '/v2/admin/item/rush/post',
         message: JSON.stringify(payload),
       };
-      const [code, response] = yield call(GET, msg);
+      const [code] = yield call(GET, msg);
       if (code !== 0) return;
       if (callback) callback();
       yield put(routerRedux.push('/presale/list'));

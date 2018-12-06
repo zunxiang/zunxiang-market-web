@@ -121,6 +121,79 @@ export default class BasicList extends PureComponent {
     adModalVisible: false,
     adPosion: 'index',
   };
+
+  columns = [
+    {
+      title: '排序',
+      dataIndex: 'sort',
+      render: (val, record, index) => index + 1,
+    },
+    {
+      title: '轮播图片',
+      dataIndex: 'img_id',
+      render: val => <img src={BaseImgUrl + val} alt="轮播图片" style={{ width: 100 }} />,
+    },
+    {
+      title: '标题',
+      dataIndex: 'title',
+    },
+    {
+      title: '跳转链接',
+      dataIndex: 'link',
+    },
+    {
+      title: '操作',
+      render: (val, record, index) => (
+        <Fragment>
+          <Popconfirm
+            title="确认删除改轮播图?"
+            onConfirm={() => this.handleDelete(record.i, index)}
+            okText="确认"
+            cancelText="取消"
+          >
+            <a style={{ color: '#f5222d' }}>删除</a>
+          </Popconfirm>
+        </Fragment>
+        ),
+    },
+  ];
+
+  adColumns = [
+    {
+      title: 'id',
+      dataIndex: 'i',
+    },
+    {
+      title: '广告图片',
+      dataIndex: 'img_id',
+      render: val => <img src={BaseImgUrl + val} alt="轮播图片" style={{ width: 100 }} />,
+    },
+    {
+      title: '展示页面',
+      dataIndex: 'position',
+      render: val => adPostions[val],
+    },
+    {
+      title: '跳转链接',
+      dataIndex: 'link',
+    },
+    {
+      title: '操作',
+      render: (val, record, index) => (
+        <Fragment>
+          <Popconfirm
+            title="确认删除改轮播图?"
+            onConfirm={() => this.handleDeleteAd(record.i, index)}
+            okText="确认"
+            cancelText="取消"
+          >
+            <a style={{ color: '#f5222d' }}>删除</a>
+          </Popconfirm>
+        </Fragment>
+        ),
+    },
+  ];
+
   componentDidMount() {
     this.loadData();
     this.loadAds();
@@ -164,12 +237,10 @@ export default class BasicList extends PureComponent {
       type: 'banner/dragSorting',
       payload: { list: newList },
       callback: () => {
-        const sendList = newList.map((val, index) => {
-          return {
+        const sendList = newList.map((val, index) => ({
             i: val.i,
             sort: index,
-          };
-        });
+          }));
         dispatch({
           type: 'banner/postSorting',
           payload: sendList,
@@ -245,7 +316,6 @@ export default class BasicList extends PureComponent {
     popupAds.forEach(ad => {
       if (position === ad.position) {
         flag = false;
-        return false;
       }
     });
     if (flag) {
@@ -286,88 +356,6 @@ export default class BasicList extends PureComponent {
       },
     });
   };
-
-  columns = [
-    {
-      title: '排序',
-      dataIndex: 'sort',
-      render: (val, record, index) => {
-        return index + 1;
-      },
-    },
-    {
-      title: '轮播图片',
-      dataIndex: 'img_id',
-      render: val => {
-        return <img src={BaseImgUrl + val} alt="轮播图片" style={{ width: 100 }} />;
-      },
-    },
-    {
-      title: '标题',
-      dataIndex: 'title',
-    },
-    {
-      title: '跳转链接',
-      dataIndex: 'link',
-    },
-    {
-      title: '操作',
-      render: (val, record, index) => {
-        return (
-          <Fragment>
-            <Popconfirm
-              title="确认删除改轮播图?"
-              onConfirm={() => this.handleDelete(record.i, index)}
-              okText="确认"
-              cancelText="取消"
-            >
-              <a style={{ color: '#f5222d' }}>删除</a>
-            </Popconfirm>
-          </Fragment>
-        );
-      },
-    },
-  ];
-
-  adColumns = [
-    {
-      title: 'id',
-      dataIndex: 'i',
-    },
-    {
-      title: '广告图片',
-      dataIndex: 'img_id',
-      render: val => {
-        return <img src={BaseImgUrl + val} alt="轮播图片" style={{ width: 100 }} />;
-      },
-    },
-    {
-      title: '展示页面',
-      dataIndex: 'position',
-      render: val => adPostions[val],
-    },
-    {
-      title: '跳转链接',
-      dataIndex: 'link',
-    },
-    {
-      title: '操作',
-      render: (val, record, index) => {
-        return (
-          <Fragment>
-            <Popconfirm
-              title="确认删除改轮播图?"
-              onConfirm={() => this.handleDeleteAd(record.i, index)}
-              okText="确认"
-              cancelText="取消"
-            >
-              <a style={{ color: '#f5222d' }}>删除</a>
-            </Popconfirm>
-          </Fragment>
-        );
-      },
-    },
-  ];
 
   renderCreateMenu = () => {
     const Items = [];

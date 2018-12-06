@@ -28,23 +28,27 @@ import styles from './style.less';
 }))
 @Form.create()
 export default class TableList extends PureComponent {
-  state = {
-    filters: {},
-    currentPage: 1,
-    pageSize: 10,
-    formValues: {},
-    sorter: 'sort:+',
-    modalVisible: false,
-    qrcodeSrc: undefined,
-    qrcodeTitle: undefined,
-    modalTitle: undefined,
-    query: parse(this.props.location.search, { ignoreQueryPrefix: true }),
-    data: {
-      list: [],
-      pagination: {},
-      sum: {},
-    },
-  };
+  constructor(props) {
+    super(props);
+    const { location: { search } } = props;
+    this.state = {
+      filters: {},
+      currentPage: 1,
+      pageSize: 10,
+      formValues: {},
+      sorter: 'sort:+',
+      modalVisible: false,
+      qrcodeSrc: undefined,
+      qrcodeTitle: undefined,
+      modalTitle: undefined,
+      query: parse(search, { ignoreQueryPrefix: true }),
+      data: {
+        list: [],
+        pagination: {},
+        sum: {},
+      },
+    };
+  }
 
   componentDidMount() {
     this.loadData();
@@ -65,7 +69,6 @@ export default class TableList extends PureComponent {
       type: 'presale/find',
       payload: params,
       callback: data => {
-        this,
           this.setState({
             data: { ...data },
           });
@@ -126,6 +129,7 @@ export default class TableList extends PureComponent {
       this.loadData
     );
   };
+
   handlePageSizeChange = (current, size) => {
     this.setState(
       {
@@ -238,7 +242,7 @@ export default class TableList extends PureComponent {
           </Dropdown>
         </div>
       );
-    } else {
+    }
       return (
         <div>
           <Popconfirm
@@ -260,100 +264,102 @@ export default class TableList extends PureComponent {
           </Dropdown>
         </div>
       );
-    }
+
   };
 
-  renderMenu = record => {
-    return (
-      <Menu>
-        <Menu.Item>
-          <Popconfirm
-            title="确认给所有管家推送该商品吗?"
-            onConfirm={() => this.handleWechatPush(record.i)}
-            okText="确认"
-            cancelText="取消"
-          >
-            <a>微信推送</a>
-          </Popconfirm>
-        </Menu.Item>
-        <Menu.Item>
-          <Link
-            to={{
+  renderMenu = record => (
+    <Menu>
+      <Menu.Item>
+        <Popconfirm
+          title="确认给所有管家推送该商品吗?"
+          onConfirm={() => this.handleWechatPush(record.i)}
+          okText="确认"
+          cancelText="取消"
+        >
+          <a>微信推送</a>
+        </Popconfirm>
+      </Menu.Item>
+      <Menu.Item>
+        <Link
+          to={{
               pathname: '/presale/detail',
               search: `i=${record.i}`,
             }}
-          >
+        >
             产品详情
-          </Link>
-        </Menu.Item>
-        <Menu.Item>
-          <Link
-            to={{
+        </Link>
+      </Menu.Item>
+      <Menu.Item>
+        <Link
+          to={{
               pathname: '/presale/diff-commission',
               search: `rush_i=${record.i}`,
             }}
-          >
+        >
             差异佣金
-          </Link>
-        </Menu.Item>
-        <Menu.Item>
-          <Link
-            to={{
+        </Link>
+      </Menu.Item>
+      <Menu.Item>
+        <Link
+          to={{
               pathname: '/presale/orders',
               search: `rush_i=${record.i}`,
             }}
-          >
+        >
             查看订单
-          </Link>
-        </Menu.Item>
-        <Menu.Item>
-          <Link
-            to={{
+        </Link>
+      </Menu.Item>
+      <Menu.Item>
+        <Link
+          to={{
               pathname: '/presale/books',
               search: `rush_i=${record.i}`,
             }}
-          >
+        >
             预约订单
-          </Link>
-        </Menu.Item>
-        <Menu.Item>
-          <Link
-            to={{
+        </Link>
+      </Menu.Item>
+      <Menu.Item>
+        <Link
+          to={{
               pathname: '/poster',
               search: `presale_i=${record.i}&type=presale`,
             }}
-          >
+        >
             产品海报
-          </Link>
-        </Menu.Item>
-        <Menu.Item>
-          <a onClick={() => this.handlePreview(record)}>产品预览</a>
-        </Menu.Item>
-        <Menu.Item>
-          <a onClick={() => this.handleBookByPhoneUrl(record)}>无码预约网址</a>
-        </Menu.Item>
-        <Menu.Item>
-          <a onClick={() => this.handleBookByEcodeUrl(record)}>有码预约网址</a>
-        </Menu.Item>
-        <Menu.Item>
-          <Link
-            to={{
+        </Link>
+      </Menu.Item>
+      <Menu.Item>
+        <a onClick={() => this.handlePreview(record)}>产品预览</a>
+      </Menu.Item>
+      <Menu.Item>
+        <a onClick={() => this.handleBookByPhoneUrl(record)}>无码预约网址</a>
+      </Menu.Item>
+      <Menu.Item>
+        <a onClick={() => this.handleBookByEcodeUrl(record)}>有码预约网址</a>
+      </Menu.Item>
+      <Menu.Item>
+        <Link
+          to={{
               pathname: '/log',
               search: `rush_i=${record.i}&info=预售产品${record.i}`,
             }}
-          >
+        >
             操作日志
-          </Link>
-        </Menu.Item>
-      </Menu>
+        </Link>
+      </Menu.Item>
+    </Menu>
     );
-  };
 
   render() {
     const { loading } = this.props;
     const {
       query,
       data: { list, pagination },
+      modalTitle,
+      modalVisible,
+      qrcodeSrc,
+      qrcodeTitle,
     } = this.state;
     const paginationProps = {
       showSizeChanger: true,
@@ -373,7 +379,9 @@ export default class TableList extends PureComponent {
             loading={loading}
           />
           <span>
-            共 <span style={{ color: '#1890ff' }}>{total}</span> 条数据
+            共
+            <span style={{ color: '#1890ff' }}>{total}</span>
+            条数据
           </span>
         </span>
       ),
@@ -424,20 +432,20 @@ export default class TableList extends PureComponent {
           </div>
         </Card>
         <Modal
-          title={this.state.modalTitle}
-          visible={this.state.modalVisible}
+          title={modalTitle}
+          visible={modalVisible}
           onOk={() => this.handleModalVisible(false)}
           onCancel={() => this.handleModalVisible(false)}
           destroyOnClose
           footer={null}
         >
           <div style={{ textAlign: 'center' }}>
-            <div>{this.state.qrcodeTitle}</div>
+            <div>{qrcodeTitle}</div>
             <div style={{ margin: '10px' }}>
-              <a href={this.state.qrcodeSrc}>{this.state.qrcodeSrc}</a>
+              <a href={qrcodeSrc}>{qrcodeSrc}</a>
             </div>
             <div style={{ display: 'inline-block', marginLeft: 'auto', marginRight: 'auto' }}>
-              <QRCode value={this.state.qrcodeSrc} />
+              <QRCode value={qrcodeSrc} />
             </div>
           </div>
         </Modal>
