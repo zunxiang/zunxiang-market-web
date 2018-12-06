@@ -154,7 +154,7 @@ export default class BasicList extends PureComponent {
             <a style={{ color: '#f5222d' }}>删除</a>
           </Popconfirm>
         </Fragment>
-        ),
+      ),
     },
   ];
 
@@ -190,7 +190,7 @@ export default class BasicList extends PureComponent {
             <a style={{ color: '#f5222d' }}>删除</a>
           </Popconfirm>
         </Fragment>
-        ),
+      ),
     },
   ];
 
@@ -238,9 +238,9 @@ export default class BasicList extends PureComponent {
       payload: { list: newList },
       callback: () => {
         const sendList = newList.map((val, index) => ({
-            i: val.i,
-            sort: index,
-          }));
+          i: val.i,
+          sort: index,
+        }));
         dispatch({
           type: 'banner/postSorting',
           payload: sendList,

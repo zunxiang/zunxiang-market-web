@@ -2,19 +2,7 @@ import React, { PureComponent } from 'react';
 import { connect } from 'dva';
 import { parse, stringify } from 'qs';
 import QRCode from 'qrcode-react';
-import {
-  Row,
-  Col,
-  Card,
-  Form,
-  Input,
-  Icon,
-  Button,
-  Modal,
-  Badge,
-  message,
-  Select,
-} from 'antd';
+import { Row, Col, Card, Form, Input, Icon, Button, Modal, Badge, message, Select } from 'antd';
 import update from 'immutability-helper';
 import Ellipsis from '@/components/Ellipsis';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
@@ -55,11 +43,13 @@ for (const key in status) {
   loading: loading.models.presale,
 }))
 @Form.create()
- class PresaleSort extends PureComponent {
-   constructor(props) {
-     super(props);
-     const { location: { search } } = this.props;
-     this.state = {
+class PresaleSort extends PureComponent {
+  constructor(props) {
+    super(props);
+    const {
+      location: { search },
+    } = this.props;
+    this.state = {
       filters: {},
       currentPage: 1,
       pageSize: 10,
@@ -318,9 +308,9 @@ for (const key in status) {
       $splice: [[dragIndex, 1], [hoverIndex, 0, dragRow]],
     });
     const newList = tempList.map((val, index) => ({
-        ...val,
-        sort: pageSize * (currentPage - 1) + index + 1,
-      }));
+      ...val,
+      sort: pageSize * (currentPage - 1) + index + 1,
+    }));
     const len = newList.length;
     dispatch({
       type: 'presale/dragSorting',
@@ -362,7 +352,9 @@ for (const key in status) {
   };
 
   renderSimpleForm() {
-    const { from: { getFieldDecorator } } = this.props;
+    const {
+      from: { getFieldDecorator },
+    } = this.props;
     return (
       <Form onSubmit={this.handleSearch} layout="inline">
         <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
@@ -383,9 +375,7 @@ for (const key in status) {
                 重置
               </Button>
               <a style={{ marginLeft: 8 }} onClick={this.toggleForm}>
-                展开
-                {' '}
-                <Icon type="down" />
+                展开 <Icon type="down" />
               </a>
             </span>
           </Col>
@@ -395,7 +385,9 @@ for (const key in status) {
   }
 
   renderAdvancedForm() {
-    const { form: { getFieldDecorator } } = this.props;
+    const {
+      form: { getFieldDecorator },
+    } = this.props;
     return (
       <Form onSubmit={this.handleSearch} layout="inline">
         <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
@@ -445,9 +437,7 @@ for (const key in status) {
               导出
             </Button>
             <a style={{ marginLeft: 8 }} onClick={this.toggleForm}>
-              收起
-              {' '}
-              <Icon type="up" />
+              收起 <Icon type="up" />
             </a>
           </span>
         </div>
@@ -484,8 +474,7 @@ for (const key in status) {
             loading={loading}
           />
           <span>
-            共
-            <span style={{ color: '#1890ff' }}>{total}</span>
+            共<span style={{ color: '#1890ff' }}>{total}</span>
             条数据
           </span>
         </span>
@@ -512,8 +501,7 @@ for (const key in status) {
                   <Col span={4}>
                     <div>预售时间</div>
                     <div>
-                      {record.rush_begin_time.substring(0, 10)}
-                      ~
+                      {record.rush_begin_time.substring(0, 10)}~
                       {record.rush_end_time.substring(0, 10)}
                     </div>
                   </Col>
@@ -524,8 +512,7 @@ for (const key in status) {
                   <Col span={4}>
                     <div>使用时间</div>
                     <div>
-                      {record.use_begin_time.substring(0, 10)}
-                      ~
+                      {record.use_begin_time.substring(0, 10)}~
                       {record.use_end_time.substring(0, 10)}
                     </div>
                   </Col>

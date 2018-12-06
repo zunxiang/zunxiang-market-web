@@ -220,41 +220,41 @@ export default class TableList extends PureComponent {
       <Menu.Item>
         <Link
           to={{
-              pathname: '/normal/detail',
-              search: `i=${record.i}`,
-            }}
+            pathname: '/normal/detail',
+            search: `i=${record.i}`,
+          }}
         >
-            产品详情
+          产品详情
         </Link>
       </Menu.Item>
       <Menu.Item>
         <Link
           to={{
-              pathname: '/normal/orders',
-              search: `item_i=${record.i}`,
-            }}
+            pathname: '/normal/orders',
+            search: `item_i=${record.i}`,
+          }}
         >
-            查看订单
+          查看订单
         </Link>
       </Menu.Item>
       <Menu.Item>
         <Link
           to={{
-              pathname: '/poster',
-              search: `item_i=${record.i}&type=normal`,
-            }}
+            pathname: '/poster',
+            search: `item_i=${record.i}&type=normal`,
+          }}
         >
-            产品海报
+          产品海报
         </Link>
       </Menu.Item>
       <Menu.Item>
         <Link
           to={{
-              pathname: '/album',
-              search: `item_i=${record.i}`,
-            }}
+            pathname: '/album',
+            search: `item_i=${record.i}`,
+          }}
         >
-            相册图库
+          相册图库
         </Link>
       </Menu.Item>
       <Menu.Item>
@@ -263,15 +263,15 @@ export default class TableList extends PureComponent {
       <Menu.Item>
         <Link
           to={{
-              pathname: '/log',
-              search: `item_i=${record.i}&info=常规产品${record.i}`,
-            }}
+            pathname: '/log',
+            search: `item_i=${record.i}&info=常规产品${record.i}`,
+          }}
         >
-            操作日志
+          操作日志
         </Link>
       </Menu.Item>
     </Menu>
-    );
+  );
 
   renderOperate = record => {
     if (record.state === 1) {
@@ -294,27 +294,26 @@ export default class TableList extends PureComponent {
           </Dropdown>
         </div>
       );
-    } 
-      return (
-        <div>
-          <Popconfirm
-            title="确认上架架该产品?"
-            onConfirm={() => this.handleOpen(record.i)}
-            okText="确认"
-            cancelText="取消"
-          >
-            <a style={{ color: '#5b8c00' }}>上架</a>
-          </Popconfirm>
-          <Divider type="vertical" />
-          <Dropdown overlay={this.renderMenu(record)}>
-            <a className="ant-dropdown-link">
-              更多操作
-              <Icon type="down" />
-            </a>
-          </Dropdown>
-        </div>
-      );
-    
+    }
+    return (
+      <div>
+        <Popconfirm
+          title="确认上架架该产品?"
+          onConfirm={() => this.handleOpen(record.i)}
+          okText="确认"
+          cancelText="取消"
+        >
+          <a style={{ color: '#5b8c00' }}>上架</a>
+        </Popconfirm>
+        <Divider type="vertical" />
+        <Dropdown overlay={this.renderMenu(record)}>
+          <a className="ant-dropdown-link">
+            更多操作
+            <Icon type="down" />
+          </a>
+        </Dropdown>
+      </div>
+    );
   };
 
   render() {

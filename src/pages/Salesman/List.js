@@ -71,8 +71,10 @@ for (const key in bonus) {
 @Form.create()
 class SalesmanList extends PureComponent {
   constructor(props) {
-    super(props)
-    const { location: { search } } = props;
+    super(props);
+    const {
+      location: { search },
+    } = props;
     this.state = {
       currentPage: 1,
       pageSize: 10,
@@ -140,11 +142,11 @@ class SalesmanList extends PureComponent {
         render: (val, record) => (
           <Dropdown overlay={this.renderMenu(record)} placement="bottomCenter">
             <a className="ant-dropdown-link">
-                更多操作
+              更多操作
               <Icon type="down" />
             </a>
           </Dropdown>
-          ),
+        ),
       },
     ];
   }
@@ -246,59 +248,59 @@ class SalesmanList extends PureComponent {
       <Menu.Item>
         {record.state === 1 ? (
           <a onClick={() => this.handleChangeState('close', record)}>禁用账号</a>
-          ) : (
-            <a onClick={() => this.handleChangeState('open', record)}>解禁账号</a>
-          )}
+        ) : (
+          <a onClick={() => this.handleChangeState('open', record)}>解禁账号</a>
+        )}
       </Menu.Item>
       <Menu.Item>
         {record.is_open_bonus === 1 ? (
           <a onClick={() => this.handleChangeAward('closeBonus', record)}>禁止奖励</a>
-          ) : (
-            <a onClick={() => this.handleChangeAward('allowBonus', record)}>启用奖励</a>
-          )}
+        ) : (
+          <a onClick={() => this.handleChangeAward('allowBonus', record)}>启用奖励</a>
+        )}
       </Menu.Item>
       <Menu.Item>
         <Link
           to={{
-              pathname: '/finance/bills',
-              search: `account_i=${record.i}&account_type=SALESMAN`,
-            }}
+            pathname: '/finance/bills',
+            search: `account_i=${record.i}&account_type=SALESMAN`,
+          }}
         >
-            账单明细
+          账单明细
         </Link>
       </Menu.Item>
       <Menu.Item>
         <Link
           to={{
-              pathname: '/normal/orders',
-              search: `salesman_i=${record.i}`,
-            }}
+            pathname: '/normal/orders',
+            search: `salesman_i=${record.i}`,
+          }}
         >
-            常规订单
+          常规订单
         </Link>
       </Menu.Item>
       <Menu.Item>
         <Link
           to={{
-              pathname: '/presale/orders',
-              search: `salesman_i=${record.i}`,
-            }}
+            pathname: '/presale/orders',
+            search: `salesman_i=${record.i}`,
+          }}
         >
-            预售订单
+          预售订单
         </Link>
       </Menu.Item>
       <Menu.Item>
         <Link
           to={{
-              pathname: '/log',
-              search: `salesman_i=${record.i}&info=分销商${record.i}`,
-            }}
+            pathname: '/log',
+            search: `salesman_i=${record.i}&info=分销商${record.i}`,
+          }}
         >
-            操作日志
+          操作日志
         </Link>
       </Menu.Item>
     </Menu>
-    );
+  );
 
   render() {
     const {

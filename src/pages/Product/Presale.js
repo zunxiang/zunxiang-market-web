@@ -30,7 +30,9 @@ import styles from './style.less';
 export default class TableList extends PureComponent {
   constructor(props) {
     super(props);
-    const { location: { search } } = props;
+    const {
+      location: { search },
+    } = props;
     this.state = {
       filters: {},
       currentPage: 1,
@@ -69,9 +71,9 @@ export default class TableList extends PureComponent {
       type: 'presale/find',
       payload: params,
       callback: data => {
-          this.setState({
-            data: { ...data },
-          });
+        this.setState({
+          data: { ...data },
+        });
       },
     });
   };
@@ -243,28 +245,27 @@ export default class TableList extends PureComponent {
         </div>
       );
     }
-      return (
-        <div>
-          <Popconfirm
-            title="确认上架架该产品?"
-            onConfirm={() => {
-              this.handleOpen(record.i);
-            }}
-            okText="确认"
-            cancelText="取消"
-          >
-            <a style={{ color: '#5b8c00' }}>上架</a>
-          </Popconfirm>
-          <Divider type="vertical" />
-          <Dropdown overlay={this.renderMenu(record)}>
-            <a className="ant-dropdown-link">
-              更多操作
-              <Icon type="down" />
-            </a>
-          </Dropdown>
-        </div>
-      );
-
+    return (
+      <div>
+        <Popconfirm
+          title="确认上架架该产品?"
+          onConfirm={() => {
+            this.handleOpen(record.i);
+          }}
+          okText="确认"
+          cancelText="取消"
+        >
+          <a style={{ color: '#5b8c00' }}>上架</a>
+        </Popconfirm>
+        <Divider type="vertical" />
+        <Dropdown overlay={this.renderMenu(record)}>
+          <a className="ant-dropdown-link">
+            更多操作
+            <Icon type="down" />
+          </a>
+        </Dropdown>
+      </div>
+    );
   };
 
   renderMenu = record => (
@@ -282,51 +283,51 @@ export default class TableList extends PureComponent {
       <Menu.Item>
         <Link
           to={{
-              pathname: '/presale/detail',
-              search: `i=${record.i}`,
-            }}
+            pathname: '/presale/detail',
+            search: `i=${record.i}`,
+          }}
         >
-            产品详情
+          产品详情
         </Link>
       </Menu.Item>
       <Menu.Item>
         <Link
           to={{
-              pathname: '/presale/diff-commission',
-              search: `rush_i=${record.i}`,
-            }}
+            pathname: '/presale/diff-commission',
+            search: `rush_i=${record.i}`,
+          }}
         >
-            差异佣金
+          差异佣金
         </Link>
       </Menu.Item>
       <Menu.Item>
         <Link
           to={{
-              pathname: '/presale/orders',
-              search: `rush_i=${record.i}`,
-            }}
+            pathname: '/presale/orders',
+            search: `rush_i=${record.i}`,
+          }}
         >
-            查看订单
+          查看订单
         </Link>
       </Menu.Item>
       <Menu.Item>
         <Link
           to={{
-              pathname: '/presale/books',
-              search: `rush_i=${record.i}`,
-            }}
+            pathname: '/presale/books',
+            search: `rush_i=${record.i}`,
+          }}
         >
-            预约订单
+          预约订单
         </Link>
       </Menu.Item>
       <Menu.Item>
         <Link
           to={{
-              pathname: '/poster',
-              search: `presale_i=${record.i}&type=presale`,
-            }}
+            pathname: '/poster',
+            search: `presale_i=${record.i}&type=presale`,
+          }}
         >
-            产品海报
+          产品海报
         </Link>
       </Menu.Item>
       <Menu.Item>
@@ -341,15 +342,15 @@ export default class TableList extends PureComponent {
       <Menu.Item>
         <Link
           to={{
-              pathname: '/log',
-              search: `rush_i=${record.i}&info=预售产品${record.i}`,
-            }}
+            pathname: '/log',
+            search: `rush_i=${record.i}&info=预售产品${record.i}`,
+          }}
         >
-            操作日志
+          操作日志
         </Link>
       </Menu.Item>
     </Menu>
-    );
+  );
 
   render() {
     const { loading } = this.props;
@@ -379,8 +380,7 @@ export default class TableList extends PureComponent {
             loading={loading}
           />
           <span>
-            共
-            <span style={{ color: '#1890ff' }}>{total}</span>
+            共<span style={{ color: '#1890ff' }}>{total}</span>
             条数据
           </span>
         </span>

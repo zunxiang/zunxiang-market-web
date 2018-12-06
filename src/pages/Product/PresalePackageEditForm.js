@@ -100,7 +100,7 @@ export default class BasicForms extends PureComponent {
       <Option key={val.name} value={val.i}>
         {val.name}
       </Option>
-      ));
+    ));
     return (
       <Form onSubmit={this.handleSubmit} hideRequiredMark style={{ marginTop: 8 }}>
         <FormItem {...formItemLayout} label="选择供应商">

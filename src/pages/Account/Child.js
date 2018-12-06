@@ -76,8 +76,7 @@ const AddForm = Form.create()(props => {
         </FormItem>
       );
     }
-      return '';
-
+    return '';
   };
   return (
     <Modal
@@ -198,21 +197,20 @@ export default class TableList extends PureComponent {
             </Fragment>
           );
         }
-          return (
-            <Fragment>
-              <Popconfirm
-                title="确认启用该账号?"
-                onConfirm={() => this.handleOpen(row.i)}
-                okText="确认"
-                cancelText="取消"
-              >
-                <a style={{ color: '#5b8c00' }}>启用</a>
-              </Popconfirm>
-              <Divider type="vertical" />
-              <a onClick={() => this.handleEditEvent(row)}>修改信息</a>
-            </Fragment>
-          );
-
+        return (
+          <Fragment>
+            <Popconfirm
+              title="确认启用该账号?"
+              onConfirm={() => this.handleOpen(row.i)}
+              okText="确认"
+              cancelText="取消"
+            >
+              <a style={{ color: '#5b8c00' }}>启用</a>
+            </Popconfirm>
+            <Divider type="vertical" />
+            <a onClick={() => this.handleEditEvent(row)}>修改信息</a>
+          </Fragment>
+        );
       },
     },
   ];
@@ -382,8 +380,7 @@ export default class TableList extends PureComponent {
       showQuickJumper: true,
       showTotal: total => (
         <span>
-          共
-          <span style={{ color: '#1890ff' }}>{total}</span>
+          共<span style={{ color: '#1890ff' }}>{total}</span>
           条数据
         </span>
       ),

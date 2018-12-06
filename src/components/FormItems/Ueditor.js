@@ -48,7 +48,7 @@ const uploadImage = e =>
       xhr.send(fd);
     });
   });
-export const  Ueditor =  props => {
+export const Ueditor = props => {
   const {
     form,
     initialValue,
@@ -107,4 +107,4 @@ export const  Ueditor =  props => {
       )}
     </FormItem>
   );
-}
+};

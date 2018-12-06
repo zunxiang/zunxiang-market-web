@@ -75,20 +75,22 @@ export default class BasicProfile extends Component {
         <Popconfirm
           title="确认下移除产品?"
           onConfirm={() => {
-              this.handleRemoveInsurance(record.i);
-            }}
+            this.handleRemoveInsurance(record.i);
+          }}
           okText="确认"
           cancelText="取消"
         >
           <a>移除</a>
         </Popconfirm>
-        ),
+      ),
     },
   ];
 
   constructor(props) {
     super(props);
-    const { location: { search } } = props;
+    const {
+      location: { search },
+    } = props;
     this.state = {
       item: {},
       insurances: [],
@@ -295,31 +297,31 @@ export default class BasicProfile extends Component {
       <Menu.Item>
         <Link
           to={{
-              pathname: '/normal/orders',
-              search: `item_i=${record.i}`,
-            }}
+            pathname: '/normal/orders',
+            search: `item_i=${record.i}`,
+          }}
         >
-            查看订单
+          查看订单
         </Link>
       </Menu.Item>
       <Menu.Item>
         <Link
           to={{
-              pathname: '/poster',
-              search: `item_i=${record.i}&type=normal`,
-            }}
+            pathname: '/poster',
+            search: `item_i=${record.i}&type=normal`,
+          }}
         >
-            产品海报
+          产品海报
         </Link>
       </Menu.Item>
       <Menu.Item>
         <Link
           to={{
-              pathname: '/album',
-              search: `item_i=${record.i}`,
-            }}
+            pathname: '/album',
+            search: `item_i=${record.i}`,
+          }}
         >
-            相册图库
+          相册图库
         </Link>
       </Menu.Item>
       <Menu.Item>
@@ -331,18 +333,26 @@ export default class BasicProfile extends Component {
       <Menu.Item>
         <Link
           to={{
-              pathname: '/log',
-              search: `item_i=${record.i}&info=常规产品${record.i}`,
-            }}
+            pathname: '/log',
+            search: `item_i=${record.i}&info=常规产品${record.i}`,
+          }}
         >
-            操作日志
+          操作日志
         </Link>
       </Menu.Item>
     </Menu>
-    );
+  );
 
   render() {
-    const { item, insurances, loadingInsurance, modalTitle, modalVisible, qrcodeSrc, qrcodeTitle } = this.state;
+    const {
+      item,
+      insurances,
+      loadingInsurance,
+      modalTitle,
+      modalVisible,
+      qrcodeSrc,
+      qrcodeTitle,
+    } = this.state;
     const Action = (
       <div>
         {item.state === 1 ? (

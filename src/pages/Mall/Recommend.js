@@ -64,7 +64,7 @@ export default class BasicList extends PureComponent {
             <a style={{ color: '#f5222d' }}>取消推荐</a>
           </Popconfirm>
         </Fragment>
-        ),
+      ),
     },
   ];
 
@@ -102,9 +102,9 @@ export default class BasicList extends PureComponent {
         dispatch({
           type: 'recommend/postSorting',
           payload: newList.map((val, index) => ({
-              i: val.i,
-              sort: index + 1,
-            })),
+            i: val.i,
+            sort: index + 1,
+          })),
           callback: () => {
             message.success('排序成功');
           },
@@ -121,9 +121,9 @@ export default class BasicList extends PureComponent {
       },
     } = this.props;
     const params = ids.split(',').map((id, index) => ({
-        item_i: id,
-        sort: list.length + index + 1,
-      }));
+      item_i: id,
+      sort: list.length + index + 1,
+    }));
     dispatch({
       type: 'recommend/add',
       payload: params,

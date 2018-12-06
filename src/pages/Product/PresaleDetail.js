@@ -119,41 +119,41 @@ export default class BasicProfile extends Component {
       <Menu.Item>
         <Link
           to={{
-              pathname: '/presale/diff-commission',
-              search: `rush_i=${record.i}`,
-            }}
+            pathname: '/presale/diff-commission',
+            search: `rush_i=${record.i}`,
+          }}
         >
-            差异佣金
+          差异佣金
         </Link>
       </Menu.Item>
       <Menu.Item>
         <Link
           to={{
-              pathname: '/presale/orders',
-              search: `rush_i=${record.i}`,
-            }}
+            pathname: '/presale/orders',
+            search: `rush_i=${record.i}`,
+          }}
         >
-            查看订单
+          查看订单
         </Link>
       </Menu.Item>
       <Menu.Item>
         <Link
           to={{
-              pathname: '/presale/books',
-              search: `rush_i=${record.i}`,
-            }}
+            pathname: '/presale/books',
+            search: `rush_i=${record.i}`,
+          }}
         >
-            预约订单
+          预约订单
         </Link>
       </Menu.Item>
       <Menu.Item>
         <Link
           to={{
-              pathname: '/poster',
-              search: `presale_i=${record.i}&type=presale`,
-            }}
+            pathname: '/poster',
+            search: `presale_i=${record.i}&type=presale`,
+          }}
         >
-            产品海报
+          产品海报
         </Link>
       </Menu.Item>
       <Menu.Item>
@@ -171,15 +171,15 @@ export default class BasicProfile extends Component {
       <Menu.Item>
         <Link
           to={{
-              pathname: '/log',
-              search: `rush_i=${record.i}&info=预售产品${record.i}`,
-            }}
+            pathname: '/log',
+            search: `rush_i=${record.i}&info=预售产品${record.i}`,
+          }}
         >
-            操作日志
+          操作日志
         </Link>
       </Menu.Item>
     </Menu>
-    );
+  );
 
   render() {
     const { item } = this.state;

@@ -82,7 +82,7 @@ export default class SearchForm extends Component {
               <Col md={8} sm={24} key={Item.key}>
                 {Item}
               </Col>
-              ))}
+            ))}
             {expandForm ? null : (
               <Col md={8} sm={24}>
                 <span className={styles.submitButtons}>
