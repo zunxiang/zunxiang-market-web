@@ -99,9 +99,11 @@ export default class FormGeneraotrDemo extends Component {
       },
     },
   ];
+
   handleOnSubmit = () => {
     // console.log(fields);
   };
+
   render() {
     return (
       <SerachForm

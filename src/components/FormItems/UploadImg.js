@@ -9,13 +9,13 @@ export default class UploadImg extends Component {
     token: null,
     upLoading: false,
   };
-  handleBeforUpload = () => {
-    return getQiniuToken().then(token => {
+
+  handleBeforUpload = () =>
+    getQiniuToken().then(token => {
       this.setState({
         token,
       });
     });
-  };
 
   handleUploadChange = ({ file, fileList }) => {
     const { status } = file;
@@ -45,6 +45,7 @@ export default class UploadImg extends Component {
     }
     return e && e.fileList;
   };
+
   render() {
     const formItemLayout = this.props.layout || {
       labelCol: {
@@ -86,7 +87,8 @@ export default class UploadImg extends Component {
         })(
           <Upload {...uploadProps}>
             <Button>
-              <Icon type={upLoading ? 'loading' : 'upload'} />点击上传
+              <Icon type={upLoading ? 'loading' : 'upload'} />
+              点击上传
             </Button>
           </Upload>
         )}

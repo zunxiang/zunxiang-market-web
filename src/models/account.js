@@ -20,7 +20,7 @@ export default {
         }),
       };
       const [code, response] = yield call(GET, msg);
-      if(code !== 0) return;
+      if (code !== 0) return;
       const data = {
         list: response.list,
         pagination: {
@@ -28,12 +28,12 @@ export default {
           pageSize,
           total: response.total,
         },
-      }
+      };
       yield put({
         type: 'findSuccess',
-        payload: { ...data } ,
+        payload: { ...data },
       });
-      if(callback) callback(data);
+      if (callback) callback(data);
     },
     *add({ payload, callback }, { call, put }) {
       const msg = {
@@ -41,7 +41,7 @@ export default {
         message: JSON.stringify(payload),
       };
       const [code, response] = yield call(GET, msg);
-      if(code !== 0) return;
+      if (code !== 0) return;
       if (callback) callback();
     },
     *edit({ payload, callback }, { call, put }) {
@@ -50,7 +50,7 @@ export default {
         message: JSON.stringify(payload),
       };
       const [code, response] = yield call(GET, msg);
-      if(code !== 0) return;
+      if (code !== 0) return;
       if (callback) callback();
     },
     *open({ payload, callback }, { call, put }) {
@@ -59,7 +59,7 @@ export default {
         message: JSON.stringify(payload),
       };
       const [code, response] = yield call(GET, msg);
-      if(code !== 0) return;
+      if (code !== 0) return;
       if (callback) callback();
     },
     *close({ payload, callback }, { call, put }) {
@@ -68,7 +68,7 @@ export default {
         message: JSON.stringify(payload),
       };
       const [code, response] = yield call(GET, msg);
-      if(code !== 0) return;
+      if (code !== 0) return;
       if (callback) callback();
     },
   },

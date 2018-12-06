@@ -29,7 +29,7 @@ export default {
         ),
       };
       const response = yield call(GET, msg);
-      if(!response) return;
+      if (!response) return;
       yield put({
         type: 'changeLoginStatus',
         payload: {
@@ -53,8 +53,8 @@ export default {
           return;
         }
       }
-      if(redirect.indexOf('/login') !== -1) {
-        redirect = '/'
+      if (redirect.indexOf('/login') !== -1) {
+        redirect = '/';
       }
       yield put(routerRedux.replace(redirect || '/'));
     },
@@ -69,7 +69,7 @@ export default {
         message: JSON.stringify({}),
       };
       const response = yield call(GET, msg);
-      if(!response) return;
+      if (!response) return;
       yield put({
         type: 'changeLoginStatus',
         payload: {

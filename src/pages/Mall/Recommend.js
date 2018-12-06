@@ -42,7 +42,12 @@ export default class BasicList extends PureComponent {
   };
 
   moveRow = (dragIndex, hoverIndex) => {
-    const { recommend: { data: { list } }, dispatch } = this.props;
+    const {
+      recommend: {
+        data: { list },
+      },
+      dispatch,
+    } = this.props;
     const dragRow = list[dragIndex];
     const newList = update(list, {
       $splice: [[dragIndex, 1], [hoverIndex, 0, dragRow]],
@@ -68,7 +73,12 @@ export default class BasicList extends PureComponent {
   };
 
   handleAdd = ids => {
-    const { dispatch, recommend: { data: { list } } } = this.props;
+    const {
+      dispatch,
+      recommend: {
+        data: { list },
+      },
+    } = this.props;
     const params = ids.split(',').map((id, index) => {
       return {
         item_i: id,
@@ -86,7 +96,12 @@ export default class BasicList extends PureComponent {
   };
 
   handleDelete = (i, index) => {
-    const { recommend: { data: { list } }, dispatch } = this.props;
+    const {
+      recommend: {
+        data: { list },
+      },
+      dispatch,
+    } = this.props;
     dispatch({
       type: 'recommend/delete',
       payload: { i },
@@ -150,7 +165,11 @@ export default class BasicList extends PureComponent {
   ];
 
   render() {
-    const { recommend: { data: { list } } } = this.props;
+    const {
+      recommend: {
+        data: { list },
+      },
+    } = this.props;
     return (
       <PageHeaderWrapper>
         <div className={styles.standardList}>

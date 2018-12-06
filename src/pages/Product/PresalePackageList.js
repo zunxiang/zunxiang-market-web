@@ -35,7 +35,12 @@ export default class BasicList extends PureComponent {
   };
 
   moveRow = (dragIndex, hoverIndex) => {
-    const { pack: { data: { list } }, dispatch } = this.props;
+    const {
+      pack: {
+        data: { list },
+      },
+      dispatch,
+    } = this.props;
     const dragRow = list[dragIndex];
     const newList = update(list, {
       $splice: [[dragIndex, 1], [hoverIndex, 0, dragRow]],
@@ -66,7 +71,12 @@ export default class BasicList extends PureComponent {
   };
 
   handleDelete = (i, index) => {
-    const { pack: { data: { list } }, dispatch } = this.props;
+    const {
+      pack: {
+        data: { list },
+      },
+      dispatch,
+    } = this.props;
     dispatch({
       type: 'pack/delete',
       payload: { i },
@@ -163,7 +173,14 @@ export default class BasicList extends PureComponent {
   ];
 
   render() {
-    const { pack: { data: { list } }, loading, dispatch, item } = this.props;
+    const {
+      pack: {
+        data: { list },
+      },
+      loading,
+      dispatch,
+      item,
+    } = this.props;
     const { editModalVisible, currentPackage } = this.state;
     const editFormProps = {
       rushId: item.i,

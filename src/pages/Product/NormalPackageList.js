@@ -22,7 +22,10 @@ export default class BasicList extends PureComponent {
   }
 
   loadData = () => {
-    const { dispatch, item: { i } } = this.props;
+    const {
+      dispatch,
+      item: { i },
+    } = this.props;
     if (i) {
       dispatch({
         type: 'pack/find',
@@ -40,7 +43,12 @@ export default class BasicList extends PureComponent {
   };
 
   moveRow = (dragIndex, hoverIndex) => {
-    const { pack: { data: { list } }, dispatch } = this.props;
+    const {
+      pack: {
+        data: { list },
+      },
+      dispatch,
+    } = this.props;
     const dragRow = list[dragIndex];
     const newList = update(list, {
       $splice: [[dragIndex, 1], [hoverIndex, 0, dragRow]],
@@ -71,7 +79,12 @@ export default class BasicList extends PureComponent {
   };
 
   handleDelete = (i, index) => {
-    const { pack: { data: { list } }, dispatch } = this.props;
+    const {
+      pack: {
+        data: { list },
+      },
+      dispatch,
+    } = this.props;
     dispatch({
       type: 'pack/delete',
       payload: { i },
@@ -156,7 +169,9 @@ export default class BasicList extends PureComponent {
     {
       title: '操作',
       render: (val, record, index) => {
-        const { item: { i, texture } } = this.props;
+        const {
+          item: { i, texture },
+        } = this.props;
         return (
           <Fragment>
             <a onClick={() => this.handleEditEvent(record)}>编辑套餐</a>
@@ -196,7 +211,14 @@ export default class BasicList extends PureComponent {
   ];
 
   render() {
-    const { pack: { data: { list } }, loading, dispatch, item: { i } } = this.props;
+    const {
+      pack: {
+        data: { list },
+      },
+      loading,
+      dispatch,
+      item: { i },
+    } = this.props;
     const { editModalVisible, currentPackage } = this.state;
     const extraContent = (
       <div className={styles.extraContent}>

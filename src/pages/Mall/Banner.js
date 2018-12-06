@@ -150,7 +150,12 @@ export default class BasicList extends PureComponent {
   };
 
   moveRow = (dragIndex, hoverIndex) => {
-    const { banner: { data: { list } }, dispatch } = this.props;
+    const {
+      banner: {
+        data: { list },
+      },
+      dispatch,
+    } = this.props;
     const dragRow = list[dragIndex];
     const newList = update(list, {
       $splice: [[dragIndex, 1], [hoverIndex, 0, dragRow]],
@@ -189,7 +194,12 @@ export default class BasicList extends PureComponent {
   };
 
   handleAdd = values => {
-    const { dispatch, banner: { data: { list } } } = this.props;
+    const {
+      dispatch,
+      banner: {
+        data: { list },
+      },
+    } = this.props;
     dispatch({
       type: 'banner/add',
       payload: {
@@ -205,7 +215,12 @@ export default class BasicList extends PureComponent {
   };
 
   handleDelete = (i, index) => {
-    const { banner: { data: { list } }, dispatch } = this.props;
+    const {
+      banner: {
+        data: { list },
+      },
+      dispatch,
+    } = this.props;
     dispatch({
       type: 'banner/delete',
       payload: { i },
@@ -223,7 +238,9 @@ export default class BasicList extends PureComponent {
   };
 
   handleCreateAdEvent = position => {
-    const { banner: { popupAds } } = this.props;
+    const {
+      banner: { popupAds },
+    } = this.props;
     let flag = true;
     popupAds.forEach(ad => {
       if (position === ad.position) {
@@ -257,7 +274,10 @@ export default class BasicList extends PureComponent {
   };
 
   handleDeleteAd = (i, index) => {
-    const { banner: { popupAds }, dispatch } = this.props;
+    const {
+      banner: { popupAds },
+      dispatch,
+    } = this.props;
     dispatch({
       type: 'banner/delete',
       payload: { i },
@@ -364,7 +384,12 @@ export default class BasicList extends PureComponent {
   };
 
   render() {
-    const { banner: { data: { list }, popupAds } } = this.props;
+    const {
+      banner: {
+        data: { list },
+        popupAds,
+      },
+    } = this.props;
     const { modalVisible, adModalVisible, adPosion } = this.state;
     const addMethods = {
       handleAdd: this.handleAdd,

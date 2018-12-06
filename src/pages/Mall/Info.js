@@ -31,7 +31,12 @@ const submitFormLayout = {
 @Form.create()
 export default class InfoSetting extends PureComponent {
   render() {
-    const { shareTitle, shareSubtitle, shareImage, form: { getFieldDecorator } } = this.props;
+    const {
+      shareTitle,
+      shareSubtitle,
+      shareImage,
+      form: { getFieldDecorator },
+    } = this.props;
     return (
       <PageHeaderWrapper>
         <Card title="默认分享信息" className={styles.card} bordered={false}>
@@ -68,8 +73,8 @@ export default class InfoSetting extends PureComponent {
                       required: true,
                       type: 'array',
                       min: 1,
-                      message: '请上传分享logo'
-                    }
+                      message: '请上传分享logo',
+                    },
                   ],
                   initialValue: shareImage || [],
                 }}
@@ -78,6 +83,6 @@ export default class InfoSetting extends PureComponent {
           </Form>
         </Card>
       </PageHeaderWrapper>
-    )
+    );
   }
 }

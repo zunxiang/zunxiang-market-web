@@ -29,7 +29,9 @@ export default class BasicProfile extends Component {
   };
   componentDidMount() {
     const { dispatch } = this.props;
-    const { query: { i } } = this.state;
+    const {
+      query: { i },
+    } = this.state;
     dispatch({
       type: 'presale/get',
       payload: { i },
@@ -212,7 +214,8 @@ export default class BasicProfile extends Component {
         )}
         <Dropdown overlay={this.renderAction(item)} placement="bottomCenter">
           <Button className="ant-dropdown-link">
-            更多操作<Icon type="down" />
+            更多操作
+            <Icon type="down" />
           </Button>
         </Dropdown>
       </div>
@@ -235,16 +238,14 @@ export default class BasicProfile extends Component {
             <Description term="价格">{item.price / 100}</Description>
             <Description term="佣金">{item.commission / 100}</Description>
             <Description term="预售时间">
-              {item.rush_begin_time && item.rush_begin_time.substring(0, 10)}
-              ~
+              {item.rush_begin_time && item.rush_begin_time.substring(0, 10)}~
               {item.rush_end_time && item.rush_end_time.substring(0, 10)}
             </Description>
             <Description term="发码时间">
               {item.send_code_time && item.send_code_time.substring(0, 10)}
             </Description>
             <Description term="使用时间">
-              {item.use_begin_time && item.use_begin_time.substring(0, 10)}
-              ~
+              {item.use_begin_time && item.use_begin_time.substring(0, 10)}~
               {item.use_end_time && item.use_end_time.substring(0, 10)}
             </Description>
             <Description term="满减优惠">

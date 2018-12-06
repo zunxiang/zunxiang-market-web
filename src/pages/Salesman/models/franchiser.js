@@ -26,7 +26,7 @@ export default {
         }),
       };
       const [code, response] = yield call(GET, msg);
-      if(code !== 0) return;
+      if (code !== 0) return;
       const data = {
         list: response.list,
         sum: response.sum,
@@ -35,12 +35,12 @@ export default {
           pageSize,
           total: response.total,
         },
-      }
+      };
       yield put({
         type: 'findSuccess',
         payload: { ...data },
       });
-      if(callback) callback;
+      if (callback) callback;
     },
     *paltopen({ payload, callback }, { call }) {
       const msg = {
@@ -48,7 +48,7 @@ export default {
         message: JSON.stringify(payload),
       };
       const [code, response] = yield call(GET, msg);
-      if(code !== 0) return;
+      if (code !== 0) return;
       if (callback) callback();
     },
     *paltclose({ payload, callback }, { call }) {
@@ -57,7 +57,7 @@ export default {
         message: JSON.stringify(payload),
       };
       const [code, response] = yield call(GET, msg);
-      if(code !== 0) return;
+      if (code !== 0) return;
       if (callback) callback();
     },
     *paltallowBonus({ payload, callback }, { call }) {
@@ -66,7 +66,7 @@ export default {
         message: JSON.stringify(payload),
       };
       const [code, response] = yield call(GET, msg);
-      if(code !== 0) return;
+      if (code !== 0) return;
       if (callback) callback();
     },
     *paltcloseBonus({ payload, callback }, { call }) {
@@ -75,7 +75,7 @@ export default {
         message: JSON.stringify(payload),
       };
       const [code, response] = yield call(GET, msg);
-      if(code !== 0) return;
+      if (code !== 0) return;
       if (callback) callback();
     },
   },

@@ -20,11 +20,11 @@ const status = {
 const getItemType = item => {
   if (item.texture === 'GROUP') {
     return item.type === '出境游' ? '出境跟团游' : '周边跟团游';
-  } else if (item.texture === 'HOTEL') {
-    return '酒店';
-  } else {
-    return item.type === '出境游' ? '出境自由行' : '周边自由行';
   }
+  if (item.texture === 'HOTEL') {
+    return '酒店';
+  }
+  return item.type === '出境游' ? '出境自由行' : '周边自由行';
 };
 
 const PresaleListContent = props => {

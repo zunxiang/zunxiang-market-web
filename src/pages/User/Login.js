@@ -25,7 +25,7 @@ class LoginPage extends Component {
       type: 'user/fetchCurrent',
       payload: {},
     });
-  }
+  };
 
   onTabChange = type => {
     this.setState({ type });

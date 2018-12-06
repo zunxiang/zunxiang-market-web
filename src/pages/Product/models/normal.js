@@ -13,7 +13,7 @@ export default {
     currentItem: {},
   },
   effects: {
-    *find({ payload,callback }, { call, put }) {
+    *find({ payload, callback }, { call, put }) {
       const { currentPage, pageSize, ...params } = payload;
       const msg = {
         handler: '/v2/admin/item/main/find',
@@ -32,14 +32,14 @@ export default {
           total: response.total,
         },
         sum: response.sum,
-      }
+      };
       yield put({
         type: 'findSuccess',
         payload: {
           ...data,
-        }
+        },
       });
-      if(callback) callback(data)
+      if (callback) callback(data);
     },
     *get({ payload, callback }, { call }) {
       const msg = {
@@ -47,7 +47,7 @@ export default {
         message: JSON.stringify(payload),
       };
       const [code, response] = yield call(GET, msg);
-      if (code !== 0) return
+      if (code !== 0) return;
       if (callback) callback(response);
     },
     *open({ payload, callback }, { call, put }) {
@@ -56,7 +56,7 @@ export default {
         message: JSON.stringify(payload),
       };
       const [code, response] = yield call(GET, msg);
-      if (code !== 0) return
+      if (code !== 0) return;
       if (callback) callback(response);
     },
     *close({ payload, callback }, { call, put }) {
@@ -65,7 +65,7 @@ export default {
         message: JSON.stringify(payload),
       };
       const [code, response] = yield call(GET, msg);
-      if (code !== 0) return
+      if (code !== 0) return;
       if (callback) callback(response);
     },
     *editNormal({ payload }, { put }) {
@@ -81,7 +81,7 @@ export default {
         message: JSON.stringify(payload),
       };
       const [code, response] = yield call(GET, msg);
-      if (code !== 0) return
+      if (code !== 0) return;
       if (callback) callback(response);
     },
     *publicPost({ payload, callback }, { call, put }) {
@@ -90,7 +90,7 @@ export default {
         message: JSON.stringify(payload),
       };
       const [code, response] = yield call(GET, msg);
-      if (code !== 0) return
+      if (code !== 0) return;
       if (callback) callback(response);
     },
     *wechatPush({ payload, callback }, { call, put }) {
@@ -99,7 +99,7 @@ export default {
         message: JSON.stringify(payload),
       };
       const [code, response] = yield call(GET, msg);
-      if (code !== 0) return
+      if (code !== 0) return;
       if (callback) callback(response);
     },
   },

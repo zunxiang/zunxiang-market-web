@@ -89,7 +89,9 @@ export default {
       };
     },
     updateList(state, action) {
-      const { payload: { list } } = action;
+      const {
+        payload: { list },
+      } = action;
       const data = { ...state.data, list };
       return {
         ...state,

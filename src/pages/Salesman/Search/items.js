@@ -3,28 +3,28 @@ const name = {
   parse: 'like',
   key: 'bankman',
   label: '姓名',
-}
+};
 
 const id = {
   type: 'number',
   parse: 'int',
   key: 'i',
   label: 'ID',
-}
+};
 
 const mobile = {
   type: 'text',
   parse: 'like',
   key: 'mobile',
   label: '手机号',
-}
+};
 
 const shopName = {
   type: 'text',
   parse: 'like',
   key: 'shopname',
   label: '店铺名',
-}
+};
 
 const state = {
   type: 'select',
@@ -62,12 +62,4 @@ const SUM = {
   ],
 };
 
-export const searchItems = [
-  name,
-  id,
-  mobile,
-  shopName,
-  state,
-  SUM,
-]
-
+export const searchItems = [name, id, mobile, shopName, state, SUM];

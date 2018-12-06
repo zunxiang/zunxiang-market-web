@@ -21,7 +21,7 @@ export default {
         }),
       };
       const [code, response] = yield call(GET, msg);
-      if(code !== 0) return;
+      if (code !== 0) return;
       const data = {
         list: response.list,
         pagination: {
@@ -29,14 +29,14 @@ export default {
           pageSize,
           total: response.total,
         },
-      }
+      };
       yield put({
         type: 'findSuccess',
         payload: {
           ...data,
         },
       });
-      if(callback) callback(data);
+      if (callback) callback(data);
     },
     *findSku({ payload, callback }, { call, put }) {
       const { currentPage, pageSize, ...params } = payload;
@@ -55,7 +55,7 @@ export default {
           list: response.list,
         },
       });
-      if(callback) callback(data);
+      if (callback) callback(data);
     },
     *dragSorting({ payload, callback }, { put }) {
       yield put({
@@ -79,7 +79,7 @@ export default {
         message: JSON.stringify(payload),
       };
       const [code, response] = yield call(GET, msg);
-      if(code !== 0) return;
+      if (code !== 0) return;
       if (callback) callback();
     },
     *add({ payload, callback }, { call }) {
@@ -88,7 +88,7 @@ export default {
         message: JSON.stringify(payload),
       };
       const [code, response] = yield call(GET, msg);
-      if(code !== 0) return;
+      if (code !== 0) return;
       if (callback) callback();
     },
     *post({ payload, callback }, { call }) {
@@ -97,7 +97,7 @@ export default {
         message: JSON.stringify(payload),
       };
       const [code, response] = yield call(GET, msg);
-      if(code !== 0) return;
+      if (code !== 0) return;
       if (callback) callback();
     },
     *clearSkus(_, { put }) {
@@ -130,7 +130,9 @@ export default {
       };
     },
     updateList(state, action) {
-      const { payload: { list } } = action;
+      const {
+        payload: { list },
+      } = action;
       const data = { ...state.data, list };
       return {
         ...state,

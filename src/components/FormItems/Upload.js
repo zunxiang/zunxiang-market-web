@@ -9,13 +9,13 @@ export default class UploadImg extends Component {
     previewUrl: undefined,
     previewVisible: false,
   };
-  handleBeforUpload = () => {
-    return getQiniuToken().then(token => {
+
+  handleBeforUpload = () =>
+    getQiniuToken().then(token => {
       this.setState({
         token,
       });
     });
-  };
 
   handleUploadChange = ({ file, fileList }) => {
     const { status } = file;
@@ -45,15 +45,18 @@ export default class UploadImg extends Component {
     }
     return e && e.fileList;
   };
+
   handleUploadPreview = file => {
     this.setState({
       previewUrl: BaseImgUrl + file.response.hash,
       previewVisible: true,
     });
   };
+
   handleCancel = () => {
     this.setState({ previewVisible: false });
   };
+
   render() {
     const { filedName, getFieldDecorator, fieldOptions = {}, uploadOptions = {} } = this.props;
     const { token, upLoading, previewVisible, previewUrl } = this.state;
@@ -79,7 +82,8 @@ export default class UploadImg extends Component {
         {getFieldDecorator(filedName, newFiledOptions)(
           <Upload {...newUploadProps}>
             <Button>
-              <Icon type={upLoading ? 'loading' : 'upload'} />点击上传
+              <Icon type={upLoading ? 'loading' : 'upload'} />
+              点击上传
             </Button>
           </Upload>
         )}

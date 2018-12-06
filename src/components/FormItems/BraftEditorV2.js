@@ -32,7 +32,7 @@ const handleEditorupload = param => {
     };
 
     const progressFn = event => {
-      param.progress(event.loaded / event.total * 100);
+      param.progress((event.loaded / event.total) * 100);
     };
 
     const errorFn = () => {
@@ -62,16 +62,14 @@ export const editorProps = {
   fontFamilies: [],
 };
 
-export const handleEditorChange = (name, form) => {
-  return editorState => {
-    const html = editorState.toHTML();
-    if (htmlIsEmpty(html)) {
-      form.setFieldsValue({ [name]: '' });
-    } else {
-      form.setFieldsValue({ [name]: html });
-    }
-    form.validateFields([name], { force: true });
-  };
+export const handleEditorChange = (name, form) => editorState => {
+  const html = editorState.toHTML();
+  if (htmlIsEmpty(html)) {
+    form.setFieldsValue({ [name]: '' });
+  } else {
+    form.setFieldsValue({ [name]: html });
+  }
+  form.validateFields([name], { force: true });
 };
 
 export const BraftEditorV2 = props => {

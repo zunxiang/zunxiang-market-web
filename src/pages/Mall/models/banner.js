@@ -21,7 +21,7 @@ export default {
         }),
       };
       const [code, response] = yield call(GET, msg);
-      if(code !== 0) return;
+      if (code !== 0) return;
       const data = {
         list: response.list,
         pagination: {
@@ -29,14 +29,14 @@ export default {
           pageSize,
           total: response.total,
         },
-      }
+      };
       yield put({
         type: 'findSuccess',
         payload: {
           ...data,
         },
       });
-      if(callback) callback(data);
+      if (callback) callback(data);
     },
     *dragSorting({ payload, callback }, { put }) {
       yield put({
@@ -91,7 +91,7 @@ export default {
         }),
       };
       const [code, response] = yield call(GET, msg);
-      if(code !== 0) return;
+      if (code !== 0) return;
       yield put({
         type: 'findAdSuccess',
         payload: response.list,
@@ -130,7 +130,9 @@ export default {
       };
     },
     updateList(state, action) {
-      const { payload: { list } } = action;
+      const {
+        payload: { list },
+      } = action;
       const data = { ...state.data, list };
       return {
         ...state,

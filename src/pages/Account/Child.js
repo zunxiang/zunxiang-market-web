@@ -373,9 +373,13 @@ export default class TableList extends PureComponent {
     },
   ];
 
-
   render() {
-    const { account: { data: { list, pagination } }, loading } = this.props;
+    const {
+      account: {
+        data: { list, pagination },
+      },
+      loading,
+    } = this.props;
     const { selectedRows, modalVisible, accountInfo } = this.state;
     const paginationProps = {
       showSizeChanger: true,

@@ -31,14 +31,14 @@ export default {
           total: response.total,
         },
         sum: response.sum,
-      }
+      };
       yield put({
         type: 'findSuccess',
         payload: {
           ...data,
-        }
+        },
       });
-      if(callback) callback(data)
+      if (callback) callback(data);
     },
     *get({ payload, callback }, { call }) {
       const msg = {
@@ -46,7 +46,7 @@ export default {
         message: JSON.stringify(payload),
       };
       const [code, response] = yield call(GET, msg);
-      if (code !== 0) return
+      if (code !== 0) return;
       if (callback) callback(response);
     },
     *open({ payload, callback }, { call, put }) {
@@ -100,7 +100,7 @@ export default {
         message: JSON.stringify(payload),
       };
       const [code, response] = yield call(GET, msg);
-      if(code !== 0) return;
+      if (code !== 0) return;
       if (callback) callback();
       yield put(routerRedux.push('/presale/list'));
     },
@@ -110,7 +110,7 @@ export default {
         message: JSON.stringify(payload),
       };
       const [code, response] = yield call(GET, msg);
-      if(code !== 0) return;
+      if (code !== 0) return;
       if (callback) callback();
       yield put(routerRedux.push('/presale/list'));
     },
@@ -127,7 +127,7 @@ export default {
         message: JSON.stringify(payload),
       };
       const [code, response] = yield call(GET, msg);
-      if(code !== 0) return;
+      if (code !== 0) return;
       if (callback) callback();
       yield put(routerRedux.push('/presale/list'));
     },
@@ -152,7 +152,9 @@ export default {
       };
     },
     updateList(state, action) {
-      const { payload: { list } } = action;
+      const {
+        payload: { list },
+      } = action;
       const data = { ...state.data, list };
       return {
         ...state,

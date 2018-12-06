@@ -118,23 +118,17 @@ class WrapFormItem extends Component {
           </Row>
         </FormItem>
       );
-    } 
-    if(type === 'Code') {
+    }
+    if (type === 'Code') {
       const inputProps = omit(otherProps, ['onRefreshCaptcha', 'freshTime']);
       return (
         <FormItem>
           <Row gutter={8}>
             <Col span={16}>
-              {getFieldDecorator(name, options)(
-                <Input {...customprops} {...inputProps} />
-              )}
+              {getFieldDecorator(name, options)(<Input {...customprops} {...inputProps} />)}
             </Col>
             <Col span={8}>
-              <Button
-                className={styles.getCaptcha}
-                size="large"
-                onClick={onRefreshCaptcha}
-              >
+              <Button className={styles.getCaptcha} size="large" onClick={onRefreshCaptcha}>
                 <img
                   className={styles.imgCaptcha}
                   src={`/captcha?type=login&ss=${freshTime}`}

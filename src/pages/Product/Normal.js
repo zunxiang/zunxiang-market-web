@@ -42,7 +42,7 @@ export default class TableList extends PureComponent {
       list: [],
       pagination: {},
       sum: {},
-    }
+    },
   };
 
   componentDidMount() {
@@ -65,9 +65,9 @@ export default class TableList extends PureComponent {
       payload: params,
       callback: data => {
         this.setState({
-          data: { ...data }
-        })
-      }
+          data: { ...data },
+        });
+      },
     });
   };
 
@@ -287,7 +287,8 @@ export default class TableList extends PureComponent {
           <Divider type="vertical" />
           <Dropdown overlay={this.renderMenu(record)} placement="bottomCenter">
             <a className="ant-dropdown-link">
-              更多操作<Icon type="down" />
+              更多操作
+              <Icon type="down" />
             </a>
           </Dropdown>
         </div>
@@ -306,7 +307,8 @@ export default class TableList extends PureComponent {
           <Divider type="vertical" />
           <Dropdown overlay={this.renderMenu(record)}>
             <a className="ant-dropdown-link">
-              更多操作<Icon type="down" />
+              更多操作
+              <Icon type="down" />
             </a>
           </Dropdown>
         </div>
@@ -316,7 +318,10 @@ export default class TableList extends PureComponent {
 
   render() {
     const { loading } = this.props;
-    const { query, data: { list, pagination } } = this.state;
+    const {
+      query,
+      data: { list, pagination },
+    } = this.state;
     const paginationProps = {
       showSizeChanger: true,
       showQuickJumper: true,

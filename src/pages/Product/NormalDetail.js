@@ -38,7 +38,9 @@ export default class BasicProfile extends Component {
   };
   componentDidMount() {
     const { dispatch } = this.props;
-    const { query: { i } } = this.state;
+    const {
+      query: { i },
+    } = this.state;
     dispatch({
       type: 'normal/get',
       payload: { i },
@@ -367,7 +369,8 @@ export default class BasicProfile extends Component {
         )}
         <Dropdown overlay={this.renderAction(item)} placement="bottomCenter">
           <Button className="ant-dropdown-link">
-            更多操作<Icon type="down" />
+            更多操作
+            <Icon type="down" />
           </Button>
         </Dropdown>
       </div>

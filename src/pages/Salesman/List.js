@@ -173,7 +173,7 @@ export default class TableList extends PureComponent {
         message: JSON.stringify(params),
       };
       window.open(`http://${location.host}/csv?${stringify(msg)}`);
-    })
+    });
   };
 
   columns = [
@@ -241,7 +241,8 @@ export default class TableList extends PureComponent {
         return (
           <Dropdown overlay={this.renderMenu(record)} placement="bottomCenter">
             <a className="ant-dropdown-link">
-              更多操作<Icon type="down" />
+              更多操作
+              <Icon type="down" />
             </a>
           </Dropdown>
         );
@@ -311,7 +312,12 @@ export default class TableList extends PureComponent {
   };
 
   render() {
-    const { franchiser: { data: { list, pagination, sum } }, loading } = this.props;
+    const {
+      franchiser: {
+        data: { list, pagination, sum },
+      },
+      loading,
+    } = this.props;
     const { selectedRows } = this.state;
     const paginationProps = {
       showSizeChanger: true,

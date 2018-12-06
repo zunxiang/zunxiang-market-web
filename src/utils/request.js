@@ -130,10 +130,10 @@ export default function request(url, option) {
       return response.json();
     })
     .then(res => {
-      if(Number.isInteger(res[0])) {
+      if (Number.isInteger(res[0])) {
         const [status, data] = res;
-        if(status === 0) {
-          return res
+        if (status === 0) {
+          return res;
         }
         if (status === 401) {
           window.g_app._store.dispatch({
@@ -151,7 +151,7 @@ export default function request(url, option) {
         });
         return res;
       }
-      return res
+      return res;
     })
     .catch(e => {
       const status = e.name;

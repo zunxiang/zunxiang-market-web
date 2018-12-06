@@ -249,7 +249,12 @@ export default class TableList extends PureComponent {
   };
 
   moveRow = (dragIndex, hoverIndex) => {
-    const { presale: { data: { list } }, dispatch } = this.props;
+    const {
+      presale: {
+        data: { list },
+      },
+      dispatch,
+    } = this.props;
     const { pageSize, currentPage } = this.state;
     const dragRow = list[dragIndex];
     const tempList = update(list, {
@@ -454,7 +459,12 @@ export default class TableList extends PureComponent {
   }
 
   render() {
-    const { presale: { data: { list, pagination } }, loading } = this.props;
+    const {
+      presale: {
+        data: { list, pagination },
+      },
+      loading,
+    } = this.props;
     const paginationProps = {
       showSizeChanger: true,
       showQuickJumper: true,
@@ -497,8 +507,7 @@ export default class TableList extends PureComponent {
                   <Col span={4}>
                     <div>预售时间</div>
                     <div>
-                      {record.rush_begin_time.substring(0, 10)}
-                      ~
+                      {record.rush_begin_time.substring(0, 10)}~
                       {record.rush_end_time.substring(0, 10)}
                     </div>
                   </Col>
@@ -509,8 +518,7 @@ export default class TableList extends PureComponent {
                   <Col span={4}>
                     <div>使用时间</div>
                     <div>
-                      {record.use_begin_time.substring(0, 10)}
-                      ~
+                      {record.use_begin_time.substring(0, 10)}~
                       {record.use_end_time.substring(0, 10)}
                     </div>
                   </Col>

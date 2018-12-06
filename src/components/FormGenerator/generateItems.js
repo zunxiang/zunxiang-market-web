@@ -13,26 +13,23 @@ const getOptions = options => {
     return null;
   }
   if (Array.isArray(options)) {
-    return options.map(op => {
-      return (
-        <Option value={op.value} key={op.value}>
-          {op.text}
+    return options.map(op => (
+      <Option value={op.value} key={op.value}>
+        {op.text}
+      </Option>
+    ));
+  }
+  const Options = [];
+  for (const key in options) {
+    if (key) {
+      Options.push(
+        <Option value={key} key={key}>
+          {options[key]}
         </Option>
       );
-    });
-  } else {
-    const Options = [];
-    for (const key in options) {
-      if (key) {
-        Options.push(
-          <Option value={key} key={key}>
-            {options[key]}
-          </Option>
-        );
-      }
     }
-    return Options;
   }
+  return Options;
 };
 const renderInput = item => {
   if (item.component) {
@@ -81,17 +78,15 @@ const CreateFormItem = props => {
   );
 };
 const generateItems = ({ items, getFieldDecorator, layout, values }) => {
-  const Items = items.map(item => {
-    return (
-      <CreateFormItem
-        item={item}
-        getFieldDecorator={getFieldDecorator}
-        layout={layout}
-        values={values}
-        key={item.key}
-      />
-    );
-  });
+  const Items = items.map(item => (
+    <CreateFormItem
+      item={item}
+      getFieldDecorator={getFieldDecorator}
+      layout={layout}
+      values={values}
+      key={item.key}
+    />
+  ));
   return Items;
 };
 

@@ -17,8 +17,8 @@ const formItemLayout = {
   },
 };
 
-const uploadImage = e => {
-  return new Promise((resolve, reject) => {
+const uploadImage = e =>
+  new Promise((resolve, reject) => {
     const file = e.target.files[0];
     getQiniuToken().then(token => {
       const serverURL = 'http://up-z2.qiniu.com';
@@ -48,7 +48,6 @@ const uploadImage = e => {
       xhr.send(fd);
     });
   });
-};
 export class Ueditor extends Component {
   render() {
     const {

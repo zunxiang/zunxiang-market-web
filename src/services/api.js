@@ -1,7 +1,6 @@
 import { stringify } from 'qs';
 import request from '@/utils/request';
 
-
 export async function GET(params) {
   return request(`/api?${stringify(params)}`);
 }
@@ -9,11 +8,9 @@ export async function GET(params) {
 export async function POST(params) {
   return request('/api', {
     method: 'POST',
-    body: params
+    body: params,
   });
 }
-
-
 
 export async function queryProjectNotice() {
   return request('/api/project/notice');
