@@ -28,8 +28,8 @@ export default {
           )
         ),
       };
-      const response = yield call(GET, msg);
-      if (!response) return;
+      const [code, response] = yield call(GET, msg);
+      if (code !== 0) return;
       yield put({
         type: 'changeLoginStatus',
         payload: {
@@ -68,8 +68,8 @@ export default {
         handler: '/v2/admin/main/logout',
         message: JSON.stringify({}),
       };
-      const response = yield call(GET, msg);
-      if (!response) return;
+      const [code, response] = yield call(GET, msg);
+      if (code !== 0) return;
       yield put({
         type: 'changeLoginStatus',
         payload: {
