@@ -16,10 +16,10 @@ export default {
   },
 
   effects: {
-    *login({ payload }, { call, put }) {
+    *login({ payload, callback }, { call, put }) {
       const { userName: username, password, captcha } = payload;
       const msg = {
-        handler: '/v2/admin/main/login',
+        handler: '/v3/mp/app_account/account/login',
         message: JSON.stringify(
           secureCipher(
             JSON.stringify({
@@ -31,12 +31,15 @@ export default {
         ),
       };
       const [code, response] = yield call(GET, msg);
-      if (code !== 0) return;
+      if (code !== 0) {
+        if(callback) callback();
+        return;
+      }
       yield put({
         type: 'changeLoginStatus',
         payload: {
           status: 'ok',
-          currentAuthority: [...response.power, 'defualt'],
+          currentAuthority: [...response.view_power, 'defualt'],
         },
       });
       reloadAuthorized();
@@ -65,9 +68,9 @@ export default {
       yield call(getFakeCaptcha, payload);
     },
 
-    *logout(_, { put, call }) {
+    *logout(_, { put, call, select }) {
       const msg = {
-        handler: '/v2/admin/main/logout',
+        handler: '/v3/mp/app_account/account/logout',
         message: JSON.stringify({}),
       };
       const [code] = yield call(GET, msg);
@@ -80,14 +83,17 @@ export default {
         },
       });
       reloadAuthorized();
-      yield put(
-        routerRedux.push({
-          pathname: '/user/login',
-          search: stringify({
-            redirect: window.location.href,
-          }),
-        })
-      );
+      const currentPath = yield select(state => state.routing.location.pathname);
+      if (currentPath !== '/user/login') {
+        yield put(
+          routerRedux.push({
+            pathname: '/user/login',
+            search: stringify({
+              redirect: window.location.href,
+            }),
+          })
+        );
+      }
     },
   },
 

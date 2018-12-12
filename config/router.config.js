@@ -60,7 +60,7 @@ export default [
             path: '/mall/info',
             name: 'info',
             component: './Mall/info',
-          }
+          },
         ],
       },
       {
@@ -87,7 +87,7 @@ export default [
                 name: 'normal-detail',
                 component: './Product/NormalDetail',
               },
-            ]
+            ],
           },
           {
             path: '/product/presale',
@@ -113,7 +113,7 @@ export default [
                 name: 'presale-detail',
                 component: './Product/PresaleDetail',
               },
-            ]
+            ],
           },
         ],
       },
@@ -286,6 +286,7 @@ export default [
         routes: [
           {
             path: '/account/child/list',
+            authority: ['app_account'],
             name: 'child-list',
             component: './Account/Child',
           },

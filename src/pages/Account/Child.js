@@ -26,28 +26,15 @@ const RadioGroup = Radio.Group;
 
 const statusMap = ['error', 'success'];
 const status = ['禁用', '正常'];
-const powers = [
-  '商品列表',
-  '订单列表',
-  '用户列表',
-  '管家列表',
-  '供应商列表',
-  '商家列表',
-  '推荐产品',
-  '财务管理',
-  '优惠券管理',
-  '积分商城',
-  '设置',
-];
-const powerElements = powers.map(p => <Option key={p}>{p}</Option>);
 
 const AddForm = Form.create()(props => {
   const { modalVisible, form, handleAdd, handleEdit, handleModalVisible } = props;
-  const { name, username, mobile, power } = props;
+  const { initval, powers } = props;
+  const Powers = powers.map(p => <Option key={p.value}>{p.text}</Option>)
   const okHandle = () => {
     form.validateFields((err, fieldsValue) => {
       if (err) return;
-      if (username) {
+      if (initval.username) {
         handleEdit(fieldsValue);
       } else {
         handleAdd(fieldsValue);
@@ -62,7 +49,7 @@ const AddForm = Form.create()(props => {
     }
   };
   const renderRestePassword = () => {
-    if (username) {
+    if (initval.username) {
       return (
         <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="重置密码">
           {form.getFieldDecorator('reset_password', {
@@ -91,28 +78,32 @@ const AddForm = Form.create()(props => {
       <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="姓名">
         {form.getFieldDecorator('name', {
           rules: [{ required: true, message: '请输入姓名' }],
-          initialValue: name,
+          initialValue: initval.name,
         })(<Input placeholder="请输入" />)}
-      </FormItem>
-      <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="用户名">
-        {form.getFieldDecorator('username', {
-          rules: [{ required: true, message: '请输入用户名' }],
-          initialValue: username,
-        })(<Input placeholder="请输入" disabled={!!username} />)}
       </FormItem>
       <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="手机号">
         {form.getFieldDecorator('mobile', {
           rules: [{ required: true, message: '请输入手机号' }, { validator: checkPhone }],
-          initialValue: mobile,
+          initialValue: initval.mobile,
         })(<Input placeholder="请输入" />)}
       </FormItem>
-      <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="权限">
-        {form.getFieldDecorator('power', {
+      <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="查看权限">
+        {form.getFieldDecorator('view_power', {
           rules: [{ required: true, message: '请至少选择一项权限', type: 'array' }],
-          initialValue: power,
+          initialValue: initval.view_power,
         })(
           <Select mode="multiple" style={{ width: '100%' }} placeholder="请选择权限">
-            {powerElements}
+            {powers.map(p => <Option key={p.value}>{p.text}</Option>)}
+          </Select>
+        )}
+      </FormItem>
+      <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="操作权限">
+        {form.getFieldDecorator('set_power', {
+          rules: [{ required: false, message: '请至少选择一项权限', type: 'array' }],
+          initialValue: initval.set_power || [],
+        })(
+          <Select mode="multiple" style={{ width: '100%' }} placeholder="请选择权限">
+            {Powers}
           </Select>
         )}
       </FormItem>
@@ -135,6 +126,7 @@ export default class TableList extends PureComponent {
     modalVisible: false,
     currentKey: undefined,
     accountInfo: {},
+    powers: [],
   };
 
   columns = [
@@ -173,8 +165,8 @@ export default class TableList extends PureComponent {
     },
     {
       title: '最后登录',
-      dataIndex: 'last_login',
-      render: val => val.substring(0, 19),
+      dataIndex: 'last_login_time',
+      render: val => val && val.substring(0, 19),
     },
     {
       title: '操作',
@@ -224,6 +216,15 @@ export default class TableList extends PureComponent {
         pageSize: 10,
       },
     });
+    dispatch({
+      type: 'account/getAllPower',
+      payload: {},
+      callback: data => {
+        this.setState({
+          powers: [...data],
+        })
+      },
+    })
   }
 
   loadData = () => {
@@ -260,7 +261,8 @@ export default class TableList extends PureComponent {
     const { dispatch } = this.props;
     const params = {
       ...fileds,
-      power: fileds.power.join(','),
+      view_power: fileds.view_power.join(','),
+      set_power: fileds.set_power.join(','),
     };
     dispatch({
       type: 'account/add',
@@ -276,14 +278,15 @@ export default class TableList extends PureComponent {
   };
 
   handleEditEvent = account => {
-    const { i, name, username, mobile, power } = account;
+    const { i, name, username, mobile } = account;
     this.setState({
       currentKey: i,
       accountInfo: {
         name,
         username,
         mobile,
-        power: power.split(','),
+        view_power: account.view_power.split(','),
+        set_power: account.set_power.split(','),
       },
       modalVisible: true,
     });
@@ -295,7 +298,8 @@ export default class TableList extends PureComponent {
     const params = {
       ...fileds,
       i: currentKey,
-      power: fileds.power.join(','),
+      view_power: fileds.view_power.join(','),
+      set_power: fileds.set_power.join(','),
     };
     delete params.username;
     dispatch({
@@ -346,8 +350,8 @@ export default class TableList extends PureComponent {
   handleOpen = i => {
     const { dispatch } = this.props;
     dispatch({
-      type: 'account/open',
-      payload: { i },
+      type: 'account/edit',
+      payload: { i, state: 1 },
       callback: () => {
         message.success('操作成功');
         this.loadData();
@@ -358,8 +362,8 @@ export default class TableList extends PureComponent {
   handleClose = i => {
     const { dispatch } = this.props;
     dispatch({
-      type: 'account/close',
-      payload: { i },
+      type: 'account/edit',
+      payload: { i, state: 0 },
       callback: () => {
         message.success('操作成功');
         this.loadData();
@@ -374,13 +378,14 @@ export default class TableList extends PureComponent {
       },
       loading,
     } = this.props;
-    const { selectedRows, modalVisible, accountInfo } = this.state;
+    const { selectedRows, modalVisible, accountInfo, powers } = this.state;
     const paginationProps = {
       showSizeChanger: true,
       showQuickJumper: true,
       showTotal: total => (
         <span>
-          共<span style={{ color: '#1890ff' }}>{total}</span>
+          共
+          <span style={{ color: '#1890ff' }}>{total}</span>
           条数据
         </span>
       ),
@@ -390,6 +395,8 @@ export default class TableList extends PureComponent {
       handleAdd: this.handleAdd,
       handleEdit: this.handleEdit,
       handleModalVisible: this.handleModalVisible,
+      powers,
+      initval: accountInfo,
     };
     return (
       <PageHeaderWrapper title="">
@@ -425,7 +432,7 @@ export default class TableList extends PureComponent {
             />
           </div>
         </Card>
-        <AddForm {...addMethods} {...accountInfo} modalVisible={modalVisible} />
+        <AddForm {...addMethods} modalVisible={modalVisible} />
       </PageHeaderWrapper>
     );
   }

@@ -1,6 +1,7 @@
 import { query as queryUsers } from '@/services/user';
 import { routerRedux } from 'dva/router';
 import { GET } from '@/services/api';
+import { reloadAuthorized } from '@/utils/Authorized';
 import { BaseImgUrl } from '@/common/config';
 
 export default {
@@ -21,10 +22,11 @@ export default {
     },
     *fetchCurrent(_, { call, put, select }) {
       const msg = {
-        handler: '/v2/admin/main/get_self',
+        handler: '/v3/mp/app_account/account/get_self',
         message: JSON.stringify({}),
       };
       const [code, response] = yield call(GET, msg);
+      const currentPath = yield select(state => state.routing.location.pathname);
       if (code !== 0) return;
       const user = {
         name: response.username,
@@ -35,8 +37,15 @@ export default {
         type: 'saveCurrentUser',
         payload: user,
       });
-      const currentPath = yield select(state => state.routing.location.pathname);
       if (currentPath === '/user/login') {
+        yield put({
+          type: 'login/changeLoginStatus',
+          payload: {
+            status: 'ok',
+            currentAuthority: [...response.view_power, 'defualt'],
+          },
+        });
+        reloadAuthorized();
         yield put(routerRedux.push('/'));
       }
     },

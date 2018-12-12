@@ -62,6 +62,11 @@ class LoginPage extends Component {
           ...values,
           type,
         },
+        callback: () => {
+          this.setState({
+            freshTime: Date.parse(new Date()),
+          });
+        },
       });
     }
   };
@@ -92,13 +97,13 @@ class LoginPage extends Component {
             <Password
               name="password"
               placeholder="密码"
-              onPressEnter={() => this.loginForm.validateFields(this.handleSubmit)}
             />
             <Code
               name="captcha"
               placeholder="验证码"
               freshTime={freshTime}
               onRefreshCaptcha={this.onRefreshCaptcha}
+              onPressEnter={() => this.loginForm.validateFields(this.handleSubmit)}
             />
           </Tab>
           {/* <Tab key="mobile" tab={formatMessage({ id: 'app.login.tab-login-mobile' })}>

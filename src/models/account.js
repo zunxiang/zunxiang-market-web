@@ -12,7 +12,7 @@ export default {
     *find({ payload, callback }, { call, put }) {
       const { currentPage, pageSize, ...params } = payload;
       const msg = {
-        handler: '/v2/admin/super/find',
+        handler: '/v3/mp/app_account/account/find',
         message: JSON.stringify({
           ...params,
           limit: `${(currentPage - 1) * pageSize},${pageSize}`,
@@ -34,9 +34,18 @@ export default {
       });
       if (callback) callback(data);
     },
+    *getAllPower({ payload, callback }, { call }) {
+      const msg = {
+        handler: '/v3/mp/app_account/account/all_power',
+        message: JSON.stringify(payload),
+      };
+      const [code, data] = yield call(GET, msg);
+      if (code !== 0) return;
+      if (callback) callback(data);
+    },
     *add({ payload, callback }, { call }) {
       const msg = {
-        handler: '/v2/admin/super/add',
+        handler: '/v3/mp/app_account/account/add',
         message: JSON.stringify(payload),
       };
       const [code] = yield call(GET, msg);
@@ -45,25 +54,7 @@ export default {
     },
     *edit({ payload, callback }, { call }) {
       const msg = {
-        handler: '/v2/admin/super/post',
-        message: JSON.stringify(payload),
-      };
-      const [code] = yield call(GET, msg);
-      if (code !== 0) return;
-      if (callback) callback();
-    },
-    *open({ payload, callback }, { call }) {
-      const msg = {
-        handler: '/v2/admin/super/open',
-        message: JSON.stringify(payload),
-      };
-      const [code] = yield call(GET, msg);
-      if (code !== 0) return;
-      if (callback) callback();
-    },
-    *close({ payload, callback }, { call }) {
-      const msg = {
-        handler: '/v2/admin/super/close',
+        handler: '/v3/mp/app_account/account/post',
         message: JSON.stringify(payload),
       };
       const [code] = yield call(GET, msg);
