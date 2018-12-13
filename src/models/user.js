@@ -57,8 +57,8 @@ export default {
         message: JSON.stringify(secureCipher(JSON.stringify(payload))),
       };
       const [code] = yield call(POST, msg);
-      if(code !== 0) return;
-        if (callback) callback();
+      if (code !== 0) return;
+      if (callback) callback();
     },
   },
 

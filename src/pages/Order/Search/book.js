@@ -1,0 +1,73 @@
+import {
+  orderNo,
+  rushTitle,
+  rushI,
+  productPersonName,
+  supplierName,
+  orderMobile,
+  contacts,
+  contactsMobile,
+  createTime,
+  receiptState,
+  refundState,
+  defrayState,
+  departureTime,
+  state,
+  creatorName,
+  teamNo,
+  SUM,
+} from './items';
+
+export const bookSearchItems = [
+  orderNo,
+  rushTitle,
+  productPersonName,
+  teamNo,
+  creatorName,
+  supplierName,
+  orderMobile,
+  contacts,
+  contactsMobile,
+  createTime,
+  departureTime,
+  {
+    type: 'select',
+    parse: 'in',
+    key: 'source',
+    label: '订单来源',
+    selectMode: 'multiple',
+    selectOptions: [
+      {
+        text: '在线预约',
+        value: 'ONLINE',
+      },
+      {
+        text: '代客预约',
+        value: 'AGENT',
+      },
+    ],
+  },
+  receiptState,
+  defrayState,
+  refundState,
+  {
+    type: 'select',
+    parse: 'in',
+    key: 'pay_way',
+    label: '支付方式',
+    selectMode: 'multiple',
+    selectOptions: [
+      {
+        text: '在线补',
+        value: 'online',
+      },
+      {
+        text: '到店补',
+        value: 'offline',
+      },
+    ],
+  },
+  state,
+  rushI,
+  SUM,
+];

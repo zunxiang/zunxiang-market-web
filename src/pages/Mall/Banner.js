@@ -410,7 +410,7 @@ export default class BasicList extends PureComponent {
             ghost
             style={{ width: '100%' }}
           >
-              添加
+            添加
           </Button>
         </Card>
         <Card
@@ -420,19 +420,9 @@ export default class BasicList extends PureComponent {
           style={{ marginTop: 24 }}
           bodyStyle={{ padding: '0' }}
         >
-          <Table
-            dataSource={popupAds}
-            columns={this.adColumns}
-            rowKey="i"
-            pagination={false}
-          />
+          <Table dataSource={popupAds} columns={this.adColumns} rowKey="i" pagination={false} />
           <Dropdown overlay={this.renderCreateMenu()}>
-            <Button
-              icon="plus"
-              ghost
-              type="primary"
-              style={{ width: '100%' }}
-            >
+            <Button icon="plus" ghost type="primary" style={{ width: '100%' }}>
               添加
             </Button>
           </Dropdown>

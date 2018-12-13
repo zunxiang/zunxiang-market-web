@@ -30,7 +30,7 @@ const status = ['禁用', '正常'];
 const AddForm = Form.create()(props => {
   const { modalVisible, form, handleAdd, handleEdit, handleModalVisible } = props;
   const { initval, powers } = props;
-  const Powers = powers.map(p => <Option key={p.value}>{p.text}</Option>)
+  const Powers = powers.map(p => <Option key={p.value}>{p.text}</Option>);
   const okHandle = () => {
     form.validateFields((err, fieldsValue) => {
       if (err) return;
@@ -93,7 +93,9 @@ const AddForm = Form.create()(props => {
           initialValue: initval.view_power,
         })(
           <Select mode="multiple" style={{ width: '100%' }} placeholder="请选择权限">
-            {powers.map(p => <Option key={p.value}>{p.text}</Option>)}
+            {powers.map(p => (
+              <Option key={p.value}>{p.text}</Option>
+            ))}
           </Select>
         )}
       </FormItem>
@@ -222,9 +224,9 @@ export default class TableList extends PureComponent {
       callback: data => {
         this.setState({
           powers: [...data],
-        })
+        });
       },
-    })
+    });
   }
 
   loadData = () => {
@@ -384,8 +386,7 @@ export default class TableList extends PureComponent {
       showQuickJumper: true,
       showTotal: total => (
         <span>
-          共
-          <span style={{ color: '#1890ff' }}>{total}</span>
+          共<span style={{ color: '#1890ff' }}>{total}</span>
           条数据
         </span>
       ),

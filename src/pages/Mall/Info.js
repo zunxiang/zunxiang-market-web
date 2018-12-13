@@ -3,7 +3,7 @@ import { connect } from 'dva';
 import { Card, Input, Form, Row, Col, InputNumber, Button, message, Spin } from 'antd';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import Upload from '@/components/FormItems/Upload';
-import { BaseImgUrl } from '@/common/config'
+import { BaseImgUrl } from '@/common/config';
 import styles from './Style.less';
 
 const FormItem = Form.Item;
@@ -35,12 +35,11 @@ const submitFormLayout = {
 class InfoSetting extends PureComponent {
   state = {
     info: {},
-  }
+  };
 
   componentDidMount = () => {
-    this.handleGetInfo()
-  }
-
+    this.handleGetInfo();
+  };
 
   handleGetInfo = () => {
     const { dispatch } = this.props;
@@ -50,10 +49,10 @@ class InfoSetting extends PureComponent {
       callback: data => {
         this.setState({
           info: { ...data },
-        })
+        });
       },
-    })
-  }
+    });
+  };
 
   handleSubmit = e => {
     e.preventDefault();
@@ -130,17 +129,21 @@ class InfoSetting extends PureComponent {
                             message: '请上传分享logo',
                           },
                         ],
-                        initialValue: info.share_image ? [{
-                          response: {
-                            hash: info.share_image,
-                            key: info.share_image,
-                          },
-                          url: `${BaseImgUrl}${info.share_image}?.png`,
-                          thumbUrl: `${BaseImgUrl}${info.share_image}?.png`,
-                          status: 'done',
-                          uid: -1,
-                          name: '分享logo',
-                        }] : [],
+                        initialValue: info.share_image
+                          ? [
+                              {
+                                response: {
+                                  hash: info.share_image,
+                                  key: info.share_image,
+                                },
+                                url: `${BaseImgUrl}${info.share_image}?.png`,
+                                thumbUrl: `${BaseImgUrl}${info.share_image}?.png`,
+                                status: 'done',
+                                uid: -1,
+                                name: '分享logo',
+                              },
+                            ]
+                          : [],
                       }}
                     />
                   </FormItem>
@@ -159,17 +162,21 @@ class InfoSetting extends PureComponent {
                             message: '请上传公众号二维码',
                           },
                         ],
-                        initialValue: info.subscription_qrcode ? [{
-                          response: {
-                            hash: info.subscription_qrcode,
-                            key: info.subscription_qrcode,
-                          },
-                          url: `${BaseImgUrl}${info.subscription_qrcode}?.png`,
-                          thumbUrl: `${BaseImgUrl}${info.subscription_qrcode}?.png`,
-                          status: 'done',
-                          uid: -1,
-                          name: '公众号二维码',
-                        }] : [],
+                        initialValue: info.subscription_qrcode
+                          ? [
+                              {
+                                response: {
+                                  hash: info.subscription_qrcode,
+                                  key: info.subscription_qrcode,
+                                },
+                                url: `${BaseImgUrl}${info.subscription_qrcode}?.png`,
+                                thumbUrl: `${BaseImgUrl}${info.subscription_qrcode}?.png`,
+                                status: 'done',
+                                uid: -1,
+                                name: '公众号二维码',
+                              },
+                            ]
+                          : [],
                       }}
                     />
                   </FormItem>

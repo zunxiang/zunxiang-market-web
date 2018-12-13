@@ -2,8 +2,7 @@ import { POST, GET } from '@/services/api';
 
 export default {
   namespace: 'mallSetting',
-  state: {
-  },
+  state: {},
   effects: {
     *get({ payload, callback }, { call }) {
       const msg = {
@@ -25,6 +24,5 @@ export default {
     },
   },
 
-  reducers: {
-  },
+  reducers: {},
 };

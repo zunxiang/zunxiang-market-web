@@ -26,7 +26,7 @@ const status = {
 }))
 export default class Recommend extends PureComponent {
   constructor(props) {
-    super(props)
+    super(props);
     this.state = {
       items: [],
       searching: false,
@@ -129,25 +129,27 @@ export default class Recommend extends PureComponent {
       },
     } = this.props;
     const { selected } = this.state;
-    if(!selected) {
-      message.error('请先选择需要推荐的产品')
-      return
+    if (!selected) {
+      message.error('请先选择需要推荐的产品');
+      return;
     }
-    const fileterList = list.filter(val => val.i === selected)
-    if(fileterList.length > 0) {
-      message.error('你已经推荐过该产品了')
-      return
+    const fileterList = list.filter(val => val.i === selected);
+    if (fileterList.length > 0) {
+      message.error('你已经推荐过该产品了');
+      return;
     }
     dispatch({
       type: 'recommend/add',
-      payload: [{
-        item_i: selected,
-        sort: list.length + 1,
-      }],
+      payload: [
+        {
+          item_i: selected,
+          sort: list.length + 1,
+        },
+      ],
       callback: () => {
         this.setState({
           selected: undefined,
-        })
+        });
         this.loadData();
         message.success('添加成功');
       },
@@ -179,31 +181,34 @@ export default class Recommend extends PureComponent {
 
   handleSearchItem = name => {
     const { dispatch } = this.props;
-    this.setState({
-      searching: true,
-    }, () => {
-      dispatch({
-        type: 'normal/find',
-        payload: {
-          currentPage: 1,
-          pageSize: 10,
-          keyword: ['like', name],
-        },
-        callback: data => {
-          this.setState({
-            items: [...data.list],
-            searching: false,
-          })
-        },
-      })
-    })
-  }
+    this.setState(
+      {
+        searching: true,
+      },
+      () => {
+        dispatch({
+          type: 'normal/find',
+          payload: {
+            currentPage: 1,
+            pageSize: 10,
+            keyword: ['like', name],
+          },
+          callback: data => {
+            this.setState({
+              items: [...data.list],
+              searching: false,
+            });
+          },
+        });
+      }
+    );
+  };
 
   handleOnSelectChange = value => {
     this.setState({
       selected: value,
-    })
-  }
+    });
+  };
 
   render() {
     const {
@@ -235,13 +240,11 @@ export default class Recommend extends PureComponent {
                   showArrow={false}
                   style={{ width: 300 }}
                 >
-                  {items.map(d => <Option key={d.i}>{d.name}</Option>)}
+                  {items.map(d => (
+                    <Option key={d.i}>{d.name}</Option>
+                  ))}
                 </Select>
-                <Button
-                  type="primary"
-                  onClick={this.handleAdd}
-                  loading={loading}
-                >
+                <Button type="primary" onClick={this.handleAdd} loading={loading}>
                   添加
                 </Button>
               </Fragment>

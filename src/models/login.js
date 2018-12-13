@@ -32,7 +32,7 @@ export default {
       };
       const [code, response] = yield call(GET, msg);
       if (code !== 0) {
-        if(callback) callback();
+        if (callback) callback();
         return;
       }
       yield put({
