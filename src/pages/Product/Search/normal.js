@@ -1,8 +1,8 @@
 export const normalSearchItems = [
   {
     type: 'text',
-    parse: 'like',
-    key: 'name',
+    parse: 'default',
+    key: 'name@like',
     label: '名称',
   },
   {
@@ -13,20 +13,20 @@ export const normalSearchItems = [
   },
   {
     type: 'text',
-    parse: 'like',
-    key: 'product_person_name',
+    parse: 'default',
+    key: 'product_person_name@like',
     label: '产品人',
   },
   {
     type: 'text',
-    parse: 'like',
-    key: 'supplier_name',
+    parse: 'default',
+    key: 'supplier_name@like',
     label: '供应商',
   },
   {
     type: 'select',
-    parse: 'in',
-    key: 'type',
+    parse: 'array',
+    key: 'type@in',
     label: '分类',
     selectMode: 'multiple',
     selectOptions: [
@@ -46,8 +46,8 @@ export const normalSearchItems = [
   },
   {
     type: 'select',
-    parse: 'in',
-    key: 'texture',
+    parse: 'array',
+    key: 'texture@in',
     label: '类别',
     selectMode: 'multiple',
     selectOptions: [
@@ -67,8 +67,8 @@ export const normalSearchItems = [
   },
   {
     type: 'select',
-    parse: 'in',
-    key: 'state',
+    parse: 'array',
+    key: 'state@in',
     label: '状态',
     selectMode: 'multiple',
     selectOptions: [
@@ -88,8 +88,8 @@ export const normalSearchItems = [
   },
   {
     type: 'select',
-    parse: 'in',
-    key: 'is_display',
+    parse: 'array',
+    key: 'is_display@in',
     label: '商城展示',
     selectMode: 'multiple',
     selectOptions: [

@@ -1,8 +1,8 @@
 import React, { Fragment } from 'react';
 import { List, Row, Col, Popover, Icon, Badge } from 'antd';
 import { Link } from 'dva/router';
-import Ellipsis from 'components/Ellipsis';
-import { payWay } from '../../common/order';
+import Ellipsis from '@/components/Ellipsis';
+import { payWay } from './payWay';
 import styles from './NormalList.less';
 
 const statusMap = {
@@ -56,11 +56,11 @@ const OperateRemark = props => {
         <Popover
           content={
             <Fragment>
-              {o.merchant_remarks ? <p>发单备注：{o.merchant_remarks}</p> : ''}
-              {o.supplier_remarks ? <p>供应商备注：{o.supplier_remarks}</p> : ''}
-              {o.finish_remarks ? <p>完成备注：{o.finish_remarks}</p> : ''}
-              {o.cancel_remarks ? <p>拒绝备注：{o.cancel_remarks}</p> : ''}
-              {o.change_remarks ? <p>改期备注：{o.change_remarks}</p> : ''}
+              {o.merchant_remarks ? <p>{`发单备注：${o.merchant_remarks}`}</p> : ''}
+              {o.supplier_remarks ? <p>{`供应商备注：${o.supplier_remarks}`}</p> : ''}
+              {o.finish_remarks ? <p>{`完成备注：${o.finish_remarks}`}</p> : ''}
+              {o.cancel_remarks ? <p>{`拒绝备注：${o.cancel_remarks}`}</p> : ''}
+              {o.change_remarks ? <p>{`改期备注：${o.change_remarks}`}</p> : ''}
             </Fragment>
           }
           title="供应商备注"
@@ -84,11 +84,7 @@ const MerchantRemark = props => {
           content={
             <ul className={styles.messageList}>
               {o.message.map(msg => {
-                return (
-                  <li key={msg.time}>
-                    {msg.time.substring(5, 16)}：{msg.message}
-                  </li>
-                );
+                return <li key={msg.time}>{`${msg.time.substring(5, 16)}：${msg.message}`}</li>;
               })}
             </ul>
           }
@@ -116,10 +112,10 @@ export const ListContent = props => {
               search: `order_i=${o.i}`,
             }}
           >
-            保险订单: {o.order_no}
+            {`保险订单: ${o.order_no}`}
           </Link>
         </div>
-        <div>创建时间: {o.create_time.substring(0, 19)}</div>
+        <div>{`创建时间: ${o.create_time.substring(0, 19)}`}</div>
         <div>
           <Badge status={sourceMap[o.source]} text={sources[o.source]} />
         </div>
@@ -153,7 +149,7 @@ export const ListContent = props => {
           </Col>
           <Col span={3}>
             <div>
-              {o.contacts}[{o.contacts_id_type}]
+              {`${o.contacts}[${o.contacts_id_type}]`}
               <span style={{ marginLeft: 8 }}>
                 {o.remarks ? (
                   <Popover content={o.remarks} title="备注">
@@ -170,7 +166,7 @@ export const ListContent = props => {
             <DateInfo order={o} />
           </Col>
           <Col span={3}>
-            <div>金额：￥{o.amount / 100}</div>
+            <div>{`金额：￥${o.amount / 100}`}</div>
           </Col>
           <Col span={2}>
             <div style={{ textAlign: 'right' }}>
@@ -188,11 +184,11 @@ export const ListContent = props => {
       </div>
       <div className={styles.orderFooter}>
         <div className={styles.footerLeft}>
-          <div>团号：{o.team_no}</div>
+          <div>{`团号：${o.team_no}`}</div>
           <div>{`产品人：${o.product_person_name}`}</div>
           <div>{`供应商：${o.supplier_name}`}</div>
-          <div>创建者：{o.creator_name}</div>
-          <div>最后操作：{o.last_operator_name}</div>
+          <div>{`创建者：${o.creator_name}`}</div>
+          <div>{`最后操作：${o.last_operator_name}`}</div>
           <div>{o.last_edit_time && o.last_edit_time.substring(0, 19)}</div>
           <OperateRemark order={o} />
           <MerchantRemark order={o} />

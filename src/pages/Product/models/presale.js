@@ -12,12 +12,14 @@ export default {
   },
   effects: {
     *find({ payload, callback }, { call, put }) {
-      const { currentPage, pageSize, params } = payload;
+      const { currentPage, pageSize, order, ...params } = payload;
       const msg = {
-        handler: '/v2/admin/item/rush/find',
+        handler: '/v3/mp/item/rush/find',
         message: JSON.stringify({
-          ...params,
-          limit: `${(currentPage - 1) * pageSize},${pageSize}`,
+          query: [params],
+          order,
+          limit: pageSize,
+          offset: (currentPage - 1) * pageSize,
         }),
       };
       const [code, response] = yield call(GET, msg);
@@ -50,7 +52,7 @@ export default {
     },
     *open({ payload, callback }, { call }) {
       const msg = {
-        handler: '/v2/admin/item/rush/open',
+        handler: '/v3/mp/item/rush/open',
         message: JSON.stringify(payload),
       };
       const [code, response] = yield call(GET, msg);
@@ -59,7 +61,7 @@ export default {
     },
     *close({ payload, callback }, { call }) {
       const msg = {
-        handler: '/v2/admin/item/rush/close',
+        handler: '/v3/mp/item/rush/close',
         message: JSON.stringify(payload),
       };
       const [code] = yield call(GET, msg);
@@ -75,7 +77,7 @@ export default {
     },
     *publicAdd({ payload, callback }, { call, put }) {
       const msg = {
-        handler: '/v2/admin/item/rush/add',
+        handler: '/v3/mp/item/rush/add',
         message: JSON.stringify(payload),
       };
       const [code] = yield call(GET, msg);
@@ -85,7 +87,7 @@ export default {
     },
     *publicPost({ payload, callback }, { call, put }) {
       const msg = {
-        handler: '/v2/admin/item/rush/post',
+        handler: '/v3/mp/item/rush/post',
         message: JSON.stringify(payload),
       };
       const [code] = yield call(GET, msg);
@@ -95,7 +97,7 @@ export default {
     },
     *wechatPush({ payload, callback }, { call, put }) {
       const msg = {
-        handler: '/v2/admin/item/rush/wx_notice',
+        handler: '/v3/mp/item/rush/wx_notice',
         message: JSON.stringify(payload),
       };
       const [code] = yield call(GET, msg);
@@ -112,7 +114,7 @@ export default {
     },
     *postSorting({ payload, callback }, { call, put }) {
       const msg = {
-        handler: '/v2/admin/item/rush/post',
+        handler: '/v3/mp/item/rush/post',
         message: JSON.stringify(payload),
       };
       const [code] = yield call(GET, msg);

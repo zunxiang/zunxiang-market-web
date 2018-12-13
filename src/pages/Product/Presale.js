@@ -207,18 +207,20 @@ export default class TableList extends PureComponent {
   };
 
   handleExport = () => {
-    const { formValues, filters, sorter, query } = this.state;
-    const params = {
-      order: sorter,
-      ...query,
-      ...formValues,
-      ...filters,
-    };
-    const msg = {
-      handler: '/v2/admin/item/rush',
-      message: JSON.stringify(params),
-    };
-    window.open(`http://${location.host}/csv?${stringify(msg)}`);
+    const { filters, sorter, query } = this.state;
+    this.searchForm.getFormValue(values => {
+      const params = {
+        order: sorter,
+        ...query,
+        ...values,
+        ...filters,
+      };
+      const msg = {
+        handler: '/v2/admin/item/rush',
+        message: JSON.stringify(params),
+      };
+      window.open(`http://${location.host}/csv?${stringify(msg)}`);
+    });
   };
 
   renderOperate = record => {
@@ -283,6 +285,25 @@ export default class TableList extends PureComponent {
       <Menu.Item>
         <Link
           to={{
+            pathname: '/order/list',
+            search: `rush_i=${record.i}`,
+          }}
+        >
+          查看订单
+        </Link>
+      </Menu.Item>
+      <Menu.Item>
+        <a onClick={() => this.handlePreview(record)}>产品预览</a>
+      </Menu.Item>
+      <Menu.Item>
+        <a onClick={() => this.handleBookByPhoneUrl(record)}>无码预约网址</a>
+      </Menu.Item>
+      <Menu.Item>
+        <a onClick={() => this.handleBookByEcodeUrl(record)}>有码预约网址</a>
+      </Menu.Item>
+      {/* <Menu.Item>
+        <Link
+          to={{
             pathname: '/presale/detail',
             search: `i=${record.i}`,
           }}
@@ -298,16 +319,6 @@ export default class TableList extends PureComponent {
           }}
         >
           差异佣金
-        </Link>
-      </Menu.Item>
-      <Menu.Item>
-        <Link
-          to={{
-            pathname: '/presale/orders',
-            search: `rush_i=${record.i}`,
-          }}
-        >
-          查看订单
         </Link>
       </Menu.Item>
       <Menu.Item>
@@ -331,15 +342,6 @@ export default class TableList extends PureComponent {
         </Link>
       </Menu.Item>
       <Menu.Item>
-        <a onClick={() => this.handlePreview(record)}>产品预览</a>
-      </Menu.Item>
-      <Menu.Item>
-        <a onClick={() => this.handleBookByPhoneUrl(record)}>无码预约网址</a>
-      </Menu.Item>
-      <Menu.Item>
-        <a onClick={() => this.handleBookByEcodeUrl(record)}>有码预约网址</a>
-      </Menu.Item>
-      <Menu.Item>
         <Link
           to={{
             pathname: '/log',
@@ -348,7 +350,7 @@ export default class TableList extends PureComponent {
         >
           操作日志
         </Link>
-      </Menu.Item>
+      </Menu.Item> */}
     </Menu>
   );
 
@@ -380,8 +382,11 @@ export default class TableList extends PureComponent {
             loading={loading}
           />
           <span>
-            共<span style={{ color: '#1890ff' }}>{total}</span>
-            条数据
+            <span>
+              <span>共</span>
+              <span style={{ color: '#1890ff' }}>{total}</span>
+              <span>条数据</span>
+            </span>
           </span>
         </span>
       ),

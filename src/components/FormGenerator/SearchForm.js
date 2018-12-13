@@ -19,7 +19,7 @@ export default class SearchForm extends Component {
   onSubmit = e => {
     e.preventDefault();
 
-    const { form, items } = this.props;
+    const { form, items, onSubmit } = this.props;
     form.validateFields((err, fieldsValue) => {
       if (err) return;
       const values = {};
@@ -30,7 +30,7 @@ export default class SearchForm extends Component {
           values[key] = parse(fieldsValue[key]);
         }
       }
-      this.props.onSubmit(values);
+      onSubmit(values);
     });
   };
 
@@ -96,7 +96,8 @@ export default class SearchForm extends Component {
                     <Button icon="reload" style={{ marginLeft: 8 }} onClick={onRefresh} />
                   ) : null}
                   <a style={{ marginLeft: 8 }} onClick={this.toggleForm}>
-                    展开 <Icon type="down" />
+                    展开
+                    <Icon type="down" />
                   </a>
                 </span>
               </Col>
@@ -116,7 +117,8 @@ export default class SearchForm extends Component {
                   <Button icon="reload" style={{ marginLeft: 8 }} onClick={onRefresh} />
                 ) : null}
                 <a style={{ marginLeft: 8 }} onClick={this.toggleForm}>
-                  收起 <Icon type="up" />
+                  收起
+                  <Icon type="up" />
                 </a>
               </span>
             </div>

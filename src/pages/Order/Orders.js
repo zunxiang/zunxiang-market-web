@@ -2,9 +2,9 @@ import React, { PureComponent } from 'react';
 import { connect } from 'dva';
 import { parse, stringify } from 'qs';
 import { Card, Form, Button } from 'antd';
-import PageHeaderLayout from '../../layouts/PageHeaderLayout';
+import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import OrderList from './AllList';
-import SearchForm from '../../customComponents/FormGenerator/SearchForm';
+import SearchForm from '@/components/FormGenerator/SearchForm';
 import { orderSearchItems } from './Search/all';
 
 import styles from './Orders.less';
@@ -16,30 +16,27 @@ import styles from './Orders.less';
 }))
 @Form.create()
 export default class TableList extends PureComponent {
-  state = {
-    filters: {},
-    currentPage: 1,
-    pageSize: 10,
-    formValues: {},
-    query: parse(this.props.location.search, { ignoreQueryPrefix: true }),
-    data: {
-      list: [],
-      sum: {},
-      pagination: {},
-    },
-  };
+  constructor(props) {
+    super(props);
+    const {
+      location: { search },
+    } = props;
+    this.state = {
+      filters: {},
+      currentPage: 1,
+      pageSize: 10,
+      formValues: {},
+      query: parse(search, { ignoreQueryPrefix: true }),
+      data: {
+        list: [],
+        sum: {},
+        pagination: {},
+      },
+    };
+  }
 
   componentDidMount() {
     this.loadData();
-  }
-
-  componentWillReceiveProps(nextProps) {
-    const {
-      order: { freshtime },
-    } = nextProps;
-    if (freshtime !== this.props.order.freshtime) {
-      this.loadData();
-    }
   }
 
   loadData = () => {
@@ -75,18 +72,20 @@ export default class TableList extends PureComponent {
   };
 
   handleExport = () => {
-    const { formValues, filters, sorter, query } = this.state;
-    const params = {
-      order: sorter,
-      ...query,
-      ...formValues,
-      ...filters,
-    };
-    const msg = {
-      handler: '/v3/admin/order',
-      message: JSON.stringify(params),
-    };
-    window.open(`http://${location.host}/csv?${stringify(msg)}`);
+    const { filters, sorter, query } = this.state;
+    this.searchForm.getFormValue(values => {
+      const params = {
+        order: sorter,
+        ...query,
+        ...values,
+        ...filters,
+      };
+      const msg = {
+        handler: '/v3/admin/order',
+        message: JSON.stringify(params),
+      };
+      window.open(`http://${location.host}/csv?${stringify(msg)}`);
+    });
   };
 
   handlePaginationChange = (page, pageSize) => {
@@ -98,6 +97,7 @@ export default class TableList extends PureComponent {
       this.loadData
     );
   };
+
   handlePageSizeChange = (current, size) => {
     this.setState(
       {
@@ -132,14 +132,15 @@ export default class TableList extends PureComponent {
             loading={loading}
           />
           <span>
-            共 <span style={{ color: '#1890ff' }}>{total}</span> 条数据
+            共<span style={{ color: '#1890ff' }}>{total}</span>
+            条数据
           </span>
         </span>
       ),
       ...pagination,
     };
     return (
-      <PageHeaderLayout>
+      <PageHeaderWrapper>
         <Card>
           <div className={styles.tableList}>
             <SearchForm
@@ -172,7 +173,7 @@ export default class TableList extends PureComponent {
             />
           </div>
         </Card>
-      </PageHeaderLayout>
+      </PageHeaderWrapper>
     );
   }
 }

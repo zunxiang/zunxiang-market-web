@@ -57,9 +57,14 @@ export default [
             component: './Mall/Banner',
           },
           {
+            path: '/mall/type',
+            name: 'type',
+            component: './Mall/Type',
+          },
+          {
             path: '/mall/info',
             name: 'info',
-            component: './Mall/info',
+            component: './Mall/Info',
           },
         ],
       },
@@ -116,6 +121,12 @@ export default [
             ],
           },
         ],
+      },
+      {
+        name: 'order',
+        icon: 'table',
+        path: '/order/list',
+        component: './Order/Orders',
       },
       // forms
       {

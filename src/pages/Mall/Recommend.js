@@ -78,6 +78,7 @@ export default class Recommend extends PureComponent {
 
   componentDidMount() {
     this.loadData();
+    this.handleSearchItem();
   }
 
   loadData = () => {
@@ -133,8 +134,8 @@ export default class Recommend extends PureComponent {
       message.error('请先选择需要推荐的产品');
       return;
     }
-    const fileterList = list.filter(val => val.i === selected);
-    if (fileterList.length > 0) {
+    const filterList = list.filter(val => val.item_i === selected);
+    if (filterList.length > 0) {
       message.error('你已经推荐过该产品了');
       return;
     }
@@ -191,7 +192,8 @@ export default class Recommend extends PureComponent {
           payload: {
             currentPage: 1,
             pageSize: 10,
-            keyword: ['like', name],
+            'title@like': name,
+            is_display: 'TRUE',
           },
           callback: data => {
             this.setState({
@@ -236,12 +238,14 @@ export default class Recommend extends PureComponent {
                   showSearch
                   value={selected}
                   onSearch={this.handleSearchItem}
-                  onChange={this.handleChange}
+                  onChange={this.handleOnSelectChange}
                   showArrow={false}
                   style={{ width: 300 }}
                 >
                   {items.map(d => (
-                    <Option key={d.i}>{d.name}</Option>
+                    <Option key={d.i} value={d.i}>
+                      {d.name}
+                    </Option>
                   ))}
                 </Select>
                 <Button type="primary" onClick={this.handleAdd} loading={loading}>

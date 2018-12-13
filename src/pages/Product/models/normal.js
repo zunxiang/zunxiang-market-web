@@ -13,12 +13,14 @@ export default {
   },
   effects: {
     *find({ payload, callback }, { call, put }) {
-      const { currentPage, pageSize, ...params } = payload;
+      const { currentPage, pageSize, order, ...params } = payload;
       const msg = {
-        handler: '/v2/admin/item/main/find',
+        handler: '/v3/mp/item/main/find',
         message: JSON.stringify({
-          ...params,
-          limit: `${(currentPage - 1) * pageSize},${pageSize}`,
+          query: [params],
+          order,
+          limit: pageSize,
+          offset: (currentPage - 1) * pageSize,
         }),
       };
       const [code, response] = yield call(GET, msg);
@@ -42,7 +44,7 @@ export default {
     },
     *get({ payload, callback }, { call }) {
       const msg = {
-        handler: '/v2/admin/item/main/get_by_i',
+        handler: '/v3/mp/item/main/get',
         message: JSON.stringify(payload),
       };
       const [code, response] = yield call(GET, msg);
@@ -51,7 +53,7 @@ export default {
     },
     *open({ payload, callback }, { call }) {
       const msg = {
-        handler: '/v2/admin/item/main/listed',
+        handler: '/v3/mp/item/main/listed',
         message: JSON.stringify(payload),
       };
       const [code, response] = yield call(GET, msg);
@@ -60,7 +62,7 @@ export default {
     },
     *close({ payload, callback }, { call }) {
       const msg = {
-        handler: '/v2/admin/item/main/close',
+        handler: '/v3/mp/item/main/close',
         message: JSON.stringify(payload),
       };
       const [code, response] = yield call(GET, msg);
@@ -76,7 +78,7 @@ export default {
     },
     *publicAdd({ payload, callback }, { call }) {
       const msg = {
-        handler: '/v2/admin/item/main/add',
+        handler: '/v3/mp/item/main/add',
         message: JSON.stringify(payload),
       };
       const [code, response] = yield call(GET, msg);
@@ -85,7 +87,7 @@ export default {
     },
     *publicPost({ payload, callback }, { call }) {
       const msg = {
-        handler: '/v2/admin/item/main/post',
+        handler: '/v3/mp/item/main/post',
         message: JSON.stringify(payload),
       };
       const [code, response] = yield call(GET, msg);
@@ -94,7 +96,7 @@ export default {
     },
     *wechatPush({ payload, callback }, { call }) {
       const msg = {
-        handler: '/v2/admin/item/main/wx_notice',
+        handler: '/v3/mp/item/main/wx_notice',
         message: JSON.stringify(payload),
       };
       const [code, response] = yield call(GET, msg);

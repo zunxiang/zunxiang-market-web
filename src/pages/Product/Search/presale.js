@@ -1,32 +1,32 @@
 export const preasleSearchItems = [
   {
     type: 'text',
-    parse: 'like',
-    key: 'title',
+    parse: 'default',
+    key: 'title@like',
     label: '名称',
   },
   {
-    type: 'text',
-    parse: 'default',
+    type: 'number',
+    parse: 'int',
     key: 'i',
     label: 'ID',
   },
   {
     type: 'text',
-    parse: 'like',
-    key: 'product_person_name',
+    parse: 'default',
+    key: 'product_person_name@like',
     label: '产品人',
   },
   {
-    type: 'numebr',
-    parse: 'int',
-    key: 'supplier_name',
+    type: 'text',
+    parse: 'default',
+    key: 'supplier_name@like',
     label: '供应商',
   },
   {
     type: 'select',
-    parse: 'in',
-    key: 'state',
+    parse: 'array',
+    key: 'state@in',
     label: '状态',
     selectMode: 'multiple',
     selectOptions: [

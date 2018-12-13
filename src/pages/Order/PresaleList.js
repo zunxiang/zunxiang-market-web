@@ -1,8 +1,8 @@
 import React, { Fragment } from 'react';
 import { List, Row, Col, Popover, Icon, Badge, Tag } from 'antd';
 import { Link } from 'dva/router';
-import Ellipsis from 'components/Ellipsis';
-import { payWay } from '../../common/order';
+import Ellipsis from '@/components/Ellipsis';
+import { payWay } from './payWay';
 import styles from './NormalList.less';
 
 const statusMap = {
@@ -53,7 +53,7 @@ const SalesmanInfo = props => {
             {o.salesman_name}
           </Ellipsis>
         </div>
-        <div>类型: {o.business}</div>
+        <div>{`类型: ${o.business}`}</div>
       </div>
     );
   } else if (o.franchiser_name) {
@@ -64,7 +64,7 @@ const SalesmanInfo = props => {
             {o.franchiser_name}
           </Ellipsis>
         </div>
-        <div>类型：{o.business}</div>
+        <div>{`类型：${o.business}`}</div>
       </div>
     );
   } else {
@@ -84,11 +84,11 @@ const OperateRemark = props => {
         <Popover
           content={
             <Fragment>
-              {o.merchant_remarks ? <p>发单备注：{o.merchant_remarks}</p> : ''}
-              {o.supplier_remarks ? <p>供应商备注：{o.supplier_remarks}</p> : ''}
-              {o.finish_remarks ? <p>完成备注：{o.finish_remarks}</p> : ''}
-              {o.cancel_remarks ? <p>拒绝备注：{o.cancel_remarks}</p> : ''}
-              {o.change_remarks ? <p>改期备注：{o.change_remarks}</p> : ''}
+              {o.merchant_remarks ? <p>{`发单备注：${o.merchant_remarks}`}</p> : ''}
+              {o.supplier_remarks ? <p>{`供应商备注：${o.supplier_remarks}`}</p> : ''}
+              {o.finish_remarks ? <p>{`完成备注：${o.finish_remarks}`}</p> : ''}
+              {o.cancel_remarks ? <p>{`拒绝备注：${o.cancel_remarks}`}</p> : ''}
+              {o.change_remarks ? <p>{`改期备注：${o.change_remarks}`}</p> : ''}
             </Fragment>
           }
           title="供应商备注"
@@ -115,10 +115,10 @@ const ListContent = props => {
               search: `order_i=${o.i}`,
             }}
           >
-            预售订单: {o.order_no}
+            {`预售订单: ${o.order_no}`}
           </Link>
         </div>
-        <div>创建时间: {o.create_time.substring(0, 19)}</div>
+        <div>{`创建时间: ${o.create_time.substring(0, 19)}`}</div>
         <div>
           <Badge status={sourceMap[o.source]} text={sources[o.source]} />
         </div>
@@ -148,7 +148,7 @@ const ListContent = props => {
               </Link>
             </div>
 
-            <div>数量：{o.item_num} 份</div>
+            <div>{`数量：${o.item_num} 份`}</div>
           </Col>
           <Col span={3}>
             <div>
@@ -169,8 +169,8 @@ const ListContent = props => {
             <SalesmanInfo order={o} />
           </Col>
           <Col span={3}>
-            <div>金额：￥{o.amount / 100}</div>
-            <div>佣金：￥{o.commission / 100 || 0}</div>
+            <div>{`金额：￥${o.amount / 100}`}</div>
+            <div>{`佣金：￥${o.commission / 100 || 0}`}</div>
           </Col>
           <Col span={2}>
             <div style={{ textAlign: 'right' }}>
@@ -188,11 +188,11 @@ const ListContent = props => {
       </div>
       <div className={styles.orderFooter}>
         <div className={styles.footerLeft}>
-          <div>团号：{o.team_no}</div>
+          <div>{`团号：${o.team_no}`}</div>
           <div>{`产品人：${o.product_person_name}`}</div>
           <div>{`供应商：${o.supplier_name}`}</div>
-          <div>创建者：{o.creator_name}</div>
-          <div>最后操作：{o.last_operator_name}</div>
+          <div>{`创建者：${o.creator_name}`}</div>
+          <div>{`最后操作：${o.last_operator_name}`}</div>
           <div>{o.last_edit_time && o.last_edit_time.substring(0, 19)}</div>
           <OperateRemark order={o} />
         </div>
