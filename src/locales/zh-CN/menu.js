@@ -42,11 +42,12 @@ export default {
   'menu.exception.not-find': '404',
   'menu.exception.server-error': '500',
   'menu.exception.trigger': '触发错误',
-  'menu.account': '个人页',
+  'menu.account': '账号管理',
   'menu.account.center': '个人中心',
   'menu.account.settings': '个人设置',
   'menu.account.trigger': '触发报错',
   'menu.account.logout': '退出登录',
   'menu.account.child-list': '子账号管理',
+  'menu.account.setting-password': '账号设置',
   'menu.salesman': '分销列表',
 };

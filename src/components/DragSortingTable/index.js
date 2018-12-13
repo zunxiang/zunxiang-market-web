@@ -109,7 +109,7 @@ class DragSortingTable extends React.Component {
   };
 
   render() {
-    const { columns, dataSource, rowKey, moveRow } = this.props;
+    const { columns, dataSource, rowKey, moveRow, ...otherProps } = this.props;
     return (
       <Table
         columns={columns}
@@ -120,6 +120,7 @@ class DragSortingTable extends React.Component {
           index,
           moveRow,
         })}
+        {...otherProps}
       />
     );
   }

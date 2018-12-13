@@ -48,7 +48,7 @@ const AddForm = Form.create()(props => {
           rules: [{ required: true, message: '请输入轮播图标题' }],
         })(<Input placeholder="请输入" />)}
       </FormItem>
-      <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="调转地址">
+      <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="跳转地址">
         {form.getFieldDecorator('link', {
           rules: [{ required: true, message: '请输入跳转链接' }],
         })(<Input addonBefore="http://" placeholder="请输入" />)}
@@ -395,35 +395,47 @@ export default class BasicList extends PureComponent {
           bordered={false}
           title="轮播图列表"
           style={{ marginTop: 24 }}
-          bodyStyle={{ padding: '0 32px 40px 32px' }}
-          extra={
-            <Button type="primary" onClick={() => this.handleModalVisible(true)}>
-              添加
-            </Button>
-          }
+          bodyStyle={{ padding: '0' }}
         >
           <DragSortingTable
             dataSource={list}
             columns={this.columns}
             moveRow={this.moveRow}
             rowKey="i"
+            pagination={false}
           />
+          <Button
+            type="primary"
+            onClick={() => this.handleModalVisible(true)}
+            ghost
+            style={{ width: '100%' }}
+          >
+              添加
+          </Button>
         </Card>
         <Card
           className={styles.listCard}
           bordered={false}
           title="弹窗广告"
           style={{ marginTop: 24 }}
-          bodyStyle={{ padding: '0 32px 40px 32px' }}
-          extra={
-            <Dropdown overlay={this.renderCreateMenu()}>
-              <Button icon="plus" ghost type="primary">
-                添加
-              </Button>
-            </Dropdown>
-          }
+          bodyStyle={{ padding: '0' }}
         >
-          <Table dataSource={popupAds} columns={this.adColumns} rowKey="i" pagination={false} />
+          <Table
+            dataSource={popupAds}
+            columns={this.adColumns}
+            rowKey="i"
+            pagination={false}
+          />
+          <Dropdown overlay={this.renderCreateMenu()}>
+            <Button
+              icon="plus"
+              ghost
+              type="primary"
+              style={{ width: '100%' }}
+            >
+              添加
+            </Button>
+          </Dropdown>
         </Card>
         <AddForm {...addMethods} modalVisible={modalVisible} />
         <CreateAdForm {...createAdMethods} modalVisible={adModalVisible} />

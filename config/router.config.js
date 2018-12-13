@@ -291,6 +291,11 @@ export default [
             component: './Account/Child',
           },
           {
+            path: '/account/setting/password',
+            name: 'setting-password',
+            component: './User/Setting',
+          },
+          {
             path: '/account/center',
             name: 'center',
             component: './Account/Center/Center',

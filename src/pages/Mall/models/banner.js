@@ -13,7 +13,7 @@ export default {
     *find({ payload, callback }, { call, put }) {
       const { currentPage, pageSize, ...params } = payload;
       const msg = {
-        handler: '/v2/admin/setting/banner/find',
+        handler: '/v3/mp/option/banner/find',
         message: JSON.stringify({
           ...params,
           limit: `${(currentPage - 1) * pageSize},${pageSize}`,
@@ -46,7 +46,7 @@ export default {
     },
     *postSorting({ payload, callback }, { call }) {
       const msg = {
-        handler: '/v2/admin/setting/banner/sort',
+        handler: '/v3/mp/option/banner/sort',
         message: JSON.stringify(payload),
       };
       const [code] = yield call(GET, msg);
@@ -55,7 +55,7 @@ export default {
     },
     *delete({ payload, callback }, { call }) {
       const msg = {
-        handler: '/v2/admin/setting/banner/delete',
+        handler: '/v3/mp/option/banner/delete',
         message: JSON.stringify(payload),
       };
       const [code] = yield call(GET, msg);
@@ -64,7 +64,7 @@ export default {
     },
     *add({ payload, callback }, { call }) {
       const msg = {
-        handler: '/v2/admin/setting/banner/add',
+        handler: '/v3/mp/option/banner/add',
         message: JSON.stringify(payload),
       };
       const [code] = yield call(GET, msg);
@@ -73,7 +73,7 @@ export default {
     },
     *createAd({ payload, callback }, { call }) {
       const msg = {
-        handler: '/v2/admin/setting/banner/add_popup',
+        handler: '/v3/mp/option/banner/add_popup',
         message: JSON.stringify(payload),
       };
       const [code] = yield call(GET, msg);
@@ -83,7 +83,7 @@ export default {
     *findAd({ payload }, { call, put }) {
       const { currentPage, pageSize, ...params } = payload;
       const msg = {
-        handler: '/v2/client/banner/main/find_popup',
+        handler: '/v3/mp/option/banner/find_popup',
         message: JSON.stringify({
           ...params,
           limit: `${(currentPage - 1) * pageSize},${pageSize}`,

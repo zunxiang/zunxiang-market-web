@@ -6,9 +6,12 @@ export async function GET(params) {
 }
 
 export async function POST(params) {
-  return request('/db/v3/api', {
+  const data = new FormData();
+  const blob = new Blob([JSON.stringify(params)], { type: 'text/json' });
+  data.append('data', blob);
+  return request('/db/v3/post_api', {
     method: 'POST',
-    body: params,
+    body: data,
   });
 }
 

@@ -1,6 +1,7 @@
 import { query as queryUsers } from '@/services/user';
 import { routerRedux } from 'dva/router';
-import { GET } from '@/services/api';
+import secureCipher from 'secure';
+import { GET, POST } from '@/services/api';
 import { reloadAuthorized } from '@/utils/Authorized';
 import { BaseImgUrl } from '@/common/config';
 
@@ -29,7 +30,8 @@ export default {
       const currentPath = yield select(state => state.routing.location.pathname);
       if (code !== 0) return;
       const user = {
-        name: response.username,
+        name: response.name,
+        username: response.username,
         avatar: `${BaseImgUrl}/${response.logo || 'user.png'}`,
         userid: response.i,
       };
@@ -48,6 +50,15 @@ export default {
         reloadAuthorized();
         yield put(routerRedux.push('/'));
       }
+    },
+    *changePassword({ payload, callback }, { call }) {
+      const msg = {
+        handler: '/v3/mp/app_account/account/change_password',
+        message: JSON.stringify(secureCipher(JSON.stringify(payload))),
+      };
+      const [code] = yield call(POST, msg);
+      if(code !== 0) return;
+        if (callback) callback();
     },
   },
 

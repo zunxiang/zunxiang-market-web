@@ -12,7 +12,7 @@ export default {
     *find({ payload }, { call, put }) {
       const { currentPage, pageSize, ...params } = payload;
       const msg = {
-        handler: '/v2/admin/item/xstj/find',
+        handler: '/v3/mp/option/xstj/find',
         message: JSON.stringify({
           ...params,
           limit: `${(currentPage - 1) * pageSize},${pageSize}`,
@@ -41,7 +41,7 @@ export default {
     },
     *postSorting({ payload, callback }, { call }) {
       const msg = {
-        handler: '/v2/admin/item/xstj/puts',
+        handler: '/v3/mp/option/xstj/puts',
         message: JSON.stringify(payload),
       };
       const [code] = yield call(GET, msg);
@@ -50,7 +50,7 @@ export default {
     },
     *delete({ payload, callback }, { call }) {
       const msg = {
-        handler: '/v2/admin/item/xstj/del',
+        handler: '/v3/mp/option/xstj/del',
         message: JSON.stringify(payload),
       };
       const [code] = yield call(GET, msg);
@@ -59,7 +59,7 @@ export default {
     },
     *add({ payload, callback }, { call }) {
       const msg = {
-        handler: '/v2/admin/item/xstj/adds',
+        handler: '/v3/mp/option/xstj/adds',
         message: JSON.stringify(payload),
       };
       const [code] = yield call(GET, msg);

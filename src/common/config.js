@@ -1,9 +1,9 @@
-import { GET } from '../services/api';
+import { GET } from '@/services/api';
 
 const BaseImgUrl = 'http://img.zxtgo.com/';
 const getQiniuToken = () =>
   GET({
-    handler: '/v2/qiniu/main/get_upload_token',
+    handler: '/v3/qiniu/main/get_upload_token',
     message: JSON.stringify({ bucket: 'zunxiang' }),
   }).then(response => response[1]);
 
