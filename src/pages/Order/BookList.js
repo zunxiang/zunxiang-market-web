@@ -132,13 +132,11 @@ const MerchantRemark = props => {
         <Popover
           content={
             <ul className={styles.messageList}>
-              {o.message.map(msg => {
-                return (
-                  <li key={msg.time}>
-                    {msg.time.substring(5, 16)}：{msg.message}
-                  </li>
-                );
-              })}
+              {o.message.map(msg => (
+                <li key={msg.time}>
+                  {msg.time.substring(5, 16)}：{msg.message}
+                </li>
+                ))}
             </ul>
           }
           title="商家备注"
@@ -148,9 +146,9 @@ const MerchantRemark = props => {
         </Popover>
       </div>
     );
-  } else {
+  } 
     return null;
-  }
+  
 };
 
 export const ListContent = props => {
@@ -271,19 +269,17 @@ export const ListContent = props => {
   );
 };
 
-const OrderList = props => {
-  return (
-    <List
-      {...props}
-      className={styles.normalList}
-      renderItem={item => (
-        <List.Item>
-          <ListContent order={item} />
-        </List.Item>
+const OrderList = props => (
+  <List
+    {...props}
+    className={styles.normalList}
+    renderItem={item => (
+      <List.Item>
+        <ListContent order={item} />
+      </List.Item>
       )}
-    />
+  />
   );
-};
 
 export default OrderList;
 export const BookListContent = ListContent;

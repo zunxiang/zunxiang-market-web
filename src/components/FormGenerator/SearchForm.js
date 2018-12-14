@@ -27,7 +27,16 @@ export default class SearchForm extends Component {
         if (fieldsValue[key]) {
           const [item] = items.filter(val => val.key === key);
           const parse = getParse(item.parse);
-          values[key] = parse(fieldsValue[key]);
+          if (item.parse === 'dateRangeArray') {
+            const arr = parse(fieldsValue[key]);
+            if (arr) {
+              const [start, end] = arr;
+              values[`${key}@min`] = start;
+              values[`${key}@max`] = end;
+            }
+          } else {
+            values[key] = parse(fieldsValue[key]);
+          }
         }
       }
       onSubmit(values);

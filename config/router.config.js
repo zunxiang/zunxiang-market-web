@@ -291,6 +291,12 @@ export default [
         component: './Salesman/List',
       },
       {
+        name: 'customer',
+        icon: 'user',
+        path: '/customer/list',
+        component: './customer/List',
+      },
+      {
         name: 'account',
         icon: 'user',
         path: '/account',

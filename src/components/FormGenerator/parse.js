@@ -28,6 +28,13 @@ const parses = {
     }
     return undefined;
   },
+  dateRangeArray: value => {
+    if (value && value.length > 0) {
+      const [min, max] = value;
+      return [min.format('YYYY-MM-DD 00:00:00'), max.format('YYYY-MM-DD 23:59:59')];
+    }
+    return undefined;
+  },
 };
 
 const chooseParse = parse => {

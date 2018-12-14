@@ -20,12 +20,12 @@ import {
 import Ellipsis from 'components/Ellipsis';
 import DescriptionList from 'components/DescriptionList';
 import QRCode from 'qrcode-react';
-import PrintTable from '../../customComponents/PrintComponents/WithTableLayout';
-import FranchiserCallback from '../../customComponents/PrintComponents/FranchiserCallback';
-import NewWindow from '../../customComponents/NewWindow';
+import PrintTable from '@/omponents/PrintComponents/WithTableLayout';
+import FranchiserCallback from '@/omponents/PrintComponents/FranchiserCallback';
+import NewWindow from '@/components/NewWindow';
 import PageHeaderLayout from '../../layouts/PageHeaderLayout';
 import { billColums } from '../Finance/common/status';
-import { payWay } from '../../common/order';
+import { payWay } from './payWay';
 import styles from './OrderDetail.less';
 
 const { Description } = DescriptionList;
@@ -116,13 +116,11 @@ const logColumns = [
   {
     title: '内容',
     dataIndex: 'content',
-    render: val => {
-      return (
-        <Ellipsis length={30} tooltip>
-          {val}
-        </Ellipsis>
-      );
-    },
+    render: val => (
+      <Ellipsis length={30} tooltip>
+        {val}
+      </Ellipsis>
+      ),
   },
   {
     title: '操作者',
@@ -210,13 +208,11 @@ const ChangeSupplierForm = Form.create()(props => {
       onSubmit(fieldsValue);
     });
   };
-  const supplierOptions = suppliers.map(val => {
-    return (
-      <Option key={val.name} value={val.i}>
-        {val.name}
-      </Option>
-    );
-  });
+  const supplierOptions = suppliers.map(val => (
+    <Option key={val.name} value={val.i}>
+      {val.name}
+    </Option>
+    ));
   return (
     <Modal
       title="修改供应商"
@@ -255,13 +251,11 @@ const ChangeFranchiserForm = Form.create()(props => {
       onSubmit(fieldsValue);
     });
   };
-  const franchiserOptions = franchisers.map(val => {
-    return (
-      <Option key={val.name} value={val.i}>
-        {val.name}
-      </Option>
-    );
-  });
+  const franchiserOptions = franchisers.map(val => (
+    <Option key={val.name} value={val.i}>
+      {val.name}
+    </Option>
+    ));
   return (
     <Modal
       title="修改分销商"
@@ -593,40 +587,39 @@ export default class NormalOrderDetail extends Component {
       return (
         <Description term="分销">{`${record.salesman_name}(${record.salesman_i})`}</Description>
       );
-    } else if (record.franchiser_i) {
+    } if (record.franchiser_i) {
       return (
         <Description term="分销">{`${record.franchiser_name}(${record.franchiser_i})`}</Description>
       );
-    } else {
-      return null;
     }
+      return null;
+
   };
 
-  renderAction = currentOrder => {
-    return (
-      <Menu>
-        {currentOrder.source === 'ONLINE' ? (
+  renderAction = currentOrder => (
+    <Menu>
+      {currentOrder.source === 'ONLINE' ? (
           ''
         ) : (
           <Menu.Item>
             <a onClick={() => this.handleFranchiserModalVisible(true)}>改分销商</a>
           </Menu.Item>
         )}
-        <Menu.Item>
-          <a onClick={() => this.handleSupplierModalVisible(true)}>改供应商</a>
-        </Menu.Item>
-        <Menu.Item>
-          <a onClick={() => this.handleCallbackPreprintVisiable(true)}>分销回执</a>
-        </Menu.Item>
-        <Menu.Item>
-          <a onClick={() => this.handlePrintVisiable(true)}>打印</a>
-        </Menu.Item>
-        <Menu.Item>
-          <a onClick={() => this.handleCopy()}>复制</a>
-        </Menu.Item>
-      </Menu>
+      <Menu.Item>
+        <a onClick={() => this.handleSupplierModalVisible(true)}>改供应商</a>
+      </Menu.Item>
+      <Menu.Item>
+        <a onClick={() => this.handleCallbackPreprintVisiable(true)}>分销回执</a>
+      </Menu.Item>
+      <Menu.Item>
+        <a onClick={() => this.handlePrintVisiable(true)}>打印</a>
+      </Menu.Item>
+      <Menu.Item>
+        <a onClick={() => this.handleCopy()}>复制</a>
+      </Menu.Item>
+    </Menu>
     );
-  };
+
   renderFinace = (order, type) => {
     if (!order.i) {
       return <div />;
@@ -634,22 +627,28 @@ export default class NormalOrderDetail extends Component {
     return (
       <div className={styles.billCountContainer}>
         <span className={styles.billCountWrap}>
-          应收：<span className={styles.billCountValue}>{order.actual_amount / 100}</span>
+          应收：
+          <span className={styles.billCountValue}>{order.actual_amount / 100}</span>
         </span>
         <span className={styles.billCountWrap}>
-          应付：<span className={styles.billCountValue}>{order.actual_cost / 100}</span>
+          应付：
+          <span className={styles.billCountValue}>{order.actual_cost / 100}</span>
         </span>
         <span className={styles.billCountWrap}>
-          已收：<span className={styles.billCountValue}>{order.paid_amount / 100}</span>
+          已收：
+          <span className={styles.billCountValue}>{order.paid_amount / 100}</span>
         </span>
         <span className={styles.billCountWrap}>
-          已付：<span className={styles.billCountValue}>{order.paid_cost / 100}</span>
+          已付：
+          <span className={styles.billCountValue}>{order.paid_cost / 100}</span>
         </span>
         <span className={styles.billCountWrap}>
-          已退：<span className={styles.billCountValue}>{order.paid_refund / 100}</span>
+          已退：
+          <span className={styles.billCountValue}>{order.paid_refund / 100}</span>
         </span>
         <span className={styles.billCountWrap}>
-          已报销：<span className={styles.billCountValue}>{order.paid_expense / 100}</span>
+          已报销：
+          <span className={styles.billCountValue}>{order.paid_expense / 100}</span>
         </span>
         {type === 'finish' ? (
           <span>
@@ -670,7 +669,8 @@ export default class NormalOrderDetail extends Component {
         ) : (
           <span>
             <span className={styles.billCountWrap}>
-              已借款：<span className={styles.billCountValue}>{order.paid_borrow / 100}</span>
+              已借款：
+              <span className={styles.billCountValue}>{order.paid_borrow / 100}</span>
             </span>
             <span className={styles.billCountWrap}>
               <span>已收票：</span>
@@ -681,13 +681,15 @@ export default class NormalOrderDetail extends Component {
               <span className={styles.billCountValue}>{order.paid_merchant_invoice / 100}</span>
             </span>
             <span className={styles.billCountWrap}>
-              实际利润：<span className={styles.billCountValue}>{order.profit / 100}</span>
+              实际利润：
+              <span className={styles.billCountValue}>{order.profit / 100}</span>
             </span>
           </span>
         )}
       </div>
     );
   };
+
   render() {
     const {
       billLoading,
@@ -861,13 +863,11 @@ export default class NormalOrderDetail extends Component {
           <Divider style={{ marginBottom: 32 }} />
           <DescriptionList size="large" title="内部备注" style={{ marginBottom: 32 }} col={1}>
             {currentOrder.message && currentOrder.message.length > 0 ? (
-              currentOrder.message.map(val => {
-                return (
-                  <Description term={val.time.substring(5, 16)} key={val.time}>
-                    {val.message}
-                  </Description>
-                );
-              })
+              currentOrder.message.map(val => (
+                <Description term={val.time.substring(5, 16)} key={val.time}>
+                  {val.message}
+                </Description>
+                ))
             ) : (
               <Description term="">无</Description>
             )}
@@ -960,8 +960,10 @@ export default class NormalOrderDetail extends Component {
                 <div className={styles.action}>
                   <Upload {...uploadProps}>
                     <Button type="primary" ghost loading={uploading}>
-                      <Icon type="upload" /> 导入团员信息
-                    </Button>
+                      <Icon type="upload" />
+                      {' '}
+导入团员信息
+                                        </Button>
                   </Upload>
                   <Button
                     href="http://otmj4apgs.bkt.clouddn.com/%E8%B7%9F%E5%9B%A2%E6%B8%B8%E6%88%90%E5%91%98%E5%AF%BC%E5%85%A5%E6%A8%A1%E6%9D%BF.xls"
