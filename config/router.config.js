@@ -18,13 +18,13 @@ export default [
     authority: ['defualt'],
     routes: [
       // dashboard
-      { path: '/', redirect: '/dashboard/analysis' },
+      { path: '/', redirect: '/dashboard/workplace' },
       {
         path: '/dashboard',
         name: 'dashboard',
         icon: 'dashboard',
         routes: [
-          {
+          /* {
             path: '/dashboard/analysis',
             name: 'analysis',
             component: './Dashboard/Analysis',
@@ -33,7 +33,7 @@ export default [
             path: '/dashboard/monitor',
             name: 'monitor',
             component: './Dashboard/Monitor',
-          },
+          }, */
           {
             path: '/dashboard/workplace',
             name: 'workplace',
@@ -128,7 +128,7 @@ export default [
         path: '/order/list',
         component: './Order/Orders',
       },
-      // forms
+      /* // forms
       {
         path: '/form',
         icon: 'form',
@@ -172,9 +172,9 @@ export default [
             component: './Forms/AdvancedForm',
           },
         ],
-      },
+      }, */
       // list
-      {
+      /* {
         path: '/list',
         icon: 'table',
         name: 'list',
@@ -221,8 +221,8 @@ export default [
             ],
           },
         ],
-      },
-      {
+      }, */
+      /* {
         path: '/profile',
         name: 'profile',
         icon: 'profile',
@@ -240,8 +240,8 @@ export default [
             component: './Profile/AdvancedProfile',
           },
         ],
-      },
-      {
+      }, */
+      /* {
         name: 'result',
         icon: 'check-circle-o',
         path: '/result',
@@ -254,11 +254,12 @@ export default [
           },
           { path: '/result/fail', name: 'fail', component: './Result/Error' },
         ],
-      },
+      }, */
       {
         name: 'exception',
         icon: 'warning',
         path: '/exception',
+        hideInMenu: true,
         routes: [
           // exception
           {
@@ -285,10 +286,16 @@ export default [
         ],
       },
       {
-        name: 'salesman',
-        icon: 'user',
+        icon: 'team',
+        name: 'salesman-list',
         path: '/salesman/list',
         component: './Salesman/List',
+      },
+      {
+        name: 'withdraw',
+        path: '/salesman/withdraw',
+        component: './Salesman/Withdraw',
+        hideInMenu: true,
       },
       {
         name: 'customer',
@@ -312,7 +319,7 @@ export default [
             name: 'setting-password',
             component: './User/Setting',
           },
-          {
+          /* {
             path: '/account/center',
             name: 'center',
             component: './Account/Center/Center',
@@ -361,7 +368,7 @@ export default [
                 component: './Account/Settings/NotificationView',
               },
             ],
-          },
+          }, */
         ],
       },
       {

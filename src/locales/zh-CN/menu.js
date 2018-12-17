@@ -51,6 +51,8 @@ export default {
   'menu.account.logout': '退出登录',
   'menu.account.child-list': '子账号管理',
   'menu.account.setting-password': '账号设置',
-  'menu.salesman': '分销列表',
+  'menu.salesman': '分销管理',
+  'menu.salesman-list': '分销列表',
+  'menu.withdraw': '提现记录',
   'menu.customer': '用户列表',
 };
