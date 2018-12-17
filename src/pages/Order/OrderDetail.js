@@ -120,7 +120,7 @@ const logColumns = [
       <Ellipsis length={30} tooltip>
         {val}
       </Ellipsis>
-      ),
+    ),
   },
   {
     title: '操作者',
@@ -212,7 +212,7 @@ const ChangeSupplierForm = Form.create()(props => {
     <Option key={val.name} value={val.i}>
       {val.name}
     </Option>
-    ));
+  ));
   return (
     <Modal
       title="修改供应商"
@@ -255,7 +255,7 @@ const ChangeFranchiserForm = Form.create()(props => {
     <Option key={val.name} value={val.i}>
       {val.name}
     </Option>
-    ));
+  ));
   return (
     <Modal
       title="修改分销商"
@@ -587,24 +587,24 @@ export default class NormalOrderDetail extends Component {
       return (
         <Description term="分销">{`${record.salesman_name}(${record.salesman_i})`}</Description>
       );
-    } if (record.franchiser_i) {
+    }
+    if (record.franchiser_i) {
       return (
         <Description term="分销">{`${record.franchiser_name}(${record.franchiser_i})`}</Description>
       );
     }
-      return null;
-
+    return null;
   };
 
   renderAction = currentOrder => (
     <Menu>
       {currentOrder.source === 'ONLINE' ? (
-          ''
-        ) : (
-          <Menu.Item>
-            <a onClick={() => this.handleFranchiserModalVisible(true)}>改分销商</a>
-          </Menu.Item>
-        )}
+        ''
+      ) : (
+        <Menu.Item>
+          <a onClick={() => this.handleFranchiserModalVisible(true)}>改分销商</a>
+        </Menu.Item>
+      )}
       <Menu.Item>
         <a onClick={() => this.handleSupplierModalVisible(true)}>改供应商</a>
       </Menu.Item>
@@ -618,7 +618,7 @@ export default class NormalOrderDetail extends Component {
         <a onClick={() => this.handleCopy()}>复制</a>
       </Menu.Item>
     </Menu>
-    );
+  );
 
   renderFinace = (order, type) => {
     if (!order.i) {
@@ -867,7 +867,7 @@ export default class NormalOrderDetail extends Component {
                 <Description term={val.time.substring(5, 16)} key={val.time}>
                   {val.message}
                 </Description>
-                ))
+              ))
             ) : (
               <Description term="">无</Description>
             )}
@@ -960,10 +960,8 @@ export default class NormalOrderDetail extends Component {
                 <div className={styles.action}>
                   <Upload {...uploadProps}>
                     <Button type="primary" ghost loading={uploading}>
-                      <Icon type="upload" />
-                      {' '}
-导入团员信息
-                                        </Button>
+                      <Icon type="upload" /> 导入团员信息
+                    </Button>
                   </Upload>
                   <Button
                     href="http://otmj4apgs.bkt.clouddn.com/%E8%B7%9F%E5%9B%A2%E6%B8%B8%E6%88%90%E5%91%98%E5%AF%BC%E5%85%A5%E6%A8%A1%E6%9D%BF.xls"

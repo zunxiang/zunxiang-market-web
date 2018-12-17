@@ -11,15 +11,17 @@ const ListContent = props => {
   const { order } = props;
   if (order.order_type === 'RUSH') {
     return <PresaleListContent order={order} />;
-  } if (order.order_type === 'RUSH_BOOK' || order.order_type === 'BOOK') {
+  }
+  if (order.order_type === 'RUSH_BOOK' || order.order_type === 'BOOK') {
     return <BookListContent order={order} />;
-  } if (order.order_type === 'INSURANCE') {
+  }
+  if (order.order_type === 'INSURANCE') {
     return <InsuranceListContent order={order} />;
-  } if (order.order_type === 'ITEM') {
+  }
+  if (order.order_type === 'ITEM') {
     return <NormalListContent order={order} />;
-  } 
-    return null;
-  
+  }
+  return null;
 };
 const AllList = props => (
   <List
@@ -29,8 +31,8 @@ const AllList = props => (
       <List.Item>
         <ListContent order={item} />
       </List.Item>
-      )}
+    )}
   />
-  );
+);
 
 export default AllList;

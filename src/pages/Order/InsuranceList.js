@@ -83,7 +83,9 @@ const MerchantRemark = props => {
         <Popover
           content={
             <ul className={styles.messageList}>
-              {o.message.map(msg => <li key={msg.time}>{`${msg.time.substring(5, 16)}：${msg.message}`}</li>)}
+              {o.message.map(msg => (
+                <li key={msg.time}>{`${msg.time.substring(5, 16)}：${msg.message}`}</li>
+              ))}
             </ul>
           }
           title="商家备注"
@@ -93,9 +95,8 @@ const MerchantRemark = props => {
         </Popover>
       </div>
     );
-  } 
-    return null;
-  
+  }
+  return null;
 };
 
 export const ListContent = props => {
@@ -204,9 +205,9 @@ const OrderList = props => (
       <List.Item>
         <ListContent order={item} />
       </List.Item>
-      )}
+    )}
   />
-  );
+);
 
 export default OrderList;
 export const InsuranceListContent = ListContent;

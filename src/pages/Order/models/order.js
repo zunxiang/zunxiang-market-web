@@ -26,9 +26,9 @@ export default {
       if (response[0] === 0) {
         const data = {
           list: response[1].list.map(o => ({
-              ...o,
-              package: o.package ? JSON.parse(o.package) : {},
-            })),
+            ...o,
+            package: o.package ? JSON.parse(o.package) : {},
+          })),
           sum: response[1].sum,
           pagination: {
             current: currentPage,

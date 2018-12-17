@@ -15,18 +15,18 @@ const renderFormItem = (type, label, name, error, getFieldDecorator, initialValu
         })(<TextArea placeholder="请输入" rows={5} style={{ wordBreak: 'break-all' }} />)}
       </FormItem>
     );
-  } if (type === 'uploadImg') {
+  }
+  if (type === 'uploadImg') {
     return <UploadImg {...{ label, name, error, getFieldDecorator, required }} />;
-  } 
-    return (
-      <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 18 }} label={label}>
-        {getFieldDecorator(name, {
-          rules: [{ required: true, message: error }],
-          initialValue,
-        })(<Input placeholder="请输入" />)}
-      </FormItem>
-    );
-  
+  }
+  return (
+    <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 18 }} label={label}>
+      {getFieldDecorator(name, {
+        rules: [{ required: true, message: error }],
+        initialValue,
+      })(<Input placeholder="请输入" />)}
+    </FormItem>
+  );
 };
 
 export default Form.create()(props => {

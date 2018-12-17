@@ -79,7 +79,8 @@ const SalesmanInfo = props => {
         </div>
       </div>
     );
-  } if (o.franchiser_name) {
+  }
+  if (o.franchiser_name) {
     return (
       <div>
         <div title={o.franchiser_i}>
@@ -93,9 +94,8 @@ const SalesmanInfo = props => {
         </div>
       </div>
     );
-  } 
-    return null;
-  
+  }
+  return null;
 };
 
 const DateInfo = props => {
@@ -108,7 +108,8 @@ const DateInfo = props => {
         <div>{`离开：${o.return_time.substring(0, 10)}`}</div>
       </Fragment>
     );
-  } if (o.item_texture === 'GROUP') {
+  }
+  if (o.item_texture === 'GROUP') {
     return (
       <Fragment>
         <div>
@@ -117,14 +118,13 @@ const DateInfo = props => {
         <div>{`${o.departure_time.substring(0, 10)}`}</div>
       </Fragment>
     );
-  } 
-    return (
-      <Fragment>
-        <div>{`${o.item_num}份`}</div>
-        <div>{`${o.departure_time && o.departure_time.substring(0, 10)}`}</div>
-      </Fragment>
-    );
-  
+  }
+  return (
+    <Fragment>
+      <div>{`${o.item_num}份`}</div>
+      <div>{`${o.departure_time && o.departure_time.substring(0, 10)}`}</div>
+    </Fragment>
+  );
 };
 
 const OperateRemark = props => {
@@ -332,9 +332,9 @@ const NormalList = props => (
       <List.Item>
         <ListContent order={item} />
       </List.Item>
-      )}
+    )}
   />
-  );
+);
 
 export default NormalList;
 export const NormalListContent = ListContent;

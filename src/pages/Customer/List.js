@@ -46,11 +46,8 @@ export default class TableList extends PureComponent {
       title: '管家id',
       dataIndex: 'salesman_i',
       render: (val, record) => (
-        <EditableItem
-          value={val}
-          onChange={value => this.handleChangeSalesman(value, record.i)}
-        />
-        ),
+        <EditableItem value={val} onChange={value => this.handleChangeSalesman(value, record.i)} />
+      ),
     },
     {
       title: '积分',
@@ -100,23 +97,23 @@ export default class TableList extends PureComponent {
               cancelText="取消"
             >
               <a style={{ color: '#f5222d' }} href="#">
-                  禁用
+                禁用
               </a>
             </Popconfirm>
-            ) : (
-              <Popconfirm
-                title="确认启用该账号?"
-                onConfirm={() => this.handleOpen(record.i)}
-                okText="确认"
-                cancelText="取消"
-              >
-                <a style={{ color: '#5b8c00' }}>启用</a>
-              </Popconfirm>
-            )}
+          ) : (
+            <Popconfirm
+              title="确认启用该账号?"
+              onConfirm={() => this.handleOpen(record.i)}
+              okText="确认"
+              cancelText="取消"
+            >
+              <a style={{ color: '#5b8c00' }}>启用</a>
+            </Popconfirm>
+          )}
           {/* <Divider type="vertical" />
             <a onClick={() => this.handleShowGiveCouponModal(record)}>发优惠券</a> */}
         </Fragment>
-        ),
+      ),
     },
   ];
 

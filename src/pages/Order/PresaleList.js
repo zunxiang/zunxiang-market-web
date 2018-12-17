@@ -56,7 +56,8 @@ const SalesmanInfo = props => {
         <div>{`类型: ${o.business}`}</div>
       </div>
     );
-  } if (o.franchiser_name) {
+  }
+  if (o.franchiser_name) {
     return (
       <div>
         <div title={o.franchiser_i}>
@@ -67,9 +68,8 @@ const SalesmanInfo = props => {
         <div>{`类型：${o.business}`}</div>
       </div>
     );
-  } 
-    return null;
-  
+  }
+  return null;
 };
 
 const OperateRemark = props => {
@@ -209,9 +209,9 @@ const OrderList = props => (
       <List.Item>
         <ListContent order={item} {...props.handles} />
       </List.Item>
-      )}
+    )}
   />
-  );
+);
 
 export default OrderList;
 export const PresaleListContent = ListContent;

@@ -15,7 +15,7 @@ export default {
       };
       const [code, response] = yield call(GET, msg);
       if (code !== 0) return;
-      if(callback) {
+      if (callback) {
         callback({
           list: response[1].list,
           pagination: {
@@ -34,7 +34,7 @@ export default {
       };
       const [code, response] = yield call(GET, msg);
       if (code !== 0) return;
-      if(callback) callback(response[1]);
+      if (callback) callback(response[1]);
     },
     *error({ payload, callback }, { call }) {
       const msg = {
@@ -43,7 +43,7 @@ export default {
       };
       const [code, response] = yield call(GET, msg);
       if (code !== 0) return;
-      if(callback) callback(response[1]);
+      if (callback) callback(response[1]);
     },
   },
   reducers: {},

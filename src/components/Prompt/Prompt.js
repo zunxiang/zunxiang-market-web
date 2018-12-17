@@ -22,19 +22,19 @@ const FormItemGenerator = props => {
         )}
       </FormItem>
     );
-  } if (type === 'upload') {
+  }
+  if (type === 'upload') {
     return (
       <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 18 }} label={label}>
         <Upload {...props} />
       </FormItem>
     );
-  } 
-    return (
-      <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 18 }} label={label}>
-        {getFieldDecorator(filedName, filedOptions)(<Input placeholder="请输入" />)}
-      </FormItem>
-    );
-  
+  }
+  return (
+    <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 18 }} label={label}>
+      {getFieldDecorator(filedName, filedOptions)(<Input placeholder="请输入" />)}
+    </FormItem>
+  );
 };
 
 /**

@@ -29,8 +29,10 @@ const searchItems = [
 @Form.create()
 export default class withdrawList extends PureComponent {
   constructor(props) {
-    super(props)
-    const { location: {search} } = props;
+    super(props);
+    const {
+      location: { search },
+    } = props;
     this.state = {
       filters: {},
       currentPage: 1,
@@ -234,11 +236,7 @@ export default class withdrawList extends PureComponent {
           loading={loading}
         />
         <span>
-          共
-          {' '}
-          <span style={{ color: '#1890ff' }}>{total}</span>
-          {' '}
-          条数据
+          共 <span style={{ color: '#1890ff' }}>{total}</span> 条数据
         </span>
       </span>
     );
@@ -246,7 +244,10 @@ export default class withdrawList extends PureComponent {
 
   render() {
     const { loading } = this.props;
-    const { data: { list, pagination }, query } = this.state;
+    const {
+      data: { list, pagination },
+      query,
+    } = this.state;
     const paginationProps = {
       showSizeChanger: true,
       showQuickJumper: true,

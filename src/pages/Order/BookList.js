@@ -136,7 +136,7 @@ const MerchantRemark = props => {
                 <li key={msg.time}>
                   {msg.time.substring(5, 16)}：{msg.message}
                 </li>
-                ))}
+              ))}
             </ul>
           }
           title="商家备注"
@@ -146,9 +146,8 @@ const MerchantRemark = props => {
         </Popover>
       </div>
     );
-  } 
-    return null;
-  
+  }
+  return null;
 };
 
 export const ListContent = props => {
@@ -277,9 +276,9 @@ const OrderList = props => (
       <List.Item>
         <ListContent order={item} />
       </List.Item>
-      )}
+    )}
   />
-  );
+);
 
 export default OrderList;
 export const BookListContent = ListContent;

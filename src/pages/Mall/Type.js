@@ -15,7 +15,7 @@ const SortableItem = SortableElement(({ value, afterClose }) => (
     <DragHandle />
     <span>{value}</span>
   </Tag>
-  ));
+));
 
 const SortableList = SortableContainer(({ items, index, afterClose }) => (
   <div style={{ display: 'inline-block' }}>
@@ -27,9 +27,9 @@ const SortableList = SortableContainer(({ items, index, afterClose }) => (
         value={child.name}
         afterClose={() => afterClose(index, childIndex)}
       />
-      ))}
+    ))}
   </div>
-  ));
+));
 
 @connect(({ loading }) => ({
   loading: loading.models.mallSetting,
@@ -182,22 +182,22 @@ class TypeSetting extends PureComponent {
             <DragHandle />
             {value.name}
           </div>
-          }
+        }
         style={{ marginBottom: 16 }}
         extra={
           <Popconfirm
             title="确认删一级分类?"
             onConfirm={() => {
-                this.handleRemove(sort);
-              }}
+              this.handleRemove(sort);
+            }}
             okText="确认"
             cancelText="取消"
           >
             <Button type="danger" ghost size="small">
-                删除
+              删除
             </Button>
           </Popconfirm>
-          }
+        }
       >
         <SortableList
           items={value.children || []}
@@ -213,17 +213,17 @@ class TypeSetting extends PureComponent {
           className={styles.listTag}
         >
           <Icon type="plus" />
-            添加
+          添加
         </Tag>
       </Card>
-      ));
+    ));
     const SortableParentList = SortableContainer(({ items }) => (
       <div>
         {items.map((value, index) => (
           <SortableParentItem key={value.name} index={index} sort={index} value={value} />
-          ))}
+        ))}
       </div>
-      ));
+    ));
     return (
       <PageHeaderWrapper>
         <Spin spinning={loading} delay={500}>
