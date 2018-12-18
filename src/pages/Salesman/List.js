@@ -262,7 +262,7 @@ class SalesmanList extends PureComponent {
       <Menu.Item>
         <Link
           to={{
-            pathname: '/finance/bills',
+            pathname: '/salesman/withdraw',
             search: `account_i=${record.i}&account_type=SALESMAN`,
           }}
         >
@@ -272,21 +272,11 @@ class SalesmanList extends PureComponent {
       <Menu.Item>
         <Link
           to={{
-            pathname: '/normal/orders',
+            pathname: '/order/list',
             search: `salesman_i=${record.i}`,
           }}
         >
-          常规订单
-        </Link>
-      </Menu.Item>
-      <Menu.Item>
-        <Link
-          to={{
-            pathname: '/presale/orders',
-            search: `salesman_i=${record.i}`,
-          }}
-        >
-          预售订单
+          查看订单
         </Link>
       </Menu.Item>
       <Menu.Item>
