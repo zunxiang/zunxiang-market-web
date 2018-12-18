@@ -5,11 +5,11 @@ export default {
   state: {},
   effects: {
     *find({ payload, callback }, { call }) {
-      const { currentPage, pageSize } = payload;
+      const { currentPage, pageSize, ...pramas } = payload;
       const msg = {
-        handler: '/v2/admin/bill/withdraw/find',
+        handler: '/v3/mp/salesman/withdraw/find',
         message: JSON.stringify({
-          ...payload,
+          ...pramas,
           limit: `${(currentPage - 1) * pageSize},${pageSize}`,
         }),
       };
@@ -29,7 +29,7 @@ export default {
     },
     *finish({ payload, callback }, { call }) {
       const msg = {
-        handler: '/v2/admin/bill/withdraw/finish',
+        handler: '/v3/mp/salesman/withdraw/finish',
         message: JSON.stringify(payload),
       };
       const [code, response] = yield call(GET, msg);
@@ -38,7 +38,7 @@ export default {
     },
     *error({ payload, callback }, { call }) {
       const msg = {
-        handler: '/v2/admin/bill/withdraw/error',
+        handler: '/v3/mp/salesman/withdraw/error',
         message: JSON.stringify(payload),
       };
       const [code, response] = yield call(GET, msg);

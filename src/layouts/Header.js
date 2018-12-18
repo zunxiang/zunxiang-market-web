@@ -68,6 +68,10 @@ class HeaderView extends PureComponent {
       router.push('/account/settings/base');
       return;
     }
+    if(key === 'password') {
+      router.push('/account/setting/password');
+      return;
+    }
     if (key === 'logout') {
       dispatch({
         type: 'login/logout',
@@ -77,10 +81,10 @@ class HeaderView extends PureComponent {
 
   handleNoticeVisibleChange = visible => {
     if (visible) {
-      const { dispatch } = this.props;
+      /* const { dispatch } = this.props;
       dispatch({
         type: 'global/fetchNotices',
-      });
+      }); */
     }
   };
 
