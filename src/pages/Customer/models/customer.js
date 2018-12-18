@@ -1,4 +1,3 @@
-import { notification } from 'antd';
 import { GET } from '@/services/api';
 
 export default {
@@ -11,109 +10,63 @@ export default {
   },
   effects: {
     *find({ payload }, { call, put }) {
-      const { currentPage, pageSize } = payload;
+      const { currentPage, pageSize, ...pramas } = payload;
       const msg = {
-        handler: '/v2/admin/user/main/find',
+        handler: '/v3/mp/user/user/find',
         message: JSON.stringify({
-          ...payload,
+          ...pramas,
           limit: `${(currentPage - 1) * pageSize},${pageSize}`,
         }),
       };
-      const response = yield call(GET, msg);
-      if (response[0] === 0) {
-        yield put({
-          type: 'findSuccess',
-          payload: {
-            list: response[1].list,
-            pagination: {
-              current: currentPage,
-              pageSize,
-              total: response[1].total,
-            },
+      const [code, response] = yield call(GET, msg);
+      if (code !== 0) return;
+      yield put({
+        type: 'findSuccess',
+        payload: {
+          list: response.list,
+          pagination: {
+            current: currentPage,
+            pageSize,
+            total: response.total,
           },
-        });
-      } else {
-        notification.error({
-          message: '错误提示',
-          description: response[1],
-        });
-      }
+        },
+      });
     },
-    *changeSalesman({ payload, callback }, { call, put }) {
+    *changeSalesman({ payload, callback }, { call }) {
       const msg = {
-        handler: '/v2/admin/user/main/change_salesman',
+        handler: '/v3/mp/user/user/change_salesman',
         message: JSON.stringify(payload),
       };
-      const response = yield call(GET, msg);
-      if (response[0] === 0) {
-        yield put({
-          type: 'operateSucces',
-          payload,
-        });
-        if (callback) callback();
-      } else {
-        notification.error({
-          message: '错误提示',
-          description: response[1],
-        });
-      }
+      const [code, response] = yield call(GET, msg);
+      if (code !== 0) return;
+      if (callback) callback(response);
     },
-    *giveCoupon({ payload, callback }, { call, put }) {
+    *giveCoupon({ payload, callback }, { call }) {
       const msg = {
-        handler: '/v2/admin/user/main/give_coupon',
+        handler: '/v3/mp/user/user/give_coupon',
         message: JSON.stringify(payload),
       };
-      const response = yield call(GET, msg);
-      if (response[0] === 0) {
-        yield put({
-          type: 'operateSucces',
-          payload,
-        });
-        if (callback) callback();
-      } else {
-        notification.error({
-          message: '错误提示',
-          description: response[1],
-        });
-      }
+      const [code, response] = yield call(GET, msg);
+      if (code !== 0) return;
+      if (callback) callback(response);
     },
-    *open({ payload, callback }, { call, put }) {
+    *open({ payload, callback }, { call }) {
       const msg = {
-        handler: '/v2/admin/user/main/open',
+        handler: '/v3/mp/user/user/open',
         message: JSON.stringify(payload),
       };
-      const response = yield call(GET, msg);
-      if (response[0] === 0) {
-        yield put({
-          type: 'operateSucces',
-          payload,
-        });
-        if (callback) callback();
-      } else {
-        notification.error({
-          message: '错误提示',
-          description: response[1],
-        });
-      }
+      const [code, response] = yield call(GET, msg);
+      if (code !== 0) return;
+      if (callback) callback(response);
     },
-    *close({ payload, callback }, { call, put }) {
+    *close({ payload, callback }, { call }) {
       const msg = {
-        handler: '/v2/admin/user/main/close',
+        handler: '/v3/mp/user/user/close',
         message: JSON.stringify(payload),
       };
-      const response = yield call(GET, msg);
-      if (response[0] === 0) {
-        yield put({
-          type: 'operateSucces',
-          payload,
-        });
-        if (callback) callback();
-      } else {
-        notification.error({
-          message: '错误提示',
-          description: response[1],
-        });
-      }
+      const [code, response] = yield call(GET, msg);
+      if (code !== 0) return;
+      if (callback) callback(response);
     },
   },
   reducers: {
@@ -121,11 +74,6 @@ export default {
       return {
         ...state,
         data: action.payload,
-      };
-    },
-    operateSuccess(state) {
-      return {
-        ...state,
       };
     },
   },

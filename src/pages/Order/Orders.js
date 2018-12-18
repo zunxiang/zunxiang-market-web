@@ -132,8 +132,9 @@ export default class TableList extends PureComponent {
             loading={loading}
           />
           <span>
-            共<span style={{ color: '#1890ff' }}>{total}</span>
-            条数据
+            <span>共</span>
+            <span style={{ color: '#1890ff' }}>{total}</span>
+            <span>条数据</span>
           </span>
         </span>
       ),

@@ -58,7 +58,7 @@ export default {
           return;
         }
       }
-      if (redirect.indexOf('/login') !== -1) {
+      if (redirect && redirect.indexOf('/login') !== -1) {
         redirect = '/';
       }
       yield put(routerRedux.replace(redirect || '/'));

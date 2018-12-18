@@ -205,10 +205,10 @@ export const ListContent = props => {
               search: `order_i=${o.i}`,
             }}
           >
-            常规订单: {o.order_no}
+            {`常规订单: ${o.order_no}`}
           </Link>
         </div>
-        <div>创建时间: {o.create_time.substring(0, 19)}</div>
+        <div>{`创建时间: ${o.create_time.substring(0, 19)}`}</div>
         <div>
           <Badge status={sourceMap[o.source]} text={sources[o.source]} />
         </div>

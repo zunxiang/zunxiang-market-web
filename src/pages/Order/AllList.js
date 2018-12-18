@@ -9,16 +9,16 @@ import styles from './NormalList.less';
 
 const ListContent = props => {
   const { order } = props;
-  if (order.order_type === 'RUSH') {
+  if (order.item_type === 'RUSH') {
     return <PresaleListContent order={order} />;
   }
-  if (order.order_type === 'RUSH_BOOK' || order.order_type === 'BOOK') {
+  if (order.item_type === 'RUSH_BOOK' || order.item_type === 'BOOK') {
     return <BookListContent order={order} />;
   }
-  if (order.order_type === 'INSURANCE') {
+  if (order.item_type === 'INSURANCE') {
     return <InsuranceListContent order={order} />;
   }
-  if (order.order_type === 'ITEM') {
+  if (order.item_type === 'ITEM') {
     return <NormalListContent order={order} />;
   }
   return null;

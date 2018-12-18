@@ -67,7 +67,7 @@ export default {
   routes: pageRoutes,
   history: 'hash',
   outputPath: './mp',
-  base: '/mp',
+  publicPath: '/mp/',
   hash: true,
   // Theme for antd
   // https://ant.design/docs/react/customize-theme-cn
