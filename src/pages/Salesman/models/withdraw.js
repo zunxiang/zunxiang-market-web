@@ -17,13 +17,13 @@ export default {
       if (code !== 0) return;
       if (callback) {
         callback({
-          list: response[1].list,
+          list: response.list,
           pagination: {
             current: currentPage,
             pageSize,
-            total: response[1].total,
+            total: response.total,
           },
-          sum: response[1].sum,
+          sum: response.sum,
         });
       }
     },
