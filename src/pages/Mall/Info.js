@@ -77,6 +77,23 @@ class InfoSetting extends PureComponent {
     });
   };
 
+  handlerFormatter = value => {
+    if(value) {
+      return `${parseInt(value, 10)}%`
+    } else {
+      return `${value}%`
+    }
+  }
+
+  handlerParser = value => {
+    const val = value.replace('%', '')
+    if(val) {
+      return parseInt(val, 10)
+    } else {
+      return val
+    }
+  }
+
   render() {
     const {
       form: { getFieldDecorator },
@@ -221,8 +238,8 @@ class InfoSetting extends PureComponent {
                       <InputNumber
                         min={0}
                         max={100}
-                        formatter={value => `${value}%`}
-                        parser={value => value.replace('%', '')}
+                        formatter={this.handlerFormatter}
+                        parser={this.handlerParser}
                         style={{ width: '100%' }}
                       />
                     )}
@@ -242,8 +259,8 @@ class InfoSetting extends PureComponent {
                       <InputNumber
                         min={0}
                         max={100}
-                        formatter={value => `${value}%`}
-                        parser={value => value.replace('%', '')}
+                        formatter={this.handlerFormatter}
+                        parser={this.handlerParser}
                         style={{ width: '100%' }}
                       />
                     )}

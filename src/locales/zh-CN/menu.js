@@ -1,5 +1,6 @@
 export default {
   'menu.home': '首页',
+  'menu.workplace': '工作台',
   'menu.dashboard': 'Dashboard',
   'menu.dashboard.analysis': '分析页',
   'menu.dashboard.monitor': '监控页',

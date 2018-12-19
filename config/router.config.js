@@ -20,11 +20,18 @@ export default [
       // dashboard
       { path: '/', redirect: '/dashboard/workplace' },
       {
+        path: '/dashboard/workplace',
+        name: 'workplace',
+        icon: 'dashboard',
+        component: './Dashboard/WorkerData',
+      },
+      /*
+      {
         path: '/dashboard',
         name: 'dashboard',
         icon: 'dashboard',
         routes: [
-          /* {
+          {
             path: '/dashboard/analysis',
             name: 'analysis',
             component: './Dashboard/Analysis',
@@ -38,7 +45,7 @@ export default [
             path: '/dashboard/workplace',
             name: 'workplace',
             component: './Dashboard/Workplace',
-          }, */
+          },
           {
             path: '/dashboard/workplace',
             name: 'workplace',
@@ -46,6 +53,7 @@ export default [
           },
         ],
       },
+      */
       {
         path: '/mall',
         icon: 'table',
