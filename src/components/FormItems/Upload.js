@@ -87,11 +87,11 @@ export default class UploadImg extends Component {
               <Icon type={upLoading ? 'loading' : 'upload'} />
               点击上传
             </Button>
-            <Modal visible={previewVisible} footer={null} onCancel={this.handleCancel}>
-              <img alt="图片预览" style={{ width: '100%' }} src={previewUrl} />
-            </Modal>
           </Upload>
         )}
+        <Modal visible={previewVisible} footer={null} onCancel={this.handleCancel}>
+          <img alt="图片预览" style={{ width: '100%' }} src={previewUrl} />
+        </Modal>
       </FormItem>
     );
   }
