@@ -1,6 +1,8 @@
-import React, { Component, Fragment } from 'react';
-import { Upload, Button, Icon, Modal } from 'antd';
+import React, { Component } from 'react';
+import { Upload, Button, Icon, Modal, Form } from 'antd';
 import { getQiniuToken, BaseImgUrl } from '../../common/config';
+
+const FormItem = Form.Item;
 
 export default class UploadImg extends Component {
   state = {
@@ -58,7 +60,7 @@ export default class UploadImg extends Component {
   };
 
   render() {
-    const { filedName, getFieldDecorator, fieldOptions = {}, uploadOptions = {} } = this.props;
+    const { filedName, getFieldDecorator, fieldOptions = {}, uploadOptions = {}, formItemProps = {} } = this.props;
     const { token, upLoading, previewVisible, previewUrl } = this.state;
     const newUploadProps = {
       action: 'http://up-z2.qiniu.com',
@@ -78,19 +80,19 @@ export default class UploadImg extends Component {
       ...fieldOptions,
     };
     return (
-      <Fragment>
+      <FormItem {...formItemProps}>
         {getFieldDecorator(filedName, newFiledOptions)(
           <Upload {...newUploadProps}>
             <Button>
               <Icon type={upLoading ? 'loading' : 'upload'} />
               点击上传
             </Button>
+            <Modal visible={previewVisible} footer={null} onCancel={this.handleCancel}>
+              <img alt="图片预览" style={{ width: '100%' }} src={previewUrl} />
+            </Modal>
           </Upload>
         )}
-        <Modal visible={previewVisible} footer={null} onCancel={this.handleCancel}>
-          <img alt="图片预览" style={{ width: '100%' }} src={previewUrl} />
-        </Modal>
-      </Fragment>
+      </FormItem>
     );
   }
 }

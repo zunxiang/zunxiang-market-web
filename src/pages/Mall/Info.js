@@ -104,7 +104,7 @@ class InfoSetting extends PureComponent {
       <PageHeaderWrapper>
         <Spin spinning={loading}>
           <Card title="默认分享信息" className={styles.card} bordered={false}>
-            <Form hideRequiredMark onSubmit={this.handleSubmit}>
+            <Form onSubmit={this.handleSubmit}>
               <Row gutter={16}>
                 <Col span={12}>
                   <FormItem {...formItemLayout} label="分享主标题">
@@ -133,70 +133,74 @@ class InfoSetting extends PureComponent {
                   </FormItem>
                 </Col>
                 <Col span={12}>
-                  <FormItem {...formItemLayout} label="分享logo">
-                    <Upload
-                      filedName="share_image"
-                      getFieldDecorator={getFieldDecorator}
-                      fieldOptions={{
-                        rules: [
-                          {
-                            required: true,
-                            type: 'array',
-                            min: 1,
-                            message: '请上传分享logo',
-                          },
-                        ],
-                        initialValue: info.share_image
-                          ? [
-                              {
-                                response: {
-                                  hash: info.share_image,
-                                  key: info.share_image,
-                                },
-                                url: `${BaseImgUrl}${info.share_image}?.png`,
-                                thumbUrl: `${BaseImgUrl}${info.share_image}?.png`,
-                                status: 'done',
-                                uid: -1,
-                                name: '分享logo',
+                  <Upload
+                    formItemProps={{
+                      ...formItemLayout,
+                      label: '分享logo',
+                    }}
+                    filedName="share_image"
+                    getFieldDecorator={getFieldDecorator}
+                    fieldOptions={{
+                      rules: [
+                        {
+                          required: true,
+                          type: 'array',
+                          min: 1,
+                          message: '请上传分享logo',
+                        },
+                      ],
+                      initialValue: info.share_image
+                        ? [
+                            {
+                              response: {
+                                hash: info.share_image,
+                                key: info.share_image,
                               },
-                            ]
-                          : [],
-                      }}
-                    />
-                  </FormItem>
+                              url: `${BaseImgUrl}${info.share_image}?.png`,
+                              thumbUrl: `${BaseImgUrl}${info.share_image}?.png`,
+                              status: 'done',
+                              uid: -1,
+                              name: '分享logo',
+                            },
+                          ]
+                        : [],
+                    }}
+                  />
                 </Col>
                 <Col span={12}>
-                  <FormItem {...formItemLayout} label="公众号二维码">
-                    <Upload
-                      filedName="subscription_qrcode"
-                      getFieldDecorator={getFieldDecorator}
-                      fieldOptions={{
-                        rules: [
-                          {
-                            required: true,
-                            type: 'array',
-                            min: 1,
-                            message: '请上传公众号二维码',
-                          },
-                        ],
-                        initialValue: info.subscription_qrcode
-                          ? [
-                              {
-                                response: {
-                                  hash: info.subscription_qrcode,
-                                  key: info.subscription_qrcode,
-                                },
-                                url: `${BaseImgUrl}${info.subscription_qrcode}?.png`,
-                                thumbUrl: `${BaseImgUrl}${info.subscription_qrcode}?.png`,
-                                status: 'done',
-                                uid: -1,
-                                name: '公众号二维码',
+                  <Upload
+                    formItemProps={{
+                      ...formItemLayout,
+                      label: '公众号二维码',
+                    }}
+                    filedName="subscription_qrcode"
+                    getFieldDecorator={getFieldDecorator}
+                    fieldOptions={{
+                      rules: [
+                        {
+                          required: true,
+                          type: 'array',
+                          min: 1,
+                          message: '请上传公众号二维码',
+                        },
+                      ],
+                      initialValue: info.subscription_qrcode
+                        ? [
+                            {
+                              response: {
+                                hash: info.subscription_qrcode,
+                                key: info.subscription_qrcode,
                               },
-                            ]
-                          : [],
-                      }}
-                    />
-                  </FormItem>
+                              url: `${BaseImgUrl}${info.subscription_qrcode}?.png`,
+                              thumbUrl: `${BaseImgUrl}${info.subscription_qrcode}?.png`,
+                              status: 'done',
+                              uid: -1,
+                              name: '公众号二维码',
+                            },
+                          ]
+                        : [],
+                    }}
+                  />
                 </Col>
                 <Col span={12}>
                   <FormItem {...formItemLayout} label="客服电话">
