@@ -78,21 +78,21 @@ class InfoSetting extends PureComponent {
   };
 
   handlerFormatter = value => {
-    if(value) {
-      return `${parseInt(value, 10)}%`
+    if (value) {
+      return `${parseInt(value, 10)}%`;
     } else {
-      return `${value}%`
+      return `${value}%`;
     }
-  }
+  };
 
   handlerParser = value => {
-    const val = value.replace('%', '')
-    if(val) {
-      return parseInt(val, 10)
+    const val = value.replace('%', '');
+    if (val) {
+      return parseInt(val, 10);
     } else {
-      return val
+      return val;
     }
-  }
+  };
 
   render() {
     const {

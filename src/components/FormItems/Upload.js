@@ -60,7 +60,13 @@ export default class UploadImg extends Component {
   };
 
   render() {
-    const { filedName, getFieldDecorator, fieldOptions = {}, uploadOptions = {}, formItemProps = {} } = this.props;
+    const {
+      filedName,
+      getFieldDecorator,
+      fieldOptions = {},
+      uploadOptions = {},
+      formItemProps = {},
+    } = this.props;
     const { token, upLoading, previewVisible, previewUrl } = this.state;
     const newUploadProps = {
       action: 'http://up-z2.qiniu.com',
