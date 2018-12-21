@@ -1,8 +1,7 @@
 import React, { Fragment } from 'react';
-import { List, Row, Col, Popover, Icon, Badge, Tag } from 'antd';
+import { List, Row, Col, Tag } from 'antd';
 import { Link } from 'dva/router';
 import Ellipsis from '@/components/Ellipsis';
-import { payWay } from './payWay';
 import styles from './NormalList.less';
 
 const statusMap = {
@@ -33,70 +32,6 @@ const status = {
   SETTLED: '已结算',
   CLOSED: '已关闭',
 };
-const sourceMap = {
-  ONLINE: 'success',
-  AGENT: 'processing',
-  IMPORT: 'warning',
-};
-const sources = {
-  ONLINE: '在线购买',
-  AGENT: '代客下单',
-  IMPORT: '后台导入',
-};
-const buttModes = {
-  EBOOKING: '系统发单',
-  EMAIL: '电子邮件',
-  OFFLINE: '线下发单',
-};
-const buttModeMap = {
-  EBOOKING: 'success',
-  EMAIL: 'warning',
-  OFFLINE: 'processing',
-};
-
-const noticeMap = {
-  WAIT: 'default',
-  SENT: 'success',
-};
-const notices = {
-  WAIT: '未发短信',
-  SENT: '已发短信',
-};
-
-const SalesmanInfo = props => {
-  const { order: o } = props;
-  if (o.salesman_i) {
-    return (
-      <div>
-        <div title={o.salesman_i}>
-          <Ellipsis line={1} tooltip>
-            {o.salesman_name}
-          </Ellipsis>
-        </div>
-        <div>
-          类型:
-          {o.business}
-        </div>
-      </div>
-    );
-  }
-  if (o.franchiser_name) {
-    return (
-      <div>
-        <div title={o.franchiser_i}>
-          <Ellipsis line={1} tooltip>
-            {o.franchiser_name}
-          </Ellipsis>
-        </div>
-        <div>
-          类型：
-          {o.business}
-        </div>
-      </div>
-    );
-  }
-  return null;
-};
 
 const DateInfo = props => {
   const { order: o } = props;
@@ -115,81 +50,15 @@ const DateInfo = props => {
         <div>
           <span style={{ marginRight: 8 }}>{`${o.adult_num}大${o.child_num}小`}</span>
         </div>
-        <div>{`${o.departure_time.substring(0, 10)}`}</div>
+        <div>{`日期：${o.departure_time.substring(0, 10)}`}</div>
       </Fragment>
     );
   }
   return (
     <Fragment>
-      <div>{`${o.item_num}份`}</div>
-      <div>{`${o.departure_time && o.departure_time.substring(0, 10)}`}</div>
+      <div>{`数量：${o.item_num}份`}</div>
+      <div>{`日期：${o.departure_time && o.departure_time.substring(0, 10)}`}</div>
     </Fragment>
-  );
-};
-
-const OperateRemark = props => {
-  const { order: o } = props;
-  return (
-    <div>
-      {o.supplier_remarks ||
-      o.merchant_remarks ||
-      o.finish_remarks ||
-      o.cancel_remarks ||
-      o.change_remarks ? (
-        <Popover
-          content={
-            <Fragment>
-              {o.merchant_remarks ? (
-                <p>
-                  发单备注：
-                  {o.merchant_remarks}
-                </p>
-              ) : (
-                ''
-              )}
-              {o.supplier_remarks ? (
-                <p>
-                  供应商备注：
-                  {o.supplier_remarks}
-                </p>
-              ) : (
-                ''
-              )}
-              {o.finish_remarks ? (
-                <p>
-                  完成备注：
-                  {o.finish_remarks}
-                </p>
-              ) : (
-                ''
-              )}
-              {o.cancel_remarks ? (
-                <p>
-                  拒绝备注：
-                  {o.cancel_remarks}
-                </p>
-              ) : (
-                ''
-              )}
-              {o.change_remarks ? (
-                <p>
-                  改期备注：
-                  {o.change_remarks}
-                </p>
-              ) : (
-                ''
-              )}
-            </Fragment>
-          }
-          title="供应商备注"
-        >
-          操作备注：
-          <Icon type="message" className={styles.messageIcon} />
-        </Popover>
-      ) : (
-        ''
-      )}
-    </div>
   );
 };
 
@@ -201,28 +70,16 @@ export const ListContent = props => {
         <div>
           <Link
             to={{
-              pathname: '/normal/order-detail',
+              pathname: '/presale/order-detail',
               search: `order_i=${o.i}`,
             }}
           >
             {`常规订单: ${o.order_no}`}
           </Link>
-        </div>
-        <div>{`创建时间: ${o.create_time.substring(0, 19)}`}</div>
-        <div>
-          <Badge status={sourceMap[o.source]} text={sources[o.source]} />
-        </div>
-        <div>
-          <Badge
-            status={buttModeMap[o.supplier_butt_mode]}
-            text={buttModes[o.supplier_butt_mode]}
-          />
-        </div>
-        <div>
-          <Badge status={noticeMap[o.notice]} text={notices[o.notice]} />
-        </div>
-        <div>
-          <Badge status="success" text={payWay[o.pay_way]} />
+          <span className={styles.marginLeft32}>
+            {`创建时间: ${o.create_time.substring(0, 19)}`}
+          </span>
+          <span className={styles.marginLeft32}>{`供应商：${o.merchant_name}`}</span>
         </div>
         <div>
           <Tag color={statusMap[o.state]}>{status[o.state]}</Tag>
@@ -245,7 +102,7 @@ export const ListContent = props => {
             </div>
             <div>
               <Ellipsis lines={1} tooltip>
-                {`套餐: ${o.package.name}`}
+                {`套餐: ${o.package_name}`}
               </Ellipsis>
             </div>
             {o.item_texture === 'HOTEL' ? (
@@ -255,18 +112,9 @@ export const ListContent = props => {
               </div>
             ) : null}
           </Col>
-          <Col span={3}>
+          <Col span={4}>
             <div>
               {o.contacts}
-              <span style={{ marginLeft: 8 }}>
-                {o.remarks ? (
-                  <Popover content={o.remarks} title="备注">
-                    <Icon type="message" className={styles.messageIcon} />
-                  </Popover>
-                ) : (
-                  ''
-                )}
-              </span>
             </div>
             <div>{o.contacts_mobile}</div>
           </Col>
@@ -274,9 +122,6 @@ export const ListContent = props => {
             <DateInfo order={o} />
           </Col>
           <Col span={4}>
-            <SalesmanInfo order={o} />
-          </Col>
-          <Col span={3}>
             <div>
               金额：￥
               {o.amount / 100}
@@ -302,22 +147,8 @@ export const ListContent = props => {
       </div>
       <div className={styles.orderFooter}>
         <div className={styles.footerLeft}>
-          <div>
-            团号：
-            {o.team_no}
-          </div>
-          <div>{`产品人：${o.product_person_name}`}</div>
-          <div>{`供应商：${o.supplier_name}`}</div>
-          <div>
-            创建者：
-            {o.creator_name}
-          </div>
-          <div>
-            最后操作：
-            {o.last_operator_name}
-          </div>
-          <div>{o.last_edit_time && o.last_edit_time.substring(0, 19)}</div>
-          <OperateRemark order={o} />
+          <div>{`备注：${o.remarks || ''}`}</div>
+          <div>{`分销：${o.salesman_name || '无'}`}</div>
         </div>
       </div>
     </div>
