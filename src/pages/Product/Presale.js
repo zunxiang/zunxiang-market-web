@@ -65,7 +65,7 @@ export default class TableList extends PureComponent {
       ...query,
       ...formValues,
       ...filters,
-      type: 'RUSH',
+      type: 'HOTEL_PRESALES',
     };
     dispatch({
       type: 'presale/find',
