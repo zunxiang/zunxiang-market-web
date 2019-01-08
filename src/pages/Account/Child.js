@@ -386,8 +386,9 @@ export default class TableList extends PureComponent {
       showQuickJumper: true,
       showTotal: total => (
         <span>
-          共<span style={{ color: '#1890ff' }}>{total}</span>
-          条数据
+          <span>共</span>
+          <span style={{ color: '#1890ff' }}>{total}</span>
+          <span>条数据</span>
         </span>
       ),
       ...pagination,
