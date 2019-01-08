@@ -65,7 +65,7 @@ export default class TableList extends PureComponent {
       ...query,
       ...formValues,
       ...filters,
-      is_display: 'TRUE',
+      'type@in': ['HOTEL'],
     };
     dispatch({
       type: 'normal/find',

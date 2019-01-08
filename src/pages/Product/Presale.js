@@ -38,7 +38,6 @@ export default class TableList extends PureComponent {
       currentPage: 1,
       pageSize: 10,
       formValues: {},
-      sorter: 'sort:+',
       modalVisible: false,
       qrcodeSrc: undefined,
       qrcodeTitle: undefined,
@@ -66,6 +65,7 @@ export default class TableList extends PureComponent {
       ...query,
       ...formValues,
       ...filters,
+      type: 'RUSH',
     };
     dispatch({
       type: 'presale/find',
