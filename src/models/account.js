@@ -12,7 +12,7 @@ export default {
     *find({ payload, callback }, { call, put }) {
       const { currentPage, pageSize, ...params } = payload;
       const msg = {
-        handler: '/v3/mp/app_account/account/find',
+        handler: '/v1/mp/app_account/account/find',
         message: JSON.stringify({
           ...params,
           limit: `${(currentPage - 1) * pageSize},${pageSize}`,
@@ -36,7 +36,7 @@ export default {
     },
     *getAllPower({ payload, callback }, { call }) {
       const msg = {
-        handler: '/v3/mp/app_account/account/all_power',
+        handler: '/v1/mp/app_account/account/all_power',
         message: JSON.stringify(payload),
       };
       const [code, data] = yield call(GET, msg);
@@ -45,7 +45,7 @@ export default {
     },
     *add({ payload, callback }, { call }) {
       const msg = {
-        handler: '/v3/mp/app_account/account/add',
+        handler: '/v1/mp/app_account/account/add',
         message: JSON.stringify(payload),
       };
       const [code] = yield call(GET, msg);
@@ -54,7 +54,7 @@ export default {
     },
     *edit({ payload, callback }, { call }) {
       const msg = {
-        handler: '/v3/mp/app_account/account/post',
+        handler: '/v1/mp/app_account/account/post',
         message: JSON.stringify(payload),
       };
       const [code] = yield call(GET, msg);

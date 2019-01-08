@@ -15,7 +15,7 @@ export default {
     *find({ payload, callback }, { call, put }) {
       const { currentPage, pageSize, order, ...params } = payload;
       const msg = {
-        handler: '/v3/mp/item/main/find',
+        handler: '/v1/mp/item/main/find',
         message: JSON.stringify({
           query: [params],
           order,
@@ -44,7 +44,7 @@ export default {
     },
     *get({ payload, callback }, { call }) {
       const msg = {
-        handler: '/v3/mp/item/main/get',
+        handler: '/v1/mp/item/main/get',
         message: JSON.stringify(payload),
       };
       const [code, response] = yield call(GET, msg);
@@ -53,7 +53,7 @@ export default {
     },
     *open({ payload, callback }, { call }) {
       const msg = {
-        handler: '/v3/mp/item/main/listed',
+        handler: '/v1/mp/item/main/listed',
         message: JSON.stringify(payload),
       };
       const [code, response] = yield call(GET, msg);
@@ -62,7 +62,7 @@ export default {
     },
     *close({ payload, callback }, { call }) {
       const msg = {
-        handler: '/v3/mp/item/main/close',
+        handler: '/v1/mp/item/main/close',
         message: JSON.stringify(payload),
       };
       const [code, response] = yield call(GET, msg);
@@ -78,7 +78,7 @@ export default {
     },
     *publicAdd({ payload, callback }, { call }) {
       const msg = {
-        handler: '/v3/mp/item/main/add',
+        handler: '/v1/mp/item/main/add',
         message: JSON.stringify(payload),
       };
       const [code, response] = yield call(GET, msg);
@@ -87,7 +87,7 @@ export default {
     },
     *publicPost({ payload, callback }, { call }) {
       const msg = {
-        handler: '/v3/mp/item/main/post',
+        handler: '/v1/mp/item/main/post',
         message: JSON.stringify(payload),
       };
       const [code, response] = yield call(GET, msg);
@@ -96,7 +96,7 @@ export default {
     },
     *wechatPush({ payload, callback }, { call }) {
       const msg = {
-        handler: '/v3/mp/item/main/wx_notice',
+        handler: '/v1/mp/item/main/wx_notice',
         message: JSON.stringify(payload),
       };
       const [code, response] = yield call(GET, msg);

@@ -6,7 +6,7 @@ export default {
   effects: {
     *get({ payload, callback }, { call }) {
       const msg = {
-        handler: '/v3/mp/option/app_config/get',
+        handler: '/v1/mp/option/app_config/get',
         message: JSON.stringify(payload),
       };
       const [code, data] = yield call(GET, msg);
@@ -15,7 +15,7 @@ export default {
     },
     *set({ payload, callback }, { call }) {
       const msg = {
-        handler: '/v3/mp/option/app_config/set',
+        handler: '/v1/mp/option/app_config/set',
         message: JSON.stringify(payload),
       };
       const [code, data] = yield call(POST, msg);

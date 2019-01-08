@@ -23,7 +23,7 @@ export default {
     },
     *fetchCurrent(_, { call, put, select }) {
       const msg = {
-        handler: '/v3/mp/app_account/account/get_self',
+        handler: '/v1/mp/app_account/account/get_self',
         message: JSON.stringify({}),
       };
       const [code, response] = yield call(GET, msg);
@@ -53,7 +53,7 @@ export default {
     },
     *changePassword({ payload, callback }, { call }) {
       const msg = {
-        handler: '/v3/mp/app_account/account/change_password',
+        handler: '/v1/mp/app_account/account/change_password',
         message: JSON.stringify(secureCipher(JSON.stringify(payload))),
       };
       const [code] = yield call(POST, msg);

@@ -19,7 +19,7 @@ export default {
     *login({ payload, callback }, { call, put }) {
       const { userName: username, password, captcha } = payload;
       const msg = {
-        handler: '/v3/mp/app_account/account/login',
+        handler: '/v1/mp/app_account/account/login',
         message: JSON.stringify(
           secureCipher(
             JSON.stringify({
@@ -70,7 +70,7 @@ export default {
 
     *logout(_, { put, call, select }) {
       const msg = {
-        handler: '/v3/mp/app_account/account/logout',
+        handler: '/v1/mp/app_account/account/logout',
         message: JSON.stringify({}),
       };
       const [code] = yield call(GET, msg);

@@ -81,7 +81,7 @@ export default class TableList extends PureComponent {
         ...filters,
       };
       const msg = {
-        handler: '/v3/admin/order',
+        handler: '/v1/admin/order',
         message: JSON.stringify(params),
       };
       window.open(`http://${location.host}/csv?${stringify(msg)}`);

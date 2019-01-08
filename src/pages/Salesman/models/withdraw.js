@@ -7,7 +7,7 @@ export default {
     *find({ payload, callback }, { call }) {
       const { currentPage, pageSize, ...pramas } = payload;
       const msg = {
-        handler: '/v3/mp/salesman/withdraw/find',
+        handler: '/v1/mp/salesman/withdraw/find',
         message: JSON.stringify({
           ...pramas,
           limit: `${(currentPage - 1) * pageSize},${pageSize}`,
@@ -29,7 +29,7 @@ export default {
     },
     *finish({ payload, callback }, { call }) {
       const msg = {
-        handler: '/v3/mp/salesman/withdraw/finish',
+        handler: '/v1/mp/salesman/withdraw/finish',
         message: JSON.stringify(payload),
       };
       const [code, response] = yield call(GET, msg);
@@ -38,7 +38,7 @@ export default {
     },
     *error({ payload, callback }, { call }) {
       const msg = {
-        handler: '/v3/mp/salesman/withdraw/error',
+        handler: '/v1/mp/salesman/withdraw/error',
         message: JSON.stringify(payload),
       };
       const [code, response] = yield call(GET, msg);

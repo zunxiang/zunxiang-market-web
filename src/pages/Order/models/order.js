@@ -15,7 +15,7 @@ export default {
     *find({ payload, callback }, { call, put }) {
       const { currentPage, pageSize, ...pramas } = payload;
       const msg = {
-        handler: '/v3/mp/order/user_order/find',
+        handler: '/v1/mp/order/user_order/find',
         message: JSON.stringify({
           ...pramas,
           limit: `${(currentPage - 1) * pageSize},${pageSize}`,
@@ -45,7 +45,7 @@ export default {
     },
     *get({ payload, callback }, { call }) {
       const msg = {
-        handler: '/v3/mp/order/user_order/get',
+        handler: '/v1/mp/order/user_order/get',
         message: JSON.stringify(payload),
       };
       const [code, response] = yield call(GET, msg);
@@ -58,7 +58,7 @@ export default {
     },
     *finishOrder({ payload, callback }, { call }) {
       const msg = {
-        handler: '/v3/mp/order/user_order/settlements',
+        handler: '/v1/mp/order/user_order/settlements',
         message: JSON.stringify(payload),
       };
       const [code, response] = yield call(GET, msg);

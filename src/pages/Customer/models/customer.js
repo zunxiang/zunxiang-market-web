@@ -12,7 +12,7 @@ export default {
     *find({ payload }, { call, put }) {
       const { currentPage, pageSize, ...pramas } = payload;
       const msg = {
-        handler: '/v3/mp/user/user/find',
+        handler: '/v1/mp/user/user/find',
         message: JSON.stringify({
           ...pramas,
           limit: `${(currentPage - 1) * pageSize},${pageSize}`,
@@ -34,7 +34,7 @@ export default {
     },
     *changeSalesman({ payload, callback }, { call }) {
       const msg = {
-        handler: '/v3/mp/user/user/change_salesman',
+        handler: '/v1/mp/user/user/change_salesman',
         message: JSON.stringify(payload),
       };
       const [code, response] = yield call(GET, msg);
@@ -43,7 +43,7 @@ export default {
     },
     *giveCoupon({ payload, callback }, { call }) {
       const msg = {
-        handler: '/v3/mp/user/user/give_coupon',
+        handler: '/v1/mp/user/user/give_coupon',
         message: JSON.stringify(payload),
       };
       const [code, response] = yield call(GET, msg);
@@ -52,7 +52,7 @@ export default {
     },
     *open({ payload, callback }, { call }) {
       const msg = {
-        handler: '/v3/mp/user/user/open',
+        handler: '/v1/mp/user/user/open',
         message: JSON.stringify(payload),
       };
       const [code, response] = yield call(GET, msg);
@@ -61,7 +61,7 @@ export default {
     },
     *close({ payload, callback }, { call }) {
       const msg = {
-        handler: '/v3/mp/user/user/close',
+        handler: '/v1/mp/user/user/close',
         message: JSON.stringify(payload),
       };
       const [code, response] = yield call(GET, msg);
