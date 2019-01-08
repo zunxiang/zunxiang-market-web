@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'dva';
-import { Card, Menu, Dropdown, Icon, Button, message, Modal, Table, Badge, Popconfirm } from 'antd';
+import { Menu, Dropdown, Icon, Button, message, Modal, Badge, Popconfirm } from 'antd';
 import { Link } from 'dva/router';
 import { parse } from 'qs';
 import DescriptionList from '@/components/DescriptionList';
@@ -13,11 +13,6 @@ import { insuranceStatus, insuranceStatusMap } from './common';
 
 const { Description } = DescriptionList;
 
-const textures = {
-  HOTEL: '酒店',
-  PKG: '自由行',
-  GROUP: '跟团游',
-};
 const status = {
   0: '已下架',
   1: '出售中',
@@ -93,9 +88,7 @@ export default class BasicProfile extends Component {
     } = props;
     this.state = {
       item: {},
-      insurances: [],
       choosedInsurance: null,
-      loadingInsurance: false,
       query: parse(search, { ignoreQueryPrefix: true }),
     };
   }
@@ -109,44 +102,14 @@ export default class BasicProfile extends Component {
       type: 'normal/get',
       payload: { i },
       callback: data => {
-        const insurances = data.insurances ? data.insurances.split(',') : [];
         this.setState({
           item: {
             ...data,
-            insurances,
           },
         });
-        this.handleLoadInsurance(insurances);
       },
     });
   }
-
-  handleLoadInsurance = ids => {
-    if (ids.length === 0) {
-      this.setState({
-        insurances: [],
-      });
-      return;
-    }
-    this.setState({
-      loadingInsurance: true,
-    });
-    const { dispatch } = this.props;
-    dispatch({
-      type: 'insurance/find',
-      payload: {
-        currentPage: 1,
-        pageSize: 99,
-        i: ['in', ids],
-      },
-      callback: ({ list }) => {
-        this.setState({
-          insurances: list,
-          loadingInsurance: false,
-        });
-      },
-    });
-  };
 
   handleModalVisible = flag => {
     this.setState({
@@ -343,16 +306,44 @@ export default class BasicProfile extends Component {
     </Menu>
   );
 
+  renderBaseInfo = item => (
+    <DescriptionList size="small" style={{ marginBottom: 16 }} col={3}>
+      <Description term="简介" col={1}>
+        {item.intro}
+      </Description>
+      <Description term="类型">{item.type}</Description>
+      <Description term="销量">{item.sales}</Description>
+      <Description term="状态">{status[item.state]}</Description>
+      <Description term="产品人">{item.product_person_name}</Description>
+      <Description term="酒店电话" col={3}>
+        {item.hotel_tel}
+      </Description>
+      <Description term="酒店名称" col={3}>
+        {item.hotel_name}
+      </Description>
+      <Description term="供应商" col={3}>
+        {item.supplier_name}
+      </Description>
+      <Description term="通知手机" col={3}>
+        {item.notice_mobile}
+      </Description>
+      <Description term="服务电话" col={3}>
+        {item.tel}
+      </Description>
+      <Description term="酒店星级" col={3}>
+        {item.hotel_star}
+      </Description>
+      <Description term="地址" col={3}>
+        {item.address}
+      </Description>
+      <Description term="标签" col={3}>
+        {item.tags}
+      </Description>
+    </DescriptionList>
+  );
+
   render() {
-    const {
-      item,
-      insurances,
-      loadingInsurance,
-      modalTitle,
-      modalVisible,
-      qrcodeSrc,
-      qrcodeTitle,
-    } = this.state;
+    const { item, modalTitle, modalVisible, qrcodeSrc, qrcodeTitle } = this.state;
     const Action = (
       <div>
         {item.state === 1 ? (
@@ -387,43 +378,8 @@ export default class BasicProfile extends Component {
       </div>
     );
     return (
-      <PageHeaderWrapper>
-        <Card bordered={false} title={item.name} extra={Action}>
-          <DescriptionList size="large" title="系统信息" style={{ marginBottom: 32 }} col="4">
-            <Description term="id">{item.i}</Description>
-            <Description term="状态">{status[item.state]}</Description>
-            <Description term="类型">{`${item.type}/${textures[item.texture]}`}</Description>
-            <Description term="销量">{item.sales}</Description>
-          </DescriptionList>
-          <DescriptionList size="large" style={{ marginBottom: 16 }} title="核心信息" col="4">
-            <Description term="产品人">{item.product_person_name}</Description>
-            <Description term="供应商">{item.supplier_name}</Description>
-            <Description term="商城">{item.is_display === 'TRUE' ? '展示' : '不展示'}</Description>
-            <Description term="酒店名称">{item.hotel_name}</Description>
-          </DescriptionList>
-          <DescriptionList size="large" style={{ marginBottom: 32 }} col="1">
-            <Description term="名称">{item.name}</Description>
-          </DescriptionList>
-          <DescriptionList size="large" title="商城信息" style={{ marginBottom: 32 }} col="1">
-            <Description term="标题">{item.title}</Description>
-            <Description term="简介">{item.intro}</Description>
-            <Description term="标签">{item.tags}</Description>
-            <Description term="通知手机">{item.notice_mobile}</Description>
-            <Description term="服务电话">{item.tel}</Description>
-            <Description term="酒店星级">{item.hotel_star}</Description>
-            <Description term="地址">{item.address}</Description>
-          </DescriptionList>
-        </Card>
+      <PageHeaderWrapper title={item.title} content={this.renderBaseInfo(item)} action={Action}>
         {item.i ? <PackageList item={item} /> : null}
-        <Card bordered={false} title="包含保险" style={{ marginTop: 32 }}>
-          <Table
-            rowKey="i"
-            dataSource={insurances}
-            pagination={false}
-            loading={loadingInsurance}
-            columns={this.insuranceColumns}
-          />
-        </Card>
         <Modal
           title={modalTitle}
           visible={modalVisible}

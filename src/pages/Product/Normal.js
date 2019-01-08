@@ -234,10 +234,10 @@ export default class TableList extends PureComponent {
           查看订单
         </Link>
       </Menu.Item>
-      {/* <Menu.Item>
+      <Menu.Item>
         <Link
           to={{
-            pathname: '/normal/detail',
+            pathname: '/product/normal/detail',
             search: `i=${record.i}`,
           }}
         >
@@ -276,7 +276,7 @@ export default class TableList extends PureComponent {
         >
           操作日志
         </Link>
-      </Menu.Item> */}
+      </Menu.Item>
     </Menu>
   );
 

@@ -1,6 +1,6 @@
 import React, { PureComponent, Fragment } from 'react';
 import { connect } from 'dva';
-import { Card, Button, message, Popconfirm, Divider, Modal } from 'antd';
+import { Card, message, Popconfirm, Divider, Modal } from 'antd';
 import { routerRedux, Link } from 'dva/router';
 import update from 'immutability-helper';
 import DragSortingTable from '@/components/DragSortingTable';
@@ -219,15 +219,6 @@ export default class BasicList extends PureComponent {
       item: { i },
     } = this.props;
     const { editModalVisible, currentPackage } = this.state;
-    const extraContent = (
-      <div className={styles.extraContent}>
-        <Link to="/normal/list">
-          <Button type="primary" ghost>
-            返回产品列表
-          </Button>
-        </Link>
-      </div>
-    );
     const editFormProps = {
       itemId: i,
       loading,
@@ -242,14 +233,14 @@ export default class BasicList extends PureComponent {
         bordered={false}
         title="套餐列表"
         style={{ marginTop: 24 }}
-        bodyStyle={{ padding: '0 32px 40px 32px' }}
-        extra={extraContent}
+        bodyStyle={{ padding: '0 0 40px 0' }}
       >
         <DragSortingTable
           dataSource={list}
           columns={this.columns}
           moveRow={this.moveRow}
           rowKey="i"
+          pagination={false}
         />
         <Modal
           title="编辑套餐"

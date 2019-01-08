@@ -13,7 +13,7 @@ export default {
     *find({ payload, callback }, { call, put }) {
       const { currentPage, pageSize, ...params } = payload;
       const msg = {
-        handler: '/v2/admin/item/package/find',
+        handler: '/v1/mp/item/package/find',
         message: JSON.stringify({
           ...params,
           limit: `${(currentPage - 1) * pageSize},${pageSize}`,
@@ -40,7 +40,7 @@ export default {
     *findSku({ payload, callback }, { call, put }) {
       const { currentPage, pageSize, ...params } = payload;
       const msg = {
-        handler: '/v2/admin/item/sku/find',
+        handler: '/v1/mp/item/sku/find',
         message: JSON.stringify({
           ...params,
           limit: `${(currentPage - 1) * pageSize},${pageSize}`,
@@ -65,7 +65,7 @@ export default {
     },
     *postSorting({ payload, callback }, { call }) {
       const msg = {
-        handler: '/v2/admin/item/package/post',
+        handler: '/v1/mp/item/package/post',
         message: JSON.stringify(payload),
       };
       const [code] = yield call(GET, msg);
@@ -74,7 +74,7 @@ export default {
     },
     *delete({ payload, callback }, { call }) {
       const msg = {
-        handler: '/v2/admin/item/package/delete',
+        handler: '/v1/mp/item/package/delete',
         message: JSON.stringify(payload),
       };
       const [code] = yield call(GET, msg);
@@ -83,7 +83,7 @@ export default {
     },
     *add({ payload, callback }, { call }) {
       const msg = {
-        handler: '/v2/admin/item/package/add',
+        handler: '/v1/mp/item/package/add',
         message: JSON.stringify(payload),
       };
       const [code] = yield call(GET, msg);
@@ -92,7 +92,7 @@ export default {
     },
     *post({ payload, callback }, { call }) {
       const msg = {
-        handler: '/v2/admin/item/package/post',
+        handler: '/v1/mp/item/package/post',
         message: JSON.stringify(payload),
       };
       const [code] = yield call(GET, msg);
