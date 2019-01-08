@@ -17,7 +17,7 @@ const DescriptionList = ({
     [styles.small]: size === 'small',
     [styles.large]: size === 'large',
   });
-  const column = col > 4 ? 4 : col;
+  const column = col > 6 ? 6 : col;
   return (
     <div className={clsString} {...restProps}>
       {title ? <div className={styles.title}>{title}</div> : null}

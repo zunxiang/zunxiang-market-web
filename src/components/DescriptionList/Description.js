@@ -4,8 +4,8 @@ import { Col } from 'antd';
 import styles from './index.less';
 import responsive from './responsive';
 
-const Description = ({ term, column, children, ...restProps }) => (
-  <Col {...responsive[column]} {...restProps}>
+const Description = ({ term, col, column, children, ...restProps }) => (
+  <Col {...responsive[col || column]} {...restProps}>
     {term && <div className={styles.term}>{term}</div>}
     {children !== null && children !== undefined && <div className={styles.detail}>{children}</div>}
   </Col>
