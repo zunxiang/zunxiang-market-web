@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Upload, Button, Icon, Modal, Form } from 'antd';
-import { getQiniuToken, BaseImgUrl } from '../../common/config';
+import { getQiniuToken, BaseImgUrl } from '@/common/config';
 
 const FormItem = Form.Item;
 

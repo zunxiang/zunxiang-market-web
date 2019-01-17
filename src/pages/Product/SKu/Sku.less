@@ -1,0 +1,75 @@
+@import '~antd/lib/style/themes/default.less';
+@import '~@/utils/utils.less';
+
+.cellWrap {
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding: 8px 10px;
+  .btnWrap {
+    width: 100%;
+    justify-content: space-between;
+    display: flex;
+    visibility: hidden;
+    padding-right: 25px;
+    font-size: 14px;
+  }
+  .dailyInfo {
+    width: 100%;
+    font-size: 12px;
+    display: flex;
+    flex-direction: column;
+    .baseWrap {
+      width: 100%;
+      .halfWrap {
+        padding-top: 2px;
+        width: 50%;
+      }
+    }
+    .feeWrap {
+      word-break: break-all;
+      .fullWrap {
+        padding-top: 2px;
+      }
+    }
+  }
+}
+
+.cellWrap:hover {
+  .btnWrap {
+    visibility: visible;
+  }
+}
+
+.formItem {
+  margin-bottom: 16px;
+}
+
+.formTitle {
+  font-size: 16px;
+  color: #000;
+  margin-bottom: 16px;
+}
+
+.subTitle {
+  font-size: 15px;
+  padding-left: 10px;
+  color: #000;
+}
+
+.formBtnWrap {
+  margin-top: 32px;
+  text-align: center;
+}
+
+.calendarWrap {
+  position: relative;
+  background-color: #fff;
+  .operationBtnWrap {
+    position: absolute;
+    right: 300px;
+    top: 11px;
+  }
+}

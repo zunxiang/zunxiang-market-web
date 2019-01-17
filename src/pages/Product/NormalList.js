@@ -46,7 +46,7 @@ const PresaleListContent = props => {
                 }}
               >
                 <Ellipsis lines={2} tooltip className={styles.color59}>
-                  {item.name}
+                  {item.title}
                 </Ellipsis>
               </Link>
             </div>

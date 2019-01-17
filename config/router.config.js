@@ -87,6 +87,12 @@ export default [
         name: 'product',
         routes: [
           {
+            path: '/product/sku',
+            name: 'sku',
+            component: './Product/Sku/Sku.js',
+            hideInMenu: true,
+          },
+          {
             path: '/product/normal',
             name: 'normal',
             hideChildrenInMenu: true,
@@ -104,6 +110,11 @@ export default [
                 path: '/product/normal/detail',
                 name: 'normal-detail',
                 component: './Product/NormalDetail',
+              },
+              {
+                path: '/product/normal/create',
+                name: 'normal-create',
+                component: './Product/Form/Normal',
               },
             ],
           },
@@ -130,6 +141,11 @@ export default [
                 path: '/product/presale/detail',
                 name: 'presale-detail',
                 component: './Product/PresaleDetail',
+              },
+              {
+                path: '/product/presale/create',
+                name: 'presale-create',
+                component: './Product/Form/Presale',
               },
             ],
           },

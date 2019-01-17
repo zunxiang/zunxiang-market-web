@@ -1,7 +1,7 @@
 import React from 'react';
 import { Form } from 'antd';
 import ReactUeditor from 'ifanrx-react-ueditor';
-import { BaseImgUrl, getQiniuToken } from '../../common/config';
+import { BaseImgUrl, getQiniuToken } from '@/common/config';
 
 const FormItem = Form.Item;
 
@@ -51,7 +51,7 @@ const uploadImage = e =>
 export const Ueditor = props => {
   const {
     form,
-    initialValue,
+    initialValue = '',
     name = '',
     label,
     required = true,
@@ -92,7 +92,7 @@ export const Ueditor = props => {
             message: `请输入${label}`,
           },
         ],
-        initialValue: initialValue[name] || '',
+        initialValue,
       })(
         <div style={{ width: '100%' }}>
           <ReactUeditor
@@ -101,7 +101,7 @@ export const Ueditor = props => {
             uploadImage={uploadImage}
             plugins={['uploadImage', 'insertCode']}
             ueditorPath="/ueditor"
-            value={initialValue[name] || ''}
+            value={initialValue}
           />
         </div>
       )}

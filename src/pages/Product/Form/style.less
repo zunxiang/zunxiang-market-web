@@ -1,0 +1,28 @@
+@import '~antd/lib/style/themes/default.less';
+
+:global {
+  .editor-wrap {
+    border: 1px solid #d9d9d9;
+    border-radius: 4px;
+  }
+  .has-error {
+    .editor-wrap {
+      border-color: @error-color;
+    }
+  }
+  .ant-upload-list-picture-card .ant-upload-list-item {
+    width: 150px;
+    height: 90px;
+  }
+  .ant-upload.ant-upload-select-picture-card {
+    width: 150px;
+    height: 90px;
+  }
+  .edui-editor {
+    width: 100% !important;
+    max-width: 800px !important;
+  }
+  .edui-editor img {
+    max-width: 100% !important;
+  }
+}

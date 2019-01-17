@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { Form, Input, InputNumber, Button, Select } from 'antd';
+import { Form, Input, Button, Select } from 'antd';
 import { Editor } from '@/components/FormItems/Editor';
 
 const FormItem = Form.Item;
@@ -56,17 +56,7 @@ export default class BasicForms extends PureComponent {
   };
 
   render() {
-    const {
-      loading,
-      cancelCallback,
-      packageName,
-      travelDays,
-      menu,
-      content,
-      room,
-      texture,
-      form,
-    } = this.props;
+    const { loading, cancelCallback, packageName, menu, content, room, texture, form } = this.props;
     const { getFieldDecorator } = form;
     return (
       <Form onSubmit={this.handleSubmit} hideRequiredMark style={{ marginTop: 8 }}>
@@ -113,18 +103,9 @@ export default class BasicForms extends PureComponent {
             </FormItem>
           </div>
         ) : null}
-        <FormItem {...formItemLayout} label="游玩天数">
-          {getFieldDecorator('travel_days', {
-            rules: [
-              { required: true, message: '请输入游玩天数' },
-              { min: 1, type: 'number', message: '不能小于1天' },
-            ],
-            initialValue: travelDays || 1,
-          })(<InputNumber min={1} style={{ width: '100%' }} placeholder="请输入游玩天数" />)}
-        </FormItem>
         <Editor
           form={form}
-          initialValue={{ menu }}
+          initialValue={menu}
           name="menu"
           label="套餐详情"
           formItemLayout={formItemLayout}
