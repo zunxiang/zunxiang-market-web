@@ -2,6 +2,7 @@ import React from 'react';
 import { Form } from 'antd';
 import ReactUeditor from 'ifanrx-react-ueditor';
 import { BaseImgUrl, getQiniuToken } from '@/common/config';
+import styles from './style.less';
 
 const FormItem = Form.Item;
 
@@ -94,7 +95,7 @@ export const Ueditor = props => {
         ],
         initialValue,
       })(
-        <div style={{ width: '100%' }}>
+        <div style={{ width: '100%' }} className={styles.editWrap}>
           <ReactUeditor
             config={editorConfig}
             onChange={updateEditorContent}

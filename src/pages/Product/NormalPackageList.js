@@ -1,6 +1,6 @@
 import React, { PureComponent, Fragment } from 'react';
 import { connect } from 'dva';
-import { Card, message, Popconfirm, Divider, Modal } from 'antd';
+import { Card, message, Popconfirm, Divider, Modal, Button } from 'antd';
 import { routerRedux, Link } from 'dva/router';
 import update from 'immutability-helper';
 import DragSortingTable from '@/components/DragSortingTable';
@@ -14,7 +14,7 @@ import styles from './style.less';
 }))
 export default class BasicList extends PureComponent {
   state = {
-    currentPackage: {},
+    current: {},
     editModalVisible: false,
   };
 
@@ -22,6 +22,7 @@ export default class BasicList extends PureComponent {
     {
       title: '排序',
       dataIndex: 'sort',
+      width: 100,
       render: (val, record, index) => index + 1,
     },
     {
@@ -29,15 +30,8 @@ export default class BasicList extends PureComponent {
       dataIndex: 'name',
     },
     {
-      title: '床型',
-      dataIndex: 'room',
-    },
-    {
-      title: '包含',
-      dataIndex: 'content',
-    },
-    {
       title: '操作',
+      width: 300,
       render: (val, record, index) => {
         const {
           item: { i, texture },
@@ -173,7 +167,7 @@ export default class BasicList extends PureComponent {
   handleEditSuccess = () => {
     this.setState(
       {
-        currentPackage: {},
+        current: {},
       },
       () => {
         this.handleModalVisible();
@@ -185,7 +179,7 @@ export default class BasicList extends PureComponent {
   handleEditCancel = () => {
     this.setState(
       {
-        currentPackage: {},
+        current: {},
       },
       () => {
         this.handleModalVisible();
@@ -196,11 +190,11 @@ export default class BasicList extends PureComponent {
   handleEditEvent = record => {
     this.setState(
       {
-        currentPackage: {
+        current: {
           packageId: record.i,
           packageName: record.name,
-          travelDays: record.travel_days,
-          menu: record.menu,
+          room: record.room,
+          menuId: record.rich_text_content_i,
         },
       },
       () => {
@@ -216,14 +210,15 @@ export default class BasicList extends PureComponent {
       },
       loading,
       dispatch,
-      item: { i },
+      item: { i, type },
     } = this.props;
-    const { editModalVisible, currentPackage } = this.state;
+    const { editModalVisible, current } = this.state;
     const editFormProps = {
       itemId: i,
       loading,
       dispatch,
-      ...currentPackage,
+      type,
+      ...current,
       successCallback: this.handleEditSuccess,
       cancelCallback: this.handleEditCancel,
     };
@@ -235,6 +230,15 @@ export default class BasicList extends PureComponent {
         style={{ marginTop: 24 }}
         bodyStyle={{ padding: '0 0 40px 0' }}
       >
+        <Button
+          type="primary"
+          ghost
+          style={{ width: '100%', margin: '16px 0' }}
+          icon="plus"
+          onClick={() => this.handleModalVisible(true)}
+        >
+          添加
+        </Button>
         <DragSortingTable
           dataSource={list}
           columns={this.columns}
@@ -248,7 +252,7 @@ export default class BasicList extends PureComponent {
           footer={null}
           maskClosable={false}
           onCancel={this.handleEditCancel}
-          width={700}
+          width={800}
           destroyOnClose
         >
           <PackageEditForm {...editFormProps} />

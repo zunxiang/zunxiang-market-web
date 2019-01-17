@@ -1,15 +1,14 @@
 import React, { Component } from 'react';
 import { connect } from 'dva';
-import { Menu, Dropdown, Icon, Button, message, Modal, Badge, Popconfirm } from 'antd';
+import { Menu, Dropdown, Icon, Button, message, Modal, Popconfirm } from 'antd';
 import { Link } from 'dva/router';
 import { parse } from 'qs';
 import DescriptionList from '@/components/DescriptionList';
 import Debounce from 'lodash-decorators/debounce';
-import Ellipsis from '@/components/Ellipsis/index';
 import QRCode from 'qrcode-react';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import PackageList from './NormalPackageList';
-import { insuranceStatus, insuranceStatusMap } from './common';
+import { NormalTypes } from './common';
 
 const { Description } = DescriptionList;
 
@@ -24,63 +23,6 @@ const status = {
   loading: loading.effects['normal/get'],
 }))
 export default class BasicProfile extends Component {
-  insuranceColumns = [
-    {
-      title: 'id',
-      dataIndex: 'i',
-      sorter: true,
-    },
-    {
-      title: '类型',
-      dataIndex: 'type',
-    },
-    {
-      title: '名称',
-      dataIndex: 'name',
-      render: val => (
-        <Ellipsis length={25} tooltip>
-          {val}
-        </Ellipsis>
-      ),
-    },
-    {
-      title: '价格',
-      dataIndex: 'price',
-      sorter: true,
-      render: val => `${val / 100}`,
-      // mark to display a total number
-      needTotal: true,
-    },
-    {
-      title: '销量',
-      dataIndex: 'sales',
-      sorter: true,
-    },
-    {
-      title: '状态',
-      dataIndex: 'state',
-      render(val) {
-        return <Badge status={insuranceStatusMap[val]} text={insuranceStatus[val]} />;
-      },
-    },
-    {
-      title: '操作',
-      key: 'operation',
-      render: (val, record) => (
-        <Popconfirm
-          title="确认下移除产品?"
-          onConfirm={() => {
-            this.handleRemoveInsurance(record.i);
-          }}
-          okText="确认"
-          cancelText="取消"
-        >
-          <a>移除</a>
-        </Popconfirm>
-      ),
-    },
-  ];
-
   constructor(props) {
     super(props);
     const {
@@ -107,6 +49,7 @@ export default class BasicProfile extends Component {
             ...data,
           },
         });
+        this.handleGetContet(data.rich_text_content_i);
       },
     });
   }
@@ -135,21 +78,22 @@ export default class BasicProfile extends Component {
     }
   };
 
-  handleEdit = (model, part, type, texture, record) => {
+  handleEdit = (model, type, record) => {
     const { dispatch } = this.props;
+    const { content } = this.state;
     dispatch({
       type: 'normal/editNormal',
       payload: {
         record: {
           ...record,
-          images: record.images && record.images.join(','),
-          tx_location: record.tx_location && JSON.stringify(record.tx_location),
+          images: record.images ? record.images.split(',') : [],
+          origin_tx_location: record.origin_tx_location && JSON.parse(record.origin_tx_location),
+          tags: record.tags ? record.tags.split(',') : [],
+          content,
         },
         query: {
           model,
           type,
-          texture,
-          part,
         },
       },
     });
@@ -255,8 +199,24 @@ export default class BasicProfile extends Component {
     });
   };
 
+  handleGetContet(i) {
+    const { dispatch } = this.props;
+    dispatch({
+      type: 'normal/getContent',
+      payload: { i },
+      callback: data => {
+        this.setState({
+          content: data.content,
+        });
+      },
+    });
+  }
+
   renderAction = record => (
     <Menu>
+      <Menu.Item>
+        <a onClick={() => this.handleEdit('edit', record.type, record)}>编辑产品</a>
+      </Menu.Item>
       <Menu.Item>
         <Link
           to={{
@@ -311,30 +271,23 @@ export default class BasicProfile extends Component {
       <Description term="简介" col={1}>
         {item.intro}
       </Description>
-      <Description term="类型">{item.type}</Description>
+      <Description term="类型">{NormalTypes[item.type]}</Description>
       <Description term="销量">{item.sales}</Description>
       <Description term="状态">{status[item.state]}</Description>
-      <Description term="产品人">{item.product_person_name}</Description>
-      <Description term="酒店电话" col={3}>
-        {item.hotel_tel}
-      </Description>
       <Description term="酒店名称" col={3}>
         {item.hotel_name}
       </Description>
-      <Description term="供应商" col={3}>
-        {item.supplier_name}
-      </Description>
-      <Description term="通知手机" col={3}>
-        {item.notice_mobile}
-      </Description>
-      <Description term="服务电话" col={3}>
-        {item.tel}
+      <Description term="酒店电话" col={3}>
+        {item.hotel_tel}
       </Description>
       <Description term="酒店星级" col={3}>
         {item.hotel_star}
       </Description>
+      <Description term="通知手机" col={3}>
+        {item.notice_mobile}
+      </Description>
       <Description term="地址" col={3}>
-        {item.address}
+        {item.origin_address}
       </Description>
       <Description term="标签" col={3}>
         {item.tags}

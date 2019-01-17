@@ -24,6 +24,31 @@ const submitFormLayout = {
 };
 @Form.create()
 export default class BasicForms extends PureComponent {
+  state = {
+    loadingContent: true,
+    content: '',
+  };
+
+  componentDidMount() {
+    const { menuId, dispatch } = this.props;
+    if (menuId) {
+      dispatch({
+        type: 'normal/getContent',
+        payload: { i: menuId },
+        callback: res => {
+          this.setState({
+            content: res.content,
+            loadingContent: false,
+          });
+        },
+      });
+    } else {
+      this.setState({
+        loadingContent: false,
+      });
+    }
+  }
+
   handleSubmit = e => {
     e.preventDefault();
     const { dispatch, form, successCallback, packageId, itemId } = this.props;
@@ -36,15 +61,16 @@ export default class BasicForms extends PureComponent {
         if (packageId) {
           params.i = packageId;
           dispatch({
-            type: 'npackage/post',
+            type: 'pack/post',
             payload: params,
             callback: () => {
               if (successCallback) successCallback();
             },
           });
         } else {
+          params.sort = 1;
           dispatch({
-            type: 'npackage/add',
+            type: 'pack/add',
             payload: params,
             callback: () => {
               if (successCallback) successCallback();
@@ -56,7 +82,8 @@ export default class BasicForms extends PureComponent {
   };
 
   render() {
-    const { loading, cancelCallback, packageName, menu, content, room, texture, form } = this.props;
+    const { loading, cancelCallback, packageName, room, type, form } = this.props;
+    const { content, loadingContent } = this.state;
     const { getFieldDecorator } = form;
     return (
       <Form onSubmit={this.handleSubmit} hideRequiredMark style={{ marginTop: 8 }}>
@@ -71,7 +98,7 @@ export default class BasicForms extends PureComponent {
             initialValue: packageName,
           })(<Input placeholder="请输入套餐名称" />)}
         </FormItem>
-        {texture === 'HOTEL' ? (
+        {type === 'HOTEL' ? (
           <div>
             <FormItem {...formItemLayout} label="床型">
               {getFieldDecorator('room', {
@@ -90,26 +117,21 @@ export default class BasicForms extends PureComponent {
                 </Select>
               )}
             </FormItem>
-            <FormItem {...formItemLayout} label="套餐包含">
-              {getFieldDecorator('content', {
-                rules: [
-                  {
-                    required: true,
-                    message: '请输入套餐包含',
-                  },
-                ],
-                initialValue: content,
-              })(<Input placeholder="含早餐、门票等" />)}
-            </FormItem>
           </div>
         ) : null}
-        <Editor
-          form={form}
-          initialValue={menu}
-          name="menu"
-          label="套餐详情"
-          formItemLayout={formItemLayout}
-        />
+        {!loadingContent ? (
+          <Editor
+            form={form}
+            initialValue={content}
+            name="content"
+            label="套餐详情"
+            formItemLayout={formItemLayout}
+            editorOptions={{
+              initialFrameHeight: 350,
+              initialFrameWidth: 350,
+            }}
+          />
+        ) : null}
         <FormItem {...submitFormLayout} style={{ marginTop: 32 }}>
           <Button type="primary" htmlType="submit" loading={loading}>
             提交

@@ -169,7 +169,7 @@ export default class TableList extends PureComponent {
     });
   };
 
-  handleEdit = (model, type, texture, record) => {
+  handleEdit = (model, type, record) => {
     const { dispatch } = this.props;
     dispatch({
       type: 'normal/editNormal',
@@ -178,7 +178,6 @@ export default class TableList extends PureComponent {
         query: {
           model,
           type,
-          texture,
         },
       },
     });
@@ -215,8 +214,18 @@ export default class TableList extends PureComponent {
   renderMenu = record => (
     <Menu>
       <Menu.Item>
+        <Link
+          to={{
+            pathname: '/product/normal/detail',
+            search: `i=${record.i}`,
+          }}
+        >
+          产品详情
+        </Link>
+      </Menu.Item>
+      <Menu.Item>
         <Popconfirm
-          title="确认给所有管家推送该商品吗?"
+          title="确认给所有分销推送该商品吗?"
           onConfirm={() => this.handleWechatPush(record.i)}
           okText="确认"
           cancelText="取消"
@@ -232,16 +241,6 @@ export default class TableList extends PureComponent {
           }}
         >
           查看订单
-        </Link>
-      </Menu.Item>
-      <Menu.Item>
-        <Link
-          to={{
-            pathname: '/product/normal/detail',
-            search: `i=${record.i}`,
-          }}
-        >
-          产品详情
         </Link>
       </Menu.Item>
       <Menu.Item>
@@ -323,6 +322,20 @@ export default class TableList extends PureComponent {
     );
   };
 
+  renderCreateMenu = () => (
+    <Menu>
+      <Menu.Item>
+        <a onClick={() => this.handleEdit('add', 'HOTEL', {})}>酒店</a>
+      </Menu.Item>
+      <Menu.Item>
+        <a onClick={() => this.handleEdit('add', 'PKG', {})}>自由行</a>
+      </Menu.Item>
+      <Menu.Item>
+        <a onClick={() => this.handleEdit('add', 'GROUP', {})}>跟团游</a>
+      </Menu.Item>
+    </Menu>
+  );
+
   render() {
     const { loading } = this.props;
     const {
@@ -388,6 +401,15 @@ export default class TableList extends PureComponent {
               }
             />
             <ProductList
+              header={
+                <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+                  <Dropdown overlay={this.renderCreateMenu()}>
+                    <Button icon="plus" ghost type="primary">
+                      新建
+                    </Button>
+                  </Dropdown>
+                </div>
+              }
               bordered
               itemLayout="vertical"
               size="middle"

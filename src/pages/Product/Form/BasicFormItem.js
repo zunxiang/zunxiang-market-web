@@ -2,7 +2,6 @@ import React, { Fragment } from 'react';
 import { Form, Input, Select } from 'antd';
 import { formItemLayout } from './common';
 import ImgFormItem from './ImgFormItem';
-
 import './style.less';
 
 const FormItem = Form.Item;
@@ -89,6 +88,42 @@ const TagsFormItem = props => {
   );
 };
 
+const HotelNameFormItem = props => {
+  const { form, initialValue } = props;
+  const { getFieldDecorator } = form;
+  return (
+    <FormItem {...formItemLayout} label="酒店名称">
+      {getFieldDecorator('hotel_name', {
+        rules: [
+          {
+            required: true,
+            message: '请输入酒店名称',
+          },
+        ],
+        initialValue: initialValue.hotel_name,
+      })(<Input placeholder="请输入" />)}
+    </FormItem>
+  );
+};
+
+const HotelTelFormItem = props => {
+  const { form, initialValue } = props;
+  const { getFieldDecorator } = form;
+  return (
+    <FormItem {...formItemLayout} label="酒店电话">
+      {getFieldDecorator('hotel_tel', {
+        rules: [
+          {
+            required: true,
+            message: '请输入酒店电话',
+          },
+        ],
+        initialValue: initialValue.hotel_tel,
+      })(<Input placeholder="请输入" />)}
+    </FormItem>
+  );
+};
+
 const HotelStarFormItem = props => {
   const { form, initialValue } = props;
   const { getFieldDecorator } = form;
@@ -133,34 +168,26 @@ const NoticeMobileFormItem = props => {
   );
 };
 
-const ServicePhoneFormItem = props => {
-  const { form, initialValue } = props;
-  const { getFieldDecorator } = form;
+const BasicFormItem = props => {
+  const {
+    initialValue: { type },
+  } = props;
   return (
-    <FormItem {...formItemLayout} label="服务电话">
-      {getFieldDecorator('tel', {
-        rules: [
-          {
-            required: true,
-            message: '请输入服务电话',
-          },
-        ],
-        initialValue: initialValue.tel,
-      })(<Input placeholder="请输入服务电话" />)}
-    </FormItem>
+    <Fragment>
+      <ImgFormItem {...props} />
+      <NameFormItem {...props} />
+      <IntroFormItem {...props} />
+      <TagsFormItem {...props} />
+      {type === 'HOTEL' ? (
+        <Fragment>
+          <HotelNameFormItem {...props} />
+          <HotelTelFormItem {...props} />
+          <HotelStarFormItem {...props} />
+        </Fragment>
+      ) : null}
+      <NoticeMobileFormItem {...props} />
+    </Fragment>
   );
 };
-
-const BasicFormItem = props => (
-  <Fragment>
-    <ImgFormItem {...props} />
-    <NameFormItem {...props} />
-    <IntroFormItem {...props} />
-    <TagsFormItem {...props} />
-    <HotelStarFormItem {...props} />
-    <NoticeMobileFormItem {...props} />
-    <ServicePhoneFormItem {...props} />
-  </Fragment>
-);
 
 export { BasicFormItem };

@@ -2,7 +2,9 @@ import React, { PureComponent } from 'react';
 import { connect } from 'dva';
 import { Form, Button, Card, Row, Col } from 'antd';
 import { routerRedux } from 'dva/router';
+import { parse } from 'qs';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
+import AreaSelector from '@/components/AreaSelector';
 import { BasicFormItem } from './BasicFormItem';
 import MapFormItem from './MapFormItem';
 import { submitFormLayout, formItemLayout } from './common';
@@ -16,52 +18,80 @@ const FormItem = Form.Item;
 }))
 @Form.create()
 export default class ItemMainForms extends PureComponent {
-  state = {};
+  constructor(props) {
+    super(props);
+    const {
+      location: { search },
+      normal: { current },
+    } = props;
+    const { model, type } = parse(search, { ignoreQueryPrefix: true });
+    const parseCurrent = {
+      ...current,
+      initLoaction: current.origin_tx_location || { lat: 23.12908, lng: 113.26436 },
+    };
+    this.state = {
+      model,
+      type,
+      current: parseCurrent,
+    };
+  }
 
   handleSubmit = e => {
     e.preventDefault();
+    const { dispatch, form } = this.props;
     const {
-      dispatch,
-      normal: { currentItem },
-    } = this.props;
-    const { type } = currentItem;
-    this.props.form.validateFieldsAndScroll((err, fieldsValue) => {
+      model,
+      type,
+      current: { i },
+    } = this.state;
+    form.validateFieldsAndScroll((err, fieldsValue) => {
       if (!err) {
+        const { map, images, tags, destination, ...values } = fieldsValue;
         let params = {
-          ...fieldsValue,
-          images: fieldsValue.images.map(f => f.response.hash).join(','),
-          tags: fieldsValue.tags.join(','),
-          i: currentItem.i,
+          ...values,
+          images: images.map(f => f.response.hash).join(','),
+          tags: tags.join(','),
+          type,
         };
-        if (type === '出境游') {
-          params.address = fieldsValue.country + fieldsValue.city;
-          params.province = null;
-        } else {
-          const {
-            address,
-            addressComponents: { city, country, province },
-            location,
-          } = fieldsValue.map;
-          params = {
-            ...params,
-            address,
-            country,
-            city,
-            province,
-            tx_location: location,
-          };
-          if (type === '酒店') {
-            delete params.address;
-          }
-          delete params.map;
+        if (type === 'GROUP') {
+          const [province, city] = destination;
+          params.termini_country = '中国';
+          params.termini_province = province;
+          params.termini_city = city;
         }
-        dispatch({
-          type: 'normal/publicPost',
-          payload: params,
-          callback: () => {
-            dispatch(routerRedux.push(`/normal/detail?i=${currentItem.i}`));
-          },
-        });
+        const {
+          address,
+          addressComponents: { city, country, province },
+          location,
+        } = map;
+        params = {
+          ...params,
+          origin_country: country,
+          origin_province: province,
+          origin_city: city,
+          origin_address: address,
+          origin_tx_location: JSON.stringify(location),
+        };
+        if (model === 'add') {
+          dispatch({
+            type: 'normal/publicAdd',
+            payload: params,
+            callback: res => {
+              dispatch(routerRedux.push(`/product/normal/detail?i=${res}`));
+            },
+          });
+        } else if (model === 'edit') {
+          dispatch({
+            type: 'normal/publicPost',
+            payload: {
+              ...params,
+              i,
+            },
+            callback: () => {
+              dispatch(routerRedux.push(`/product/normal/detail?i=${i}`));
+            },
+          });
+        }
       }
     });
   };
@@ -72,47 +102,56 @@ export default class ItemMainForms extends PureComponent {
   };
 
   render() {
-    const {
-      submitting,
-      form,
-      normal: { currentItem },
-    } = this.props;
+    const { submitting, form } = this.props;
+    const { getFieldDecorator } = form;
+    const { type, current } = this.state;
     const initialValue = {
-      ...currentItem,
-      images: currentItem.images ? currentItem.images.split(',') : [],
-      tags: currentItem.tags ? currentItem.tags.split(',') : [],
-      initLoaction: currentItem.tx_location
-        ? JSON.parse(currentItem.tx_location)
-        : { lat: 23.12908, lng: 113.26436 },
+      type,
+      ...current,
     };
+    const destination = [current.termini_province, current.termini_city];
     return (
       <PageHeaderWrapper>
-        <Card bordered={false} title={currentItem.name}>
+        <Card bordered={false} title={current.name}>
           <Form
             onSubmit={this.handleSubmit}
             hideRequiredMark
             style={{ marginTop: 8 }}
             layout="vertical"
           >
-            <Row gutter={16}>
-              <Col lg={8} md={24} sm={24}>
+            <Row gutter={32}>
+              <Col lg={14} md={24} sm={24}>
                 <BasicFormItem form={form} initialValue={initialValue} />
+                <MapFormItem
+                  form={form}
+                  initialValue={initialValue}
+                  label={type === 'GROUP' ? '出发地' : '地址'}
+                  fieldName="map"
+                />
+                {type === 'GROUP' ? (
+                  <AreaSelector
+                    fieldName="destination"
+                    label="目的地"
+                    required
+                    formItemLayout={formItemLayout}
+                    initialValue={destination}
+                    getFieldDecorator={getFieldDecorator}
+                    level={2}
+                  />
+                ) : null}
               </Col>
-              <Col lg={8} md={24} sm={24}>
+              <Col lg={10} md={24} sm={24}>
                 <Editor
                   form={form}
                   formItemLayout={formItemLayout}
                   initialValue={initialValue.content}
                   editorOptions={{
-                    initialFrameHeight: 550,
+                    initialFrameHeight: type === 'HOTEL' ? 750 : 550,
                     initialFrameWidth: 350,
                   }}
                   name="content"
                   label="产品详情"
                 />
-              </Col>
-              <Col lg={8} md={24} sm={24}>
-                <MapFormItem form={form} initialValue={initialValue} />
               </Col>
             </Row>
             <FormItem {...submitFormLayout} style={{ marginTop: 32 }}>

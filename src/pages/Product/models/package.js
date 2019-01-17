@@ -11,12 +11,14 @@ export default {
   },
   effects: {
     *find({ payload, callback }, { call, put }) {
-      const { currentPage, pageSize, ...params } = payload;
+      const { currentPage, pageSize, order, ...params } = payload;
       const msg = {
         handler: '/v1/mp/item/package/find',
         message: JSON.stringify({
-          ...params,
-          limit: `${(currentPage - 1) * pageSize},${pageSize}`,
+          query: [{ ...params }],
+          order,
+          limit: pageSize,
+          offset: (currentPage - 1) * pageSize,
         }),
       };
       const [code, response] = yield call(GET, msg);

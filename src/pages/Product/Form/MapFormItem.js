@@ -1,5 +1,5 @@
 import React, { PureComponent, Fragment } from 'react';
-import { Input, message, Form, Row, Col } from 'antd';
+import { Input, message, Form, Modal, Button } from 'antd';
 import ReactQMap from 'react-qmap';
 import { formItemLayout } from './common';
 import { mapKey } from '@/common/config';
@@ -8,13 +8,18 @@ const { Search } = Input;
 const FormItem = Form.Item;
 
 export default class MapForm extends PureComponent {
-  state = {
-    searchService: null,
-    infoWin: null,
-    markers: [],
-    geocoder: null,
-    initAdrress: '',
-  };
+  constructor(props) {
+    super(props);
+    const { initialValue } = props;
+    this.state = {
+      searchService: null,
+      infoWin: null,
+      markers: [],
+      geocoder: null,
+      initAdrress: initialValue.origin_address,
+      visible: false,
+    };
+  }
 
   /* eslint no-underscore-dangle: ["error", { "allow": ["__map__"] }] */
   handleCreated = (smap, gmap) => {
@@ -76,7 +81,7 @@ export default class MapForm extends PureComponent {
           markers.push(marker);
           infoWin.open();
           infoWin.setContent(
-            `<div style="width:100px;height:auto;">${poi.address || poi.name}</div>`
+            `<div style="width:100px;height:auto;">${poi.address || poi.name}--'点击选择'</div>`
           );
           infoWin.setPosition(poi.latLng);
           gmap.event.addListener(marker, 'click', () => {
@@ -123,9 +128,16 @@ export default class MapForm extends PureComponent {
     searchService.search(value);
   };
 
+  handleMapModalVisible = flag => {
+    this.input.blur();
+    this.setState({
+      visible: !!flag,
+    });
+  };
+
   render() {
-    const { initAdrress } = this.state;
-    const { form } = this.props;
+    const { initAdrress, visible } = this.state;
+    const { form, label, fieldName } = this.props;
     const { getFieldDecorator } = form;
     const initCenter = {
       latitude: 23.12908,
@@ -133,8 +145,8 @@ export default class MapForm extends PureComponent {
     };
     return (
       <Fragment>
-        <FormItem {...formItemLayout} label="地址">
-          {getFieldDecorator('map', {
+        <FormItem {...formItemLayout} label={label}>
+          {getFieldDecorator(fieldName, {
             rules: [
               {
                 required: true,
@@ -142,33 +154,59 @@ export default class MapForm extends PureComponent {
               },
             ],
           })(<Input style={{ display: 'none' }} />)}
-          <Input placeholder="请输在地图上选择地址" disabled value={initAdrress} />
+          <Search
+            placeholder="请输在地图上选择地址"
+            value={initAdrress}
+            enterButton="显示地图"
+            ref={c => {
+              this.input = c;
+            }}
+            onFocus={() => this.handleMapModalVisible(true)}
+            onSearch={() => this.handleMapModalVisible(true)}
+          />
         </FormItem>
-        <Row style={{ marginBottom: 16 }}>
-          <Col xs={{ span: 24 }} md={24}>
-            <div style={{ width: '100%', height: '600px', position: 'relative' }}>
-              <ReactQMap
-                getMap={this.handleCreated}
-                center={initCenter}
-                initialOptions={{ zoomControl: true, mapTypeControl: false, zoom: 10 }}
-                apiKey={mapKey}
-              />
-              <Search
-                placeholder="请输入您需要搜索的地址"
-                onSearch={this.handleSearch}
-                style={{
-                  width: 250,
-                  position: 'absolute',
-                  top: 0,
-                  right: 0,
-                }}
-                enterButton
-                defaultValue={initAdrress}
-                size="default"
-              />
+        <Modal
+          title="地址选择"
+          visible={visible}
+          onCancel={() => this.handleMapModalVisible(false)}
+          width={900}
+          footer={
+            <div>
+              <span>已选地址：{initAdrress}</span>
+              <Button
+                type="primary"
+                onClick={() => this.handleMapModalVisible(false)}
+                style={{ marginLeft: 8 }}
+              >
+                确定
+              </Button>
             </div>
-          </Col>
-        </Row>
+          }
+          zIndex={1002}
+        >
+          <div style={{ width: '100%', height: '600px', position: 'relative' }}>
+            <ReactQMap
+              getMap={this.handleCreated}
+              center={initCenter}
+              initialOptions={{ zoomControl: true, mapTypeControl: false, zoom: 10 }}
+              apiKey={mapKey}
+            />
+            <Search
+              placeholder="请输入您需要搜索的地址"
+              onSearch={this.handleSearch}
+              style={{
+                width: 300,
+                position: 'absolute',
+                top: 0,
+                left: '50%',
+                marginLeft: -150,
+              }}
+              enterButton
+              defaultValue={initAdrress}
+              size="default"
+            />
+          </div>
+        </Modal>
       </Fragment>
     );
   }

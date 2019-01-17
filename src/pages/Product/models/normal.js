@@ -1,6 +1,6 @@
 import { routerRedux } from 'dva/router';
 import { stringify } from 'qs';
-import { GET } from '@/services/api';
+import { GET, POST } from '@/services/api';
 
 export default {
   namespace: 'normal',
@@ -9,7 +9,7 @@ export default {
       list: [],
       pagination: {},
     },
-    currentItem: {},
+    current: {},
   },
   effects: {
     *find({ payload, callback }, { call, put }) {
@@ -51,6 +51,15 @@ export default {
       if (code !== 0) return;
       if (callback) callback(response);
     },
+    *getContent({ payload, callback }, { call }) {
+      const msg = {
+        handler: '/v1/mp/item/item/get_rich_text_content',
+        message: JSON.stringify(payload),
+      };
+      const [code, response] = yield call(GET, msg);
+      if (code !== 0) return;
+      if (callback) callback(response);
+    },
     *open({ payload, callback }, { call }) {
       const msg = {
         handler: '/v1/mp/item/item/listed',
@@ -74,14 +83,14 @@ export default {
         type: 'keepCurrent',
         payload: payload.record,
       });
-      yield put(routerRedux.push(`/normal/public?${stringify(payload.query)}`));
+      yield put(routerRedux.push(`/product/normal/create?${stringify(payload.query)}`));
     },
     *publicAdd({ payload, callback }, { call }) {
       const msg = {
         handler: '/v1/mp/item/item/add',
         message: JSON.stringify(payload),
       };
-      const [code, response] = yield call(GET, msg);
+      const [code, response] = yield call(POST, msg);
       if (code !== 0) return;
       if (callback) callback(response);
     },
@@ -120,7 +129,7 @@ export default {
     keepCurrent(state, action) {
       return {
         ...state,
-        currentItem: action.payload,
+        current: action.payload,
       };
     },
   },
