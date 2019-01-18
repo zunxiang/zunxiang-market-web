@@ -34,7 +34,7 @@ export default class BasicList extends PureComponent {
       width: 300,
       render: (val, record, index) => {
         const {
-          item: { i, texture },
+          item: { i, type },
         } = this.props;
         return (
           <Fragment>
@@ -42,23 +42,15 @@ export default class BasicList extends PureComponent {
             <Divider type="vertical" />
             <Link
               to={{
-                pathname: '/normal/pack-manage',
+                pathname: '/product/sku',
                 search: `package_i=${record.i}&item_i=${i}&package_name=${
                   record.name
-                }&texture=${texture}`,
+                }&type=${type}`,
               }}
             >
-              套餐管理
+              日期管理
             </Link>
             <Divider type="vertical" />
-            <Link
-              to={{
-                pathname: '/normal/diff-list',
-                search: `package_i=${record.i}&package_name=${record.name}`,
-              }}
-            >
-              差异佣金
-            </Link>
             <Divider type="vertical" />
             <Popconfirm
               title="确认删除该套餐?"

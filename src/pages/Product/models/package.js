@@ -1,4 +1,4 @@
-import { GET } from '@/services/api';
+import { GET, POST } from '@/services/api';
 
 export default {
   namespace: 'pack',
@@ -39,23 +39,19 @@ export default {
       });
       if (callback) callback(data);
     },
-    *findSku({ payload, callback }, { call, put }) {
-      const { currentPage, pageSize, ...params } = payload;
+    *findSku({ payload, callback }, { call }) {
+      const { currentPage, pageSize, order, ...params } = payload;
       const msg = {
         handler: '/v1/mp/item/sku/find',
         message: JSON.stringify({
-          ...params,
-          limit: `${(currentPage - 1) * pageSize},${pageSize}`,
+          query: [{ ...params }],
+          order,
+          limit: pageSize,
+          offset: (currentPage - 1) * pageSize,
         }),
       };
       const [code, response] = yield call(GET, msg);
       if (code !== 0) return;
-      yield put({
-        type: 'findSkuSuccess',
-        payload: {
-          list: response.list,
-        },
-      });
       if (callback) callback(response.list);
     },
     *dragSorting({ payload, callback }, { put }) {
@@ -108,6 +104,15 @@ export default {
           list: [],
         },
       });
+    },
+    *skusPost({ payload, callback }, { call }) {
+      const msg = {
+        handler: '/v1/mp/item/sku/set_skus',
+        message: JSON.stringify(payload),
+      };
+      const [code, data] = yield call(POST, msg);
+      if (code !== 0) return;
+      if (callback) callback(data);
     },
   },
 

@@ -24,8 +24,12 @@
     .baseWrap {
       width: 100%;
       .halfWrap {
+        width: 100%;
         padding-top: 2px;
-        width: 50%;
+        span {
+          display: inline-block;
+          min-width: 50%;
+        }
       }
     }
     .feeWrap {
@@ -40,6 +44,31 @@
 .cellWrap:hover {
   .btnWrap {
     visibility: visible;
+  }
+}
+.tableListForm {
+  :global {
+    .ant-form-item {
+      margin-bottom: 24px;
+      margin-right: 0;
+      display: flex;
+      > .ant-form-item-label {
+        width: auto;
+        line-height: 32px;
+        padding-right: 8px;
+      }
+      .ant-form-item-control {
+        line-height: 32px;
+      }
+    }
+    .ant-form-item-control-wrapper {
+      flex: 1;
+    }
+  }
+  .submitButtons {
+    display: block;
+    white-space: nowrap;
+    margin-bottom: 24px;
   }
 }
 
@@ -67,9 +96,27 @@
 .calendarWrap {
   position: relative;
   background-color: #fff;
+  .prevMonthBtn,
+  .nextMonthBtn,
   .operationBtnWrap {
-    position: absolute;
-    right: 300px;
     top: 11px;
+    position: absolute;
+  }
+  .operationBtnWrap {
+    right: 340px;
+  }
+  .nextMonthBtn {
+    right: 11px;
+  }
+  .prevMonthBtn {
+    right: 239px;
+  }
+  :global {
+    .ant-fullcalendar-header {
+      padding-right: 85px;
+      .ant-radio-group {
+        display: none;
+      }
+    }
   }
 }
