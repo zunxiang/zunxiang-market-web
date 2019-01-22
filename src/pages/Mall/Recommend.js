@@ -29,30 +29,24 @@ export default class Recommend extends PureComponent {
     super(props);
     this.state = {
       items: [],
+      list: [],
+      recommends: [],
       searching: false,
       selected: undefined,
     };
     this.columns = [
       {
-        title: '排序',
-        dataIndex: 'sort',
-        render: (val, record, index) => index + 1,
-      },
-      {
         title: '产品图片',
-        dataIndex: 'item.images',
-        render: val => {
-          const imgs = val ? val.split(',') : [];
-          return <img src={BaseImgUrl + imgs[0]} alt="产品图片" style={{ width: 100 }} />;
-        },
+        dataIndex: 'images',
+        render: val => <img src={BaseImgUrl + val[0]} alt="产品图片" style={{ width: 100 }} />,
       },
       {
         title: '产品标题',
-        dataIndex: 'item.name',
+        dataIndex: 'title',
       },
       {
         title: '状态',
-        dataIndex: 'item.state',
+        dataIndex: 'state',
         render(val) {
           return <Badge status={statusMap[val]} text={status[val]} />;
         },
@@ -84,98 +78,112 @@ export default class Recommend extends PureComponent {
   loadData = () => {
     const { dispatch } = this.props;
     dispatch({
-      type: 'recommend/find',
+      type: 'recommend/get',
+      payload: {},
+      callback: list => {
+        this.setState(
+          {
+            list: [...list],
+          },
+          () => {
+            this.loadRecommends();
+          }
+        );
+      },
+    });
+  };
+
+  loadRecommends = () => {
+    const { dispatch } = this.props;
+    const { list } = this.state;
+    dispatch({
+      type: 'recommend/findProduct',
       payload: {
         currentPage: 1,
-        pageSize: 99,
-        order: 'sort:-num',
+        pageSize: 999,
+        'i@in': list,
+      },
+      callback: data => {
+        const items = data.list.map(item => ({
+          ...item,
+          images: item.images ? item.images.split(',') : '',
+        }));
+        const sorted = list.map(id => items.filter(item => item.i === id)[0]);
+        this.setState({
+          recommends: sorted,
+        });
       },
     });
   };
 
   moveRow = (dragIndex, hoverIndex) => {
-    const {
-      recommend: {
-        data: { list },
-      },
-      dispatch,
-    } = this.props;
-    const dragRow = list[dragIndex];
-    const newList = update(list, {
+    const { dispatch } = this.props;
+    const { recommends } = this.state;
+    const dragRow = recommends[dragIndex];
+    const newRecommends = update(recommends, {
       $splice: [[dragIndex, 1], [hoverIndex, 0, dragRow]],
     });
+    const newList = newRecommends.map(val => val.i);
     dispatch({
-      type: 'recommend/dragSorting',
+      type: 'recommend/set',
       payload: { list: newList },
       callback: () => {
-        dispatch({
-          type: 'recommend/postSorting',
-          payload: newList.map((val, index) => ({
-            i: val.i,
-            sort: index + 1,
-          })),
-          callback: () => {
-            message.success('排序成功');
-          },
+        this.setState({
+          list: [...newList],
+          recommends: [...newRecommends],
         });
+        message.success('排序成功');
       },
     });
   };
 
   handleAdd = () => {
-    const {
-      dispatch,
-      recommend: {
-        data: { list },
-      },
-    } = this.props;
-    const { selected } = this.state;
+    const { dispatch } = this.props;
+    const { selected, list } = this.state;
     if (!selected) {
       message.error('请先选择需要推荐的产品');
       return;
     }
-    const filterList = list.filter(val => val.item_i === selected);
-    if (filterList.length > 0) {
+    if (list.includes(selected)) {
       message.error('你已经推荐过该产品了');
       return;
     }
     dispatch({
-      type: 'recommend/add',
-      payload: [
-        {
-          item_i: selected,
-          sort: list.length + 1,
-        },
-      ],
+      type: 'recommend/set',
+      payload: {
+        list: [...list, selected],
+      },
       callback: () => {
-        this.setState({
-          selected: undefined,
-        });
-        this.loadData();
-        message.success('添加成功');
+        this.setState(
+          {
+            selected: undefined,
+            list: [...list, selected],
+          },
+          () => {
+            this.loadRecommends();
+            message.success('推荐成功');
+          }
+        );
       },
     });
   };
 
-  handleDelete = (i, index) => {
-    const {
-      recommend: {
-        data: { list },
-      },
-      dispatch,
-    } = this.props;
+  handleDelete = i => {
+    const { dispatch } = this.props;
+    const { recommends } = this.state;
+    const newRecommneds = recommends.filter(val => i !== val.i);
+    const newList = newRecommneds.map(val => val.i);
     dispatch({
-      type: 'recommend/delete',
-      payload: { i },
+      type: 'recommend/set',
+      payload: {
+        list: newList,
+      },
       callback: () => {
-        list.splice(index, 1);
-        dispatch({
-          type: 'recommend/dragSorting',
-          payload: { list },
-          callback: () => {
-            message.success('取消成功');
-          },
+        this.setState({
+          list: newList,
+          recommends: [...newRecommneds],
         });
+        message.success('取消成功');
       },
     });
   };
@@ -188,12 +196,11 @@ export default class Recommend extends PureComponent {
       },
       () => {
         dispatch({
-          type: 'normal/find',
+          type: 'recommend/findProduct',
           payload: {
             currentPage: 1,
             pageSize: 10,
             'title@like': name,
-            is_display: 'TRUE',
           },
           callback: data => {
             this.setState({
@@ -213,13 +220,8 @@ export default class Recommend extends PureComponent {
   };
 
   render() {
-    const {
-      recommend: {
-        data: { list },
-      },
-      loading,
-    } = this.props;
-    const { items, searching, selected } = this.state;
+    const { loading } = this.props;
+    const { items, searching, selected, recommends } = this.state;
     return (
       <PageHeaderWrapper>
         <div className={styles.recommendWrap}>
@@ -244,7 +246,7 @@ export default class Recommend extends PureComponent {
                 >
                   {items.map(d => (
                     <Option key={d.i} value={d.i}>
-                      {d.name}
+                      {d.title}
                     </Option>
                   ))}
                 </Select>
@@ -255,7 +257,7 @@ export default class Recommend extends PureComponent {
             }
           >
             <DragSortingTable
-              dataSource={list}
+              dataSource={recommends}
               columns={this.columns}
               moveRow={this.moveRow}
               rowKey="i"

@@ -53,7 +53,7 @@ export default class withdrawList extends PureComponent {
       },
       {
         title: '账户ID',
-        dataIndex: 'account_i',
+        dataIndex: 'user_i',
       },
       {
         title: '创建时间',
@@ -78,35 +78,33 @@ export default class withdrawList extends PureComponent {
       {
         title: '操作',
         key: 'op',
-        render: (val, record) => {
-          return (
-            <Fragment>
-              <a onClick={() => this.handleExport(record.i)}>导出订单明细</a>
-              <Divider type="vertical" />
-              {record.state === 'WITHDRAW_WAIT' ? (
-                <Fragment>
-                  <Popconfirm
-                    title="确认该笔提现完成?"
-                    onConfirm={() => this.handleFinish(record.i)}
-                    okText="确认"
-                    cancelText="取消"
-                  >
-                    <a>提现成功</a>
-                  </Popconfirm>
-                  <Divider type="vertical" />
-                  <Popconfirm
-                    title="确认该笔提现失败?"
-                    onConfirm={() => this.handleError(record.i)}
-                    okText="确认"
-                    cancelText="取消"
-                  >
-                    <a>提现失败</a>
-                  </Popconfirm>
-                </Fragment>
-              ) : null}
-            </Fragment>
-          );
-        },
+        render: (val, record) => (
+          <Fragment>
+            <a onClick={() => this.handleExport(record.i)}>导出订单明细</a>
+            <Divider type="vertical" />
+            {record.state === 'WITHDRAW_WAIT' ? (
+              <Fragment>
+                <Popconfirm
+                  title="确认该笔提现完成?"
+                  onConfirm={() => this.handleFinish(record.i)}
+                  okText="确认"
+                  cancelText="取消"
+                >
+                  <a>提现成功</a>
+                </Popconfirm>
+                <Divider type="vertical" />
+                <Popconfirm
+                  title="确认该笔提现失败?"
+                  onConfirm={() => this.handleError(record.i)}
+                  okText="确认"
+                  cancelText="取消"
+                >
+                  <a>提现失败</a>
+                </Popconfirm>
+              </Fragment>
+            ) : null}
+          </Fragment>
+        ),
       },
     ];
   }

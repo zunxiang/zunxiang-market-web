@@ -2,7 +2,6 @@ import React, { PureComponent, Fragment } from 'react';
 import { connect } from 'dva';
 import { Table, Card, Form, Button, Avatar, Badge, Popconfirm, message } from 'antd';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
-import EditableItem from '@/components/EditableItem';
 import Prompt from '@/components/Prompt';
 import SearchForm from '@/components/FormGenerator/SearchForm';
 import { searchItems } from './Search/items';
@@ -26,6 +25,11 @@ export default class TableList extends PureComponent {
     sorter: undefined,
     showCouponModal: false,
     currentCustomer: null,
+    data: {
+      list: [],
+      sum: {},
+      pagination: {},
+    },
   };
 
   columns = [
@@ -41,13 +45,6 @@ export default class TableList extends PureComponent {
     {
       title: '昵称',
       dataIndex: 'nickname',
-    },
-    {
-      title: '管家id',
-      dataIndex: 'salesman_i',
-      render: (val, record) => (
-        <EditableItem value={val} onChange={value => this.handleChangeSalesman(value, record.i)} />
-      ),
     },
     {
       title: '积分',
@@ -83,7 +80,7 @@ export default class TableList extends PureComponent {
     {
       title: '最后登录',
       dataIndex: 'last_login',
-      render: val => val.substring(0, 19),
+      render: val => val && val.substring(0, 19),
     },
     {
       title: '操作',
@@ -118,14 +115,7 @@ export default class TableList extends PureComponent {
   ];
 
   componentDidMount() {
-    const { dispatch } = this.props;
-    dispatch({
-      type: 'customer/find',
-      payload: {
-        currentPage: 1,
-        pageSize: 10,
-      },
-    });
+    this.loadData();
   }
 
   loadData = () => {
@@ -141,6 +131,11 @@ export default class TableList extends PureComponent {
     dispatch({
       type: 'customer/find',
       payload: params,
+      callback: data => {
+        this.setState({
+          data,
+        });
+      },
     });
   };
 
@@ -266,13 +261,12 @@ export default class TableList extends PureComponent {
   };
 
   render() {
+    const { loading } = this.props;
     const {
-      customer: {
-        data: { list, pagination },
-      },
-      loading,
-    } = this.props;
-    const { selectedRows, showCouponModal } = this.state;
+      selectedRows,
+      showCouponModal,
+      data: { list, pagination },
+    } = this.state;
     const paginationProps = {
       showSizeChanger: true,
       showQuickJumper: true,

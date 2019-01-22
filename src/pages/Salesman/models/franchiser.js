@@ -15,19 +15,26 @@ export default {
     },
   },
   effects: {
-    *platfind({ payload, callback }, { call, put }) {
-      const { currentPage, pageSize, ...params } = payload;
+    *platfind({ payload, callback }, { call }) {
+      const { currentPage, pageSize, order, ...params } = payload;
       const msg = {
-        handler: '/v1/mp/salesman/salesman/find',
+        handler: '/v1/mp/user/salesman/find',
         message: JSON.stringify({
-          ...params,
-          limit: `${(currentPage - 1) * pageSize},${pageSize}`,
+          query: [params],
+          order,
+          limit: pageSize,
+          offset: (currentPage - 1) * pageSize,
         }),
       };
       const [code, response] = yield call(GET, msg);
       if (code !== 0) return;
       const data = {
-        list: response.list,
+        list: response.list.map(val => ({
+          ...val,
+          balance: val.balance / 100,
+          amount: val.amount / 100,
+          create_time: val.create_time.substring(0, 10),
+        })),
         sum: response.sum,
         pagination: {
           current: currentPage,
@@ -35,15 +42,11 @@ export default {
           total: response.total,
         },
       };
-      yield put({
-        type: 'findSuccess',
-        payload: { ...data },
-      });
-      if (callback) callback();
+      if (callback) callback(data);
     },
     *paltopen({ payload, callback }, { call }) {
       const msg = {
-        handler: '/v1/mp/salesman/salesman/open',
+        handler: '/v1/mp/user/salesman/open',
         message: JSON.stringify(payload),
       };
       const [code] = yield call(GET, msg);
@@ -52,7 +55,7 @@ export default {
     },
     *paltclose({ payload, callback }, { call }) {
       const msg = {
-        handler: '/v1/mp/salesman/salesman/close',
+        handler: '/v1/mp/user/salesman/close',
         message: JSON.stringify(payload),
       };
       const [code] = yield call(GET, msg);
@@ -61,7 +64,7 @@ export default {
     },
     *paltallowBonus({ payload, callback }, { call }) {
       const msg = {
-        handler: '/v1/mp/salesman/salesman/open_bonus',
+        handler: '/v1/mp/user/salesman/open_bonus',
         message: JSON.stringify(payload),
       };
       const [code] = yield call(GET, msg);
@@ -70,7 +73,16 @@ export default {
     },
     *paltcloseBonus({ payload, callback }, { call }) {
       const msg = {
-        handler: '/v1/mp/salesman/salesman/close_bonus',
+        handler: '/v1/mp/user/salesman/close_bonus',
+        message: JSON.stringify(payload),
+      };
+      const [code] = yield call(GET, msg);
+      if (code !== 0) return;
+      if (callback) callback();
+    },
+    *changeLevel({ payload, callback }, { call }) {
+      const msg = {
+        handler: '/v1/mp/user/salesman/set_level',
         message: JSON.stringify(payload),
       };
       const [code] = yield call(GET, msg);

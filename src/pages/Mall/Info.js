@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'dva';
-import { Card, Input, Form, Row, Col, InputNumber, Button, message, Spin } from 'antd';
+import { Card, Input, Form, Row, Col, Button, message, Spin } from 'antd';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import Upload from '@/components/FormItems/Upload';
 import { BaseImgUrl } from '@/common/config';
@@ -59,16 +59,13 @@ class InfoSetting extends PureComponent {
     const { form, dispatch } = this.props;
     form.validateFields((err, fieldsValue) => {
       if (err) return;
-      if (fieldsValue.salesman_commission_percent + fieldsValue.inviter_commission_percent > 100) {
-        message.error('佣金占比不能超过100%');
-        return;
-      }
       dispatch({
         type: 'mallSetting/set',
         payload: {
           ...fieldsValue,
           subscription_qrcode: fieldsValue.subscription_qrcode[0].response.hash,
           share_image: fieldsValue.share_image[0].response.hash,
+          salesman_join_poster: fieldsValue.salesman_join_poster[0].response.hash,
         },
         callback: () => {
           message.success('保存成功');
@@ -80,18 +77,16 @@ class InfoSetting extends PureComponent {
   handlerFormatter = value => {
     if (value) {
       return `${parseInt(value, 10)}%`;
-    } else {
-      return `${value}%`;
     }
+    return `${value}%`;
   };
 
   handlerParser = value => {
     const val = value.replace('%', '');
     if (val) {
       return parseInt(val, 10);
-    } else {
-      return val;
     }
+    return val;
   };
 
   render() {
@@ -103,8 +98,8 @@ class InfoSetting extends PureComponent {
     return (
       <PageHeaderWrapper>
         <Spin spinning={loading}>
-          <Card title="默认分享信息" className={styles.card} bordered={false}>
-            <Form onSubmit={this.handleSubmit}>
+          <Form onSubmit={this.handleSubmit}>
+            <Card title="默认分享信息" className={styles.card} bordered={false}>
               <Row gutter={16}>
                 <Col span={12}>
                   <FormItem {...formItemLayout} label="分享主标题">
@@ -140,6 +135,7 @@ class InfoSetting extends PureComponent {
                     }}
                     filedName="share_image"
                     getFieldDecorator={getFieldDecorator}
+                    max={1}
                     fieldOptions={{
                       rules: [
                         {
@@ -175,6 +171,7 @@ class InfoSetting extends PureComponent {
                     }}
                     filedName="subscription_qrcode"
                     getFieldDecorator={getFieldDecorator}
+                    max={1}
                     fieldOptions={{
                       rules: [
                         {
@@ -202,87 +199,84 @@ class InfoSetting extends PureComponent {
                     }}
                   />
                 </Col>
+              </Row>
+            </Card>
+            <Card title="基础服务信息">
+              <Row>
                 <Col span={12}>
-                  <FormItem {...formItemLayout} label="客服电话">
-                    {getFieldDecorator('customer_service_tel', {
+                  <Upload
+                    formItemProps={{
+                      ...formItemLayout,
+                      label: '分销邀请海报',
+                    }}
+                    filedName="salesman_join_poster"
+                    getFieldDecorator={getFieldDecorator}
+                    max={1}
+                    fieldOptions={{
                       rules: [
                         {
                           required: true,
-                          message: '请输入客服电话',
+                          type: 'array',
+                          min: 1,
+                          message: '请上传分销邀请海报',
                         },
                       ],
-                      initialValue: info.customer_service_tel,
+                      initialValue: info.salesman_join_poster
+                        ? [
+                            {
+                              response: {
+                                hash: info.salesman_join_poster,
+                                key: info.salesman_join_poster,
+                              },
+                              url: `${BaseImgUrl}${info.salesman_join_poster}?.png`,
+                              thumbUrl: `${BaseImgUrl}${info.salesman_join_poster}?.png`,
+                              status: 'done',
+                              uid: -1,
+                              name: '邀请海报',
+                            },
+                          ]
+                        : [
+                            {
+                              response: {
+                                hash: 'invite_info_new.jpg',
+                                key: 'invite_info_new.jpg',
+                              },
+                              url: `${BaseImgUrl}invite_info_new.jpg`,
+                              thumbUrl: `${BaseImgUrl}invite_info_new.jpg`,
+                              status: 'done',
+                              uid: -1,
+                              name: '邀请海报',
+                            },
+                          ],
+                    }}
+                  />
+                </Col>
+                <Col span={12}>
+                  <FormItem {...formItemLayout} label="服务电话">
+                    {getFieldDecorator('service_tel', {
+                      rules: [
+                        {
+                          required: true,
+                          message: '请输入服务电话',
+                        },
+                      ],
+                      initialValue: info.service_tel,
                     })(<Input placeholder="请输入" />)}
-                  </FormItem>
-                </Col>
-                <Col span={12}>
-                  <FormItem {...formItemLayout} label="在线客服id">
-                    {getFieldDecorator('meiqia_id', {
-                      rules: [
-                        {
-                          required: true,
-                          message: '在线客服id',
-                        },
-                      ],
-                      initialValue: info.meiqia_id,
-                    })(<Input placeholder="请输入" />)}
-                  </FormItem>
-                </Col>
-                <Col span={12}>
-                  <FormItem {...formItemLayout} label="邀请人佣金占比">
-                    {getFieldDecorator('inviter_commission_percent', {
-                      rules: [
-                        {
-                          required: true,
-                          message: '邀请人佣金占比',
-                        },
-                      ],
-                      initialValue: info.inviter_commission_percent,
-                    })(
-                      <InputNumber
-                        min={0}
-                        max={100}
-                        formatter={this.handlerFormatter}
-                        parser={this.handlerParser}
-                        style={{ width: '100%' }}
-                      />
-                    )}
-                  </FormItem>
-                </Col>
-                <Col span={12}>
-                  <FormItem {...formItemLayout} label="分销佣金占比">
-                    {getFieldDecorator('salesman_commission_percent', {
-                      rules: [
-                        {
-                          required: true,
-                          message: '分销佣金占比',
-                        },
-                      ],
-                      initialValue: info.salesman_commission_percent,
-                    })(
-                      <InputNumber
-                        min={0}
-                        max={100}
-                        formatter={this.handlerFormatter}
-                        parser={this.handlerParser}
-                        style={{ width: '100%' }}
-                      />
-                    )}
                   </FormItem>
                 </Col>
               </Row>
-              <FormItem
-                {...submitFormLayout}
-                style={{
-                  marginTop: 32,
-                }}
-              >
-                <Button type="primary" htmlType="submit" loading={loading}>
-                  保存
-                </Button>
-              </FormItem>
-            </Form>
-          </Card>
+            </Card>
+            <FormItem
+              {...submitFormLayout}
+              style={{
+                marginTop: 32,
+              }}
+            >
+              <Button type="primary" htmlType="submit" loading={loading}>
+                保存
+              </Button>
+            </FormItem>
+          </Form>
         </Spin>
       </PageHeaderWrapper>
     );

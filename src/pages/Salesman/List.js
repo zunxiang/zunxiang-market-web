@@ -32,37 +32,7 @@ const statusMap = {
   0: 'error',
 };
 
-const statusOptions = [];
-for (const key in status) {
-  if (status[key]) {
-    statusOptions.push(
-      <Option value={key} key={key}>
-        {status[key]}
-      </Option>
-    );
-  }
-}
-
-const bonus = {
-  1: '正常',
-  0: '禁用',
-};
-
-const bonusMap = {
-  1: 'success',
-  0: 'error',
-};
-
-const bonusOptions = [];
-for (const key in bonus) {
-  if (status[key]) {
-    bonusOptions.push(
-      <Option value={key} key={key}>
-        {status[key]}
-      </Option>
-    );
-  }
-}
+const levels = ['一级', '二级', '三级', '四级', '五级'];
 
 @connect(({ franchiser, loading }) => ({
   franchiser,
@@ -82,41 +52,49 @@ class SalesmanList extends PureComponent {
       filters: {},
       sorter: undefined,
       query: parse(search, { ignoreQueryPrefix: true }),
+      data: {
+        sum: {},
+        list: [],
+        pagination: {},
+      },
     };
 
     this.columns = [
       {
         title: '头像',
         dataIndex: 'logo',
+        wdith: 100,
         render: val => <Avatar src={val} size="small" />,
       },
       {
+        width: 50,
         title: 'id',
         dataIndex: 'i',
       },
       {
+        title: '昵称',
+        width: 100,
+        dataIndex: 'nickname',
+      },
+      {
         title: '姓名',
-        dataIndex: 'bankman',
+        width: 100,
+        dataIndex: 'real_name',
       },
       {
         title: '手机',
+        width: 100,
         dataIndex: 'mobile',
-      },
-      {
-        title: '店铺名',
-        dataIndex: 'shopname',
       },
       {
         title: '账户余额',
         dataIndex: 'balance',
         sorter: true,
-        render: val => val / 100,
       },
       {
         title: '当月业绩',
         dataIndex: 'achievement',
         sorter: true,
-        render: val => val / 100,
       },
       {
         title: '邀请人id',
@@ -125,12 +103,24 @@ class SalesmanList extends PureComponent {
       {
         title: '注册时间',
         dataIndex: 'create_time',
-        render: val => val.substring(0, 10),
       },
       {
-        title: '邀请奖励',
-        dataIndex: 'is_open_bonus',
-        render: val => <Badge status={bonusMap[val]} text={bonus[val]} />,
+        title: '分销等级',
+        dataIndex: 'level',
+        render: (val, record) => (
+          <Select
+            size="small"
+            defaultValue={val}
+            style={{ width: 100 }}
+            onChange={l => this.handleChangeLevel(l, record.i)}
+          >
+            {levels.map((level, index) => (
+              <Option value={index + 1} key={level}>
+                {level}
+              </Option>
+            ))}
+          </Select>
+        ),
       },
       {
         title: '状态',
@@ -169,6 +159,11 @@ class SalesmanList extends PureComponent {
     dispatch({
       type: 'franchiser/platfind',
       payload: params,
+      callback: data => {
+        this.setState({
+          data,
+        });
+      },
     });
   };
 
@@ -226,6 +221,21 @@ class SalesmanList extends PureComponent {
     });
   };
 
+  handleChangeLevel = (level, i) => {
+    const { dispatch } = this.props;
+    dispatch({
+      type: 'franchiser/changeLevel',
+      payload: {
+        level,
+        i,
+      },
+      callback: () => {
+        message.success('操作成功');
+        this.loadData();
+      },
+    });
+  };
+
   handleExport = () => {
     const { filters, sorter, query } = this.state;
     this.searchForm.getFormValue(values => {
@@ -236,7 +246,7 @@ class SalesmanList extends PureComponent {
         ...filters,
       };
       const msg = {
-        handler: '/v2/admin/salesman/main',
+        handler: '/v1/mp/user/salesman',
         message: JSON.stringify(params),
       };
       window.open(`http://${location.host}/csv?${stringify(msg)}`);
@@ -253,17 +263,10 @@ class SalesmanList extends PureComponent {
         )}
       </Menu.Item>
       <Menu.Item>
-        {record.is_open_bonus === 1 ? (
-          <a onClick={() => this.handleChangeAward('closeBonus', record)}>禁止奖励</a>
-        ) : (
-          <a onClick={() => this.handleChangeAward('allowBonus', record)}>启用奖励</a>
-        )}
-      </Menu.Item>
-      <Menu.Item>
         <Link
           to={{
             pathname: '/salesman/withdraw',
-            search: `account_i=${record.i}&account_type=SALESMAN`,
+            search: `user_i=${record.i}`,
           }}
         >
           账单明细
@@ -293,13 +296,11 @@ class SalesmanList extends PureComponent {
   );
 
   render() {
+    const { loading } = this.props;
     const {
-      franchiser: {
-        data: { list, pagination },
-      },
-      loading,
-    } = this.props;
-    const { selectedRows } = this.state;
+      selectedRows,
+      data: { list, pagination },
+    } = this.state;
     const paginationProps = {
       showSizeChanger: true,
       showQuickJumper: true,
@@ -347,6 +348,7 @@ class SalesmanList extends PureComponent {
               columns={this.columns}
               onSelectRow={this.handleSelectRows}
               onChange={this.handleTableChange}
+              scroll={{ x: 1200 }}
             />
           </div>
         </Card>

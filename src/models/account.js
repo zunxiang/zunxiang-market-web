@@ -9,29 +9,30 @@ export default {
     },
   },
   effects: {
-    *find({ payload, callback }, { call, put }) {
-      const { currentPage, pageSize, ...params } = payload;
+    *find({ payload, callback }, { call }) {
+      const { currentPage, pageSize, order, ...params } = payload;
       const msg = {
         handler: '/v1/mp/app_account/account/find',
         message: JSON.stringify({
-          ...params,
-          limit: `${(currentPage - 1) * pageSize},${pageSize}`,
+          query: [params],
+          order,
+          limit: pageSize,
+          offset: (currentPage - 1) * pageSize,
         }),
       };
       const [code, response] = yield call(GET, msg);
       if (code !== 0) return;
       const data = {
-        list: response.list,
+        list: response.list.map(val => ({
+          ...val,
+          last_login_time: val.last_login_time && val.last_login_time.substring(0, 19),
+        })),
         pagination: {
           current: currentPage,
           pageSize,
           total: response.total,
         },
       };
-      yield put({
-        type: 'findSuccess',
-        payload: { ...data },
-      });
       if (callback) callback(data);
     },
     *getAllPower({ payload, callback }, { call }) {

@@ -5,12 +5,14 @@ export default {
   state: {},
   effects: {
     *find({ payload, callback }, { call }) {
-      const { currentPage, pageSize, ...pramas } = payload;
+      const { currentPage, pageSize, order, ...params } = payload;
       const msg = {
-        handler: '/v1/mp/salesman/withdraw/find',
+        handler: '/v1/mp/user/withdraw/find',
         message: JSON.stringify({
-          ...pramas,
-          limit: `${(currentPage - 1) * pageSize},${pageSize}`,
+          query: [params],
+          order,
+          limit: pageSize,
+          offset: (currentPage - 1) * pageSize,
         }),
       };
       const [code, response] = yield call(GET, msg);

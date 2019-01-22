@@ -183,7 +183,7 @@ export default class SkuManager extends PureComponent {
         {!isDisable && (
           <div className={styles.btnWrap}>
             <a onClick={() => this.handleSetSingle(date)}>设置</a>
-            <a onClick={() => this.handleCloseSku(date)}>清空</a>
+            {sku && <a onClick={() => this.handleCloseSku(date)}>清空</a>}
           </div>
         )}
         {sku && (

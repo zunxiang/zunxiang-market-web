@@ -1,4 +1,4 @@
-import { GET } from '@/services/api';
+import { GET, POST } from '@/services/api';
 
 export default {
   namespace: 'banner',
@@ -10,91 +10,28 @@ export default {
     popupAds: [],
   },
   effects: {
-    *find({ payload, callback }, { call, put }) {
-      const { currentPage, pageSize, ...params } = payload;
+    *get({ payload, callback }, { call }) {
       const msg = {
-        handler: '/v1/mp/option/banner/find',
-        message: JSON.stringify({
-          ...params,
-          limit: `${(currentPage - 1) * pageSize},${pageSize}`,
-        }),
+        handler: '/v1/mp/option/app_config/get',
+        message: JSON.stringify(payload),
       };
       const [code, response] = yield call(GET, msg);
       if (code !== 0) return;
-      const data = {
-        list: response.list,
-        pagination: {
-          current: currentPage,
-          pageSize,
-          total: response.total,
-        },
+      const { banner } = response;
+      const list = banner ? JSON.parse(banner) : [];
+      if (callback) callback(list);
+    },
+    *set({ payload, callback }, { call }) {
+      const { banner } = payload;
+      const msg = {
+        handler: '/v1/mp/option/app_config/set',
+        message: JSON.stringify({
+          banner: JSON.stringify(banner),
+        }),
       };
-      yield put({
-        type: 'findSuccess',
-        payload: {
-          ...data,
-        },
-      });
+      const [code, data] = yield call(POST, msg);
+      if (code !== 0) return;
       if (callback) callback(data);
-    },
-    *dragSorting({ payload, callback }, { put }) {
-      yield put({
-        type: 'updateList',
-        payload,
-      });
-      if (callback) callback();
-    },
-    *postSorting({ payload, callback }, { call }) {
-      const msg = {
-        handler: '/v1/mp/option/banner/sort',
-        message: JSON.stringify(payload),
-      };
-      const [code] = yield call(GET, msg);
-      if (code !== 0) return;
-      if (callback) callback();
-    },
-    *delete({ payload, callback }, { call }) {
-      const msg = {
-        handler: '/v1/mp/option/banner/delete',
-        message: JSON.stringify(payload),
-      };
-      const [code] = yield call(GET, msg);
-      if (code !== 0) return;
-      if (callback) callback();
-    },
-    *add({ payload, callback }, { call }) {
-      const msg = {
-        handler: '/v1/mp/option/banner/add',
-        message: JSON.stringify(payload),
-      };
-      const [code] = yield call(GET, msg);
-      if (code !== 0) return;
-      if (callback) callback();
-    },
-    *createAd({ payload, callback }, { call }) {
-      const msg = {
-        handler: '/v1/mp/option/banner/add_popup',
-        message: JSON.stringify(payload),
-      };
-      const [code] = yield call(GET, msg);
-      if (code !== 0) return;
-      if (callback) callback();
-    },
-    *findAd({ payload }, { call, put }) {
-      const { currentPage, pageSize, ...params } = payload;
-      const msg = {
-        handler: '/v1/mp/option/banner/find_popup',
-        message: JSON.stringify({
-          ...params,
-          limit: `${(currentPage - 1) * pageSize},${pageSize}`,
-        }),
-      };
-      const [code, response] = yield call(GET, msg);
-      if (code !== 0) return;
-      yield put({
-        type: 'findAdSuccess',
-        payload: response.list,
-      });
     },
   },
 

@@ -1,4 +1,4 @@
-import { GET } from '@/services/api';
+import { GET, POST } from '@/services/api';
 
 export default {
   namespace: 'recommend',
@@ -9,62 +9,46 @@ export default {
     },
   },
   effects: {
-    *find({ payload }, { call, put }) {
-      const { currentPage, pageSize, ...params } = payload;
+    *findProduct({ payload, callback }, { call }) {
+      const { currentPage, pageSize, order, ...params } = payload;
       const msg = {
-        handler: '/v1/mp/option/xstj/find',
+        handler: '/v1/mp/item/item/find',
         message: JSON.stringify({
-          ...params,
-          limit: `${(currentPage - 1) * pageSize},${pageSize}`,
+          query: [params],
+          order,
+          limit: pageSize,
+          offset: (currentPage - 1) * pageSize,
         }),
       };
       const [code, response] = yield call(GET, msg);
       if (code !== 0) return;
-      yield put({
-        type: 'findSuccess',
-        payload: {
-          list: response.list,
-          pagination: {
-            current: currentPage,
-            pageSize,
-            total: response.total,
-          },
-        },
-      });
+      const data = {
+        list: response.list,
+      };
+      if (callback) callback(data);
     },
-    *dragSorting({ payload, callback }, { put }) {
-      yield put({
-        type: 'updateList',
-        payload,
-      });
-      if (callback) callback();
-    },
-    *postSorting({ payload, callback }, { call }) {
+    *get({ payload, callback }, { call }) {
       const msg = {
-        handler: '/v1/mp/option/xstj/puts',
+        handler: '/v1/mp/option/app_config/get',
         message: JSON.stringify(payload),
       };
-      const [code] = yield call(GET, msg);
+      const [code, response] = yield call(GET, msg);
       if (code !== 0) return;
-      if (callback) callback();
+      const { index_items: list } = response;
+      const items = list ? JSON.parse(list) : [];
+      if (callback) callback(items);
     },
-    *delete({ payload, callback }, { call }) {
+    *set({ payload, callback }, { call }) {
+      const { list } = payload;
       const msg = {
-        handler: '/v1/mp/option/xstj/del',
-        message: JSON.stringify(payload),
+        handler: '/v1/mp/option/app_config/set',
+        message: JSON.stringify({
+          index_items: JSON.stringify(list),
+        }),
       };
-      const [code] = yield call(GET, msg);
+      const [code, data] = yield call(POST, msg);
       if (code !== 0) return;
-      if (callback) callback();
-    },
-    *add({ payload, callback }, { call }) {
-      const msg = {
-        handler: '/v1/mp/option/xstj/adds',
-        message: JSON.stringify(payload),
-      };
-      const [code] = yield call(GET, msg);
-      if (code !== 0) return;
-      if (callback) callback();
+      if (callback) callback(data);
     },
   },
 

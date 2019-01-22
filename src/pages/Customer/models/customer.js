@@ -9,28 +9,28 @@ export default {
     },
   },
   effects: {
-    *find({ payload }, { call, put }) {
-      const { currentPage, pageSize, ...pramas } = payload;
+    *find({ payload, callback }, { call }) {
+      const { currentPage, pageSize, order, ...params } = payload;
       const msg = {
         handler: '/v1/mp/user/user/find',
         message: JSON.stringify({
-          ...pramas,
-          limit: `${(currentPage - 1) * pageSize},${pageSize}`,
+          query: [params],
+          order,
+          limit: pageSize,
+          offset: (currentPage - 1) * pageSize,
         }),
       };
       const [code, response] = yield call(GET, msg);
       if (code !== 0) return;
-      yield put({
-        type: 'findSuccess',
-        payload: {
-          list: response.list,
-          pagination: {
-            current: currentPage,
-            pageSize,
-            total: response.total,
-          },
+      const data = {
+        list: response.list,
+        pagination: {
+          current: currentPage,
+          pageSize,
+          total: response.total,
         },
-      });
+      };
+      if (callback) callback(data);
     },
     *changeSalesman({ payload, callback }, { call }) {
       const msg = {

@@ -129,6 +129,11 @@ export default class TableList extends PureComponent {
     currentKey: undefined,
     accountInfo: {},
     powers: [],
+    data: {
+      sum: {},
+      list: [],
+      pagination: {},
+    },
   };
 
   columns = [
@@ -168,7 +173,6 @@ export default class TableList extends PureComponent {
     {
       title: '最后登录',
       dataIndex: 'last_login_time',
-      render: val => val && val.substring(0, 19),
     },
     {
       title: '操作',
@@ -211,13 +215,7 @@ export default class TableList extends PureComponent {
 
   componentDidMount() {
     const { dispatch } = this.props;
-    dispatch({
-      type: 'account/find',
-      payload: {
-        currentPage: 1,
-        pageSize: 10,
-      },
-    });
+    this.loadData();
     dispatch({
       type: 'account/getAllPower',
       payload: {},
@@ -242,6 +240,11 @@ export default class TableList extends PureComponent {
     dispatch({
       type: 'account/find',
       payload: params,
+      callback: data => {
+        this.setState({
+          data,
+        });
+      },
     });
   };
 
@@ -374,13 +377,14 @@ export default class TableList extends PureComponent {
   };
 
   render() {
+    const { loading } = this.props;
     const {
-      account: {
-        data: { list, pagination },
-      },
-      loading,
-    } = this.props;
-    const { selectedRows, modalVisible, accountInfo, powers } = this.state;
+      selectedRows,
+      modalVisible,
+      accountInfo,
+      powers,
+      data: { list, pagination },
+    } = this.state;
     const paginationProps = {
       showSizeChanger: true,
       showQuickJumper: true,

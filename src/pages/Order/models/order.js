@@ -13,12 +13,14 @@ export default {
   },
   effects: {
     *find({ payload, callback }, { call, put }) {
-      const { currentPage, pageSize, ...pramas } = payload;
+      const { currentPage, pageSize, order, ...params } = payload;
       const msg = {
-        handler: '/v1/mp/order/user_order/find',
+        handler: '/v1/mp/order/mp_order/find',
         message: JSON.stringify({
-          ...pramas,
-          limit: `${(currentPage - 1) * pageSize},${pageSize}`,
+          query: [params],
+          order,
+          limit: pageSize,
+          offset: (currentPage - 1) * pageSize,
         }),
       };
       const [code, response] = yield call(GET, msg);
@@ -45,7 +47,7 @@ export default {
     },
     *get({ payload, callback }, { call }) {
       const msg = {
-        handler: '/v1/mp/order/user_order/get',
+        handler: '/v1/mp/order/mp_order/get',
         message: JSON.stringify(payload),
       };
       const [code, response] = yield call(GET, msg);
@@ -58,7 +60,7 @@ export default {
     },
     *finishOrder({ payload, callback }, { call }) {
       const msg = {
-        handler: '/v1/mp/order/user_order/settlements',
+        handler: '/v1/mp/order/mp_order/settlements',
         message: JSON.stringify(payload),
       };
       const [code, response] = yield call(GET, msg);
