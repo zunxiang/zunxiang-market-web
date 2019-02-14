@@ -2,23 +2,21 @@ import React from 'react';
 import { List } from 'antd';
 import { PresaleListContent } from './PresaleList';
 import { BookListContent } from './BookList';
-import { InsuranceListContent } from './InsuranceList';
 import { NormalListContent } from './NormalList';
 
 import styles from './NormalList.less';
 
+const normalTypes = ['HOTEL', 'GROUP', 'PKG'];
+
 const ListContent = props => {
   const { order } = props;
-  if (order.order_type === 'RUSH') {
+  if (order.item_type === 'RUSH') {
     return <PresaleListContent order={order} />;
   }
-  if (order.order_type === 'RUSH_BOOK' || order.order_type === 'BOOK') {
+  if (order.item_type === 'RUSH_BOOK' || order.order_type === 'BOOK') {
     return <BookListContent order={order} />;
   }
-  if (order.order_type === 'INSURANCE') {
-    return <InsuranceListContent order={order} />;
-  }
-  if (order.order_type === 'ITEM') {
+  if (normalTypes.includes(order.item_type)) {
     return <NormalListContent order={order} />;
   }
   return null;

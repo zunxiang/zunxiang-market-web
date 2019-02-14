@@ -21,6 +21,19 @@ export default class MapForm extends PureComponent {
     };
   }
 
+  componentDidMount() {
+    const { form, initialValue } = this.props;
+    const { address, city, country, province, initLoaction: location, model } = initialValue;
+    if (model === 'edit') {
+      const value = {
+        address,
+        addressComponents: { city, country, province },
+        location,
+      };
+      form.setFieldsValue({ map: value });
+    }
+  }
+
   /* eslint no-underscore-dangle: ["error", { "allow": ["__map__"] }] */
   handleCreated = (smap, gmap) => {
     const markers = [];

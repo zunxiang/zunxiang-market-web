@@ -29,6 +29,7 @@ export default {
         list: response.list.map(o => ({
           ...o,
           package: o.package ? JSON.parse(o.package) : {},
+          skus: o.skus ? JSON.parse(o.skus) : [],
         })),
         sum: response.sum,
         pagination: {
@@ -54,7 +55,9 @@ export default {
       if (code !== 0) return;
       const data = {
         ...response,
-        visitors: JSON.parse(response.visitors),
+        travellers: response.travellers && JSON.parse(response.travellers),
+        skus: JSON.parse(response.skus),
+        package: JSON.parse(response.package),
       };
       if (callback) callback(data);
     },

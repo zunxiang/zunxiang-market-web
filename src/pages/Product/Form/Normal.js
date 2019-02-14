@@ -104,9 +104,10 @@ export default class ItemMainForms extends PureComponent {
   render() {
     const { submitting, form } = this.props;
     const { getFieldDecorator } = form;
-    const { type, current } = this.state;
+    const { type, current, model } = this.state;
     const initialValue = {
       type,
+      model,
       ...current,
     };
     const destination = [current.termini_province, current.termini_city];

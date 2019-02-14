@@ -1,6 +1,7 @@
 import MergeLessPlugin from 'antd-pro-merge-less';
 import AntDesignThemePlugin from 'antd-theme-webpack-plugin';
 import path from 'path';
+import html2psp from './html2psp.webpacke.plugin';
 
 export default config => {
   // pro 和 开发环境再添加这个插件
@@ -27,5 +28,11 @@ export default config => {
         lessUrl: 'https://gw.alipayobjects.com/os/lib/less.js/3.8.1/less.min.js',
       },
     ]);
+  }
+  if (process.env.NODE_ENV === 'production') {
+    config
+      .plugin('html2psp')
+      .use(html2psp)
+      .end();
   }
 };

@@ -22,6 +22,8 @@ export default {
   'menu.product.presale.presale-detail': '预售产品详情',
   'menu.product.sku': '价格管理',
   'menu.order': '订单管理',
+  'menu.order.order-list': '订单列表',
+  'menu.order.order-detail': '订单详情',
   'menu.form': '表单页',
   'menu.form.basicform': '基础表单',
   'menu.form.stepform': '分步表单',

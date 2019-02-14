@@ -154,8 +154,24 @@ export default [
       {
         name: 'order',
         icon: 'table',
-        path: '/order/list',
-        component: './Order/Orders',
+        path: '/order',
+        routes: [
+          {
+            path: '/order',
+            redirect: '/order/list',
+          },
+          {
+            path: '/order/list',
+            name: 'order-list',
+            component: './Order/Orders',
+          },
+          {
+            path: '/order/detail',
+            name: 'order-detail',
+            component: './Order/OrderDetail',
+            hideInMenu: true,
+          },
+        ],
       },
       /* // forms
       {

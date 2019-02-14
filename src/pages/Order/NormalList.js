@@ -1,63 +1,35 @@
 import React, { Fragment } from 'react';
 import { List, Row, Col, Tag } from 'antd';
 import { Link } from 'dva/router';
+import { orderType, orderStatus, orderStatusMap } from './common';
 import Ellipsis from '@/components/Ellipsis';
 import styles from './NormalList.less';
 
-const statusMap = {
-  WAIT: '#bfbfbf',
-  SUCCESS: '#52c41a',
-  EDITED: '#faad14',
-  CANCEL: '#bfbfbf',
-  HANDLING: '#13c2c2',
-  FINISH: '#1890ff',
-  REQUEST_DELETE: '#eb2f96',
-  DELETE: '#bfbfbf',
-  REQUEST_CHANGE: '#eb2f96',
-  CHANGE: '#1890ff',
-  SETTLED: '#722ed1',
-  CLOSED: '#bfbfbf',
-};
-const status = {
-  WAIT: '待支付',
-  SUCCESS: '已支付',
-  EDITED: '已编辑',
-  CANCEL: '已拒绝',
-  HANDLING: '待确定',
-  FINISH: '已确认',
-  REQUEST_DELETE: '待撤销',
-  DELETE: '已撤销',
-  REQUEST_CHANGE: '待改约',
-  CHANGE: '已改约',
-  SETTLED: '已结算',
-  CLOSED: '已关闭',
-};
-
 const DateInfo = props => {
   const { order: o } = props;
-  if (o.item_texture === 'HOTEL') {
+  if (o.item_type === 'HOTEL') {
     return (
       <Fragment>
         <div>{`${o.item_num}间${o.skus.length}晚`}</div>
-        <div>{`入住：${o.departure_time.substring(0, 10)}`}</div>
-        <div>{`离开：${o.return_time.substring(0, 10)}`}</div>
+        <div>{`入住：${o.start_time.substring(0, 10)}`}</div>
+        <div>{`离开：${o.end_time.substring(0, 10)}`}</div>
       </Fragment>
     );
   }
-  if (o.item_texture === 'GROUP') {
+  if (o.item_type === 'GROUP') {
     return (
       <Fragment>
         <div>
           <span style={{ marginRight: 8 }}>{`${o.adult_num}大${o.child_num}小`}</span>
         </div>
-        <div>{`日期：${o.departure_time.substring(0, 10)}`}</div>
+        <div>{`日期：${o.start_time.substring(0, 10)}`}</div>
       </Fragment>
     );
   }
   return (
     <Fragment>
       <div>{`数量：${o.item_num}份`}</div>
-      <div>{`日期：${o.departure_time && o.departure_time.substring(0, 10)}`}</div>
+      <div>{`日期：${o.start_time && o.start_time.substring(0, 10)}`}</div>
     </Fragment>
   );
 };
@@ -70,19 +42,19 @@ export const ListContent = props => {
         <div>
           <Link
             to={{
-              pathname: '/presale/order-detail',
+              pathname: '/order/detail',
               search: `order_i=${o.i}`,
             }}
           >
-            {`常规订单: ${o.order_no}`}
+            {`单号: ${o.order_no}`}
           </Link>
           <span className={styles.marginLeft32}>
             {`创建时间: ${o.create_time.substring(0, 19)}`}
           </span>
-          <span className={styles.marginLeft32}>{`供应商：${o.merchant_name}`}</span>
+          <span className={styles.marginLeft32}>{`类型：${orderType[o.item_type]}`}</span>
         </div>
         <div>
-          <Tag color={statusMap[o.state]}>{status[o.state]}</Tag>
+          <Tag color={orderStatusMap[o.state]}>{orderStatus[o.state]}</Tag>
         </div>
       </div>
       <div className={styles.orderBody}>
@@ -96,7 +68,7 @@ export const ListContent = props => {
                 }}
               >
                 <Ellipsis lines={1} tooltip className={styles.color59}>
-                  {`产品: ${o.item_name}`}
+                  {`产品: ${o.item_title}`}
                 </Ellipsis>
               </Link>
             </div>
@@ -105,7 +77,7 @@ export const ListContent = props => {
                 {`套餐: ${o.package_name}`}
               </Ellipsis>
             </div>
-            {o.item_texture === 'HOTEL' ? (
+            {o.item_type === 'HOTEL' ? (
               <div>
                 {o.package.room}
                 <span style={{ marginLeft: 12 }}>{o.package.content}</span>
@@ -113,9 +85,7 @@ export const ListContent = props => {
             ) : null}
           </Col>
           <Col span={4}>
-            <div>
-              {o.contacts}
-            </div>
+            <div>{o.contacts}</div>
             <div>{o.contacts_mobile}</div>
           </Col>
           <Col span={4}>
@@ -135,7 +105,7 @@ export const ListContent = props => {
             <div style={{ textAlign: 'right' }}>
               <Link
                 to={{
-                  pathname: '/normal/order-detail',
+                  pathname: '/order/detail',
                   search: `order_i=${o.i}`,
                 }}
               >
