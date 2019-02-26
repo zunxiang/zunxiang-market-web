@@ -19,13 +19,6 @@ const mobile = {
   label: '手机号',
 };
 
-const shopName = {
-  type: 'text',
-  parse: 'like',
-  key: 'shopname',
-  label: '店铺名',
-};
-
 const state = {
   type: 'select',
   parse: 'in',
@@ -55,11 +48,7 @@ export const SUM = {
       text: '余额',
       value: 'balance',
     },
-    {
-      text: '总业绩',
-      value: 'achievement',
-    },
   ],
 };
 
-export const searchItems = [name, id, mobile, shopName, state, SUM];
+export const searchItems = [name, id, mobile, state, SUM];

@@ -1,5 +1,6 @@
 import React, { PureComponent, Fragment } from 'react';
 import { Form, InputNumber, Row, Col, DatePicker, Checkbox, Button } from 'antd';
+import currency from 'currency.js';
 
 import styles from './Sku.less';
 
@@ -32,15 +33,17 @@ export default class SkuForm extends PureComponent {
       }
       values.stock = fieldsvalue.stock || 0;
       values.lag = fieldsvalue.lag || 0;
-      values.price = fieldsvalue.price ? fieldsvalue.price * 100 : 0;
+      values.price = fieldsvalue.price ? currency(fieldsvalue.price).intValue : 0;
       if (itemType === 'GROUP') {
-        values.child_price = fieldsvalue.child_price ? fieldsvalue.child_price * 100 : 0;
+        values.child_price = fieldsvalue.child_price
+          ? currency(fieldsvalue.child_price).intValue
+          : 0;
       }
       const feeP = [];
       const feeT = [];
       for (let i = 0; i < 5; i += 1) {
-        feeP[i] = fieldsvalue[`feeP${i}`] ? fieldsvalue[`feeP${i}`] * 100 : 0;
-        feeT[i] = fieldsvalue[`feeT${i}`] ? fieldsvalue[`feeT${i}`] * 100 : 0;
+        feeP[i] = fieldsvalue[`feeP${i}`] ? currency(fieldsvalue[`feeP${i}`]).intValue : 0;
+        feeT[i] = fieldsvalue[`feeT${i}`] ? currency(fieldsvalue[`feeT${i}`]).intValue : 0;
       }
       values.fee = JSON.stringify([feeP, feeT]);
       onSubmit(values);

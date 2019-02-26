@@ -148,7 +148,7 @@ export default class ItemMainForms extends PureComponent {
                   initialValue={initialValue.content}
                   editorOptions={{
                     initialFrameHeight: type === 'HOTEL' ? 750 : 550,
-                    initialFrameWidth: 350,
+                    initialFrameWidth: 'auto',
                   }}
                   name="content"
                   label="产品详情"

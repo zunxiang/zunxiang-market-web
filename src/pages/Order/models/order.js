@@ -61,9 +61,18 @@ export default {
       };
       if (callback) callback(data);
     },
-    *finishOrder({ payload, callback }, { call }) {
+    *finish({ payload, callback }, { call }) {
       const msg = {
-        handler: '/v1/mp/order/mp_order/settlements',
+        handler: '/v1/mp/order/mp_order/finish',
+        message: JSON.stringify(payload),
+      };
+      const [code, response] = yield call(GET, msg);
+      if (code !== 0) return;
+      if (callback) callback(response);
+    },
+    *refund({ payload, callback }, { call }) {
+      const msg = {
+        handler: '/v1/mp/order/mp_order/refund',
         message: JSON.stringify(payload),
       };
       const [code, response] = yield call(GET, msg);

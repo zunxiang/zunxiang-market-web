@@ -61,4 +61,6 @@ export default {
   'menu.salesman-list': '分销列表',
   'menu.withdraw': '提现记录',
   'menu.customer': '用户列表',
+  'menu.finance': '账单记录',
+  'menu.finance.finance-bill': '账单记录',
 };

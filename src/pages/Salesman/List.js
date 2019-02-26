@@ -92,13 +92,8 @@ class SalesmanList extends PureComponent {
         sorter: true,
       },
       {
-        title: '当月业绩',
-        dataIndex: 'achievement',
-        sorter: true,
-      },
-      {
         title: '邀请人id',
-        dataIndex: 'inviter_i',
+        dataIndex: 'upper_i',
       },
       {
         title: '注册时间',

@@ -164,11 +164,29 @@ export default [
             path: '/order/list',
             name: 'order-list',
             component: './Order/Orders',
+            hideInMenu: true,
           },
           {
             path: '/order/detail',
             name: 'order-detail',
             component: './Order/OrderDetail',
+            hideInMenu: true,
+          },
+        ],
+      },
+      {
+        name: 'finance',
+        icon: 'table',
+        path: '/finance',
+        routes: [
+          {
+            path: '/finance',
+            redirect: '/finance/bill',
+          },
+          {
+            path: '/finance/bill',
+            name: 'finance-bill',
+            component: './Finance/bill',
             hideInMenu: true,
           },
         ],

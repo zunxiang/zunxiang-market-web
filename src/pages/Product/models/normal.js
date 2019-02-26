@@ -99,7 +99,7 @@ export default {
         handler: '/v1/mp/item/item/post',
         message: JSON.stringify(payload),
       };
-      const [code, response] = yield call(GET, msg);
+      const [code, response] = yield call(POST, msg);
       if (code !== 0) return;
       if (callback) callback(response);
     },
