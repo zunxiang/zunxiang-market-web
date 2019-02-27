@@ -8,7 +8,7 @@ export const orderNo = {
 export const itemName = {
   type: 'text',
   parse: 'like',
-  key: 'item_name',
+  key: 'item_title',
   label: '产品名',
 };
 
@@ -51,7 +51,7 @@ export const salesmanName = {
   type: 'text',
   parse: 'like',
   key: 'salesman_name',
-  label: '平台分销',
+  label: '分销名',
 };
 
 export const franchiserName = {
@@ -139,14 +139,14 @@ export const amountMax = {
 export const commissionMin = {
   type: 'number',
   parse: 'money',
-  key: 'commission@min',
+  key: 'fee@min',
   label: '最小佣金',
 };
 
 export const commissionMax = {
   type: 'number',
   parse: 'money',
-  key: 'commission@max',
+  key: 'fee@max',
   label: '最大佣金',
 };
 
@@ -288,36 +288,10 @@ export const source = {
   ],
 };
 
-export const orderType = {
+export const itemType = {
   type: 'select',
   parse: 'in',
-  key: 'order_type',
-  label: '订单类型',
-  selectMode: 'multiple',
-  selectOptions: [
-    {
-      text: '常规订单',
-      value: 'ITEM',
-    },
-    {
-      text: '预售订单',
-      value: 'RUSH',
-    },
-    {
-      text: '预约订单',
-      value: 'RUSH_BOOK',
-    },
-    {
-      text: '保险订单',
-      value: 'INSURANCE',
-    },
-  ],
-};
-
-export const itemTexture = {
-  type: 'select',
-  parse: 'in',
-  key: 'item_texture',
+  key: 'item_type',
   label: '产品类型',
   selectMode: 'multiple',
   selectOptions: [
@@ -362,52 +336,28 @@ export const state = {
   selectMode: 'multiple',
   selectOptions: [
     {
-      value: 'WAIT',
+      value: 0,
+      text: '已关闭',
+    },
+    {
+      value: 1,
       text: '待支付',
     },
     {
-      value: 'SUCCESS',
+      value: 2,
       text: '已支付',
     },
     {
-      value: 'EDITED',
-      text: '已编辑',
-    },
-    {
-      value: 'CANCEL',
-      text: '已拒绝',
-    },
-    {
-      value: 'HANDLING',
-      text: '待确定',
-    },
-    {
-      value: 'FINISH',
+      value: 3,
       text: '已确认',
     },
     {
-      value: 'REQUEST_DELETE',
-      text: '待撤销',
+      value: 4,
+      text: '已退款',
     },
     {
-      value: 'DELETE',
-      text: '已撤销',
-    },
-    {
-      value: 'REQUEST_CHANGE',
-      text: '待改约',
-    },
-    {
-      value: 'CHANGE',
-      text: '已改约',
-    },
-    {
-      value: 'SETTLED',
-      text: '已结算',
-    },
-    {
-      value: 'CLOSED',
-      text: '已关闭',
+      value: '-1',
+      text: '已删除',
     },
   ],
 };

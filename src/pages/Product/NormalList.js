@@ -17,14 +17,10 @@ const status = {
   2: '已售罄',
 };
 
-const getItemType = item => {
-  if (item.texture === 'GROUP') {
-    return item.type === '出境游' ? '出境跟团游' : '周边跟团游';
-  }
-  if (item.texture === 'HOTEL') {
-    return '酒店';
-  }
-  return item.type === '出境游' ? '出境自由行' : '周边自由行';
+const types = {
+  HOTEL: '酒店',
+  PKG: '自由行',
+  GROUP: '跟团',
 };
 
 const PresaleListContent = props => {
@@ -54,15 +50,8 @@ const PresaleListContent = props => {
           <Col span={14}>
             <div className={styles.detailContainer}>
               <span className={styles.detailContent}>id：{item.i}</span>
-              <span className={styles.detailContent}>分类：{getItemType(item)}</span>
+              <span className={styles.detailContent}>分类：{types[item.type]}</span>
               <span className={styles.detailContent}>销量：{item.sales}</span>
-              <span className={styles.detailContent}>
-                商城：{item.is_display === 'TRUE' ? 'yes' : 'no'}
-              </span>
-            </div>
-            <div className={styles.detailContainer}>
-              <span className={styles.detailContent}>产品人: {item.product_person_name}</span>
-              <span className={styles.detailContent}>供应商: {item.supplier_name}</span>
             </div>
           </Col>
           <Col span={3}>

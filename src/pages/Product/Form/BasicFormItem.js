@@ -174,7 +174,7 @@ const BasicFormItem = props => {
   } = props;
   return (
     <Fragment>
-      <ImgFormItem {...props} />
+      <ImgFormItem {...props} formItemLayout={formItemLayout} />
       <NameFormItem {...props} />
       <IntroFormItem {...props} />
       <TagsFormItem {...props} />

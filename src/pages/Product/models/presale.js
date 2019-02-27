@@ -8,7 +8,7 @@ export default {
       list: [],
       pagination: {},
     },
-    currentPresale: {},
+    current: {},
   },
   effects: {
     *find({ payload, callback }, { call, put }) {
@@ -75,15 +75,14 @@ export default {
       });
       yield put(routerRedux.push(`/presale/public?type=${payload.type}`));
     },
-    *publicAdd({ payload, callback }, { call, put }) {
+    *add({ payload, callback }, { call }) {
       const msg = {
         handler: '/v1/mp/item/item/add',
         message: JSON.stringify(payload),
       };
-      const [code] = yield call(GET, msg);
+      const [code, data] = yield call(GET, msg);
       if (code !== 0) return;
-      if (callback) callback();
-      yield put(routerRedux.push('/presale/list'));
+      if (callback) callback(data);
     },
     *publicPost({ payload, callback }, { call, put }) {
       const msg = {

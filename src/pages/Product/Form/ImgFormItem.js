@@ -1,7 +1,6 @@
 import React, { PureComponent, Fragment } from 'react';
 import { Form, Icon, Upload, Modal, message } from 'antd';
 import { BaseImgUrl, getQiniuToken } from '@/common/config';
-import { formItemLayout } from './common';
 import './style.less';
 
 const FormItem = Form.Item;
@@ -77,7 +76,7 @@ export default class ImgFormItem extends PureComponent {
   };
 
   render() {
-    const { form, initialValue } = this.props;
+    const { form, initialValue, formItemLayout } = this.props;
     const { getFieldDecorator } = form;
     const { previewUrl, previewVisible } = this.state;
     const images = initialValue.images || [];
