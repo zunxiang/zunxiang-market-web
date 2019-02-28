@@ -62,6 +62,15 @@ export default {
       if (code !== 0) return;
       if (callback) callback();
     },
+    *unbind({ payload, callback }, { call }) {
+      const msg = {
+        handler: '/v1/mp/app_account/account/unbind_weixin',
+        message: JSON.stringify(payload),
+      };
+      const [code] = yield call(GET, msg);
+      if (code !== 0) return;
+      if (callback) callback();
+    },
   },
 
   reducers: {

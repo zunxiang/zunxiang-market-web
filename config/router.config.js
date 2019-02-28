@@ -87,6 +87,10 @@ export default [
         name: 'product',
         routes: [
           {
+            path: '/product',
+            redirect: '/product/normal/list',
+          },
+          {
             path: '/product/sku',
             name: 'sku',
             component: './Product/Sku/Sku.js',
@@ -95,7 +99,7 @@ export default [
           {
             path: '/product/normal',
             name: 'normal',
-            hideChildrenInMenu: true,
+            hideInMenu: true,
             routes: [
               {
                 path: '/product/normal',
@@ -121,7 +125,7 @@ export default [
           {
             path: '/product/presale',
             name: 'presale',
-            hideChildrenInMenu: true,
+            hideInMenu: true,
             routes: [
               {
                 path: '/product/presale',
@@ -365,6 +369,12 @@ export default [
         icon: 'user',
         path: '/customer/list',
         component: './customer/List',
+      },
+      {
+        name: 'subscript',
+        icon: 'wechat',
+        path: '/subscript/bind',
+        component: './User/SubscriptList',
       },
       {
         name: 'account',

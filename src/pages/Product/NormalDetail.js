@@ -4,7 +4,6 @@ import { Menu, Dropdown, Icon, Button, message, Modal, Popconfirm } from 'antd';
 import { Link } from 'dva/router';
 import { parse } from 'qs';
 import DescriptionList from '@/components/DescriptionList';
-import Debounce from 'lodash-decorators/debounce';
 import QRCode from 'qrcode-react';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import PackageList from './NormalPackageList';
@@ -18,8 +17,9 @@ const status = {
   2: '已售罄',
 };
 
-@connect(({ normal, loading }) => ({
+@connect(({ normal, user, loading }) => ({
   normal,
+  userid: `${user.currentUser.userid}`,
   loading: loading.effects['normal/get'],
 }))
 export default class BasicProfile extends Component {
@@ -30,12 +30,15 @@ export default class BasicProfile extends Component {
     } = props;
     this.state = {
       item: {},
-      choosedInsurance: null,
       query: parse(search, { ignoreQueryPrefix: true }),
     };
   }
 
   componentDidMount() {
+    this.getData();
+  }
+
+  getData() {
     const { dispatch } = this.props;
     const {
       query: { i },
@@ -47,9 +50,10 @@ export default class BasicProfile extends Component {
         this.setState({
           item: {
             ...data,
+            notice_accounts: data.notice_accounts ? data.notice_accounts.split(',') : [],
           },
         });
-        this.handleGetContet(data.rich_text_content_i);
+        this.handleGetContent(data.rich_text_content_i);
       },
     });
   }
@@ -118,69 +122,6 @@ export default class BasicProfile extends Component {
     });
   };
 
-  handleOnChooseInsurance = value => {
-    this.setState({
-      choosedInsurance: value,
-    });
-  };
-
-  @Debounce(2000)
-  handleOnAddInsurance = () => {
-    const { dispatch } = this.props;
-    const { choosedInsurance, item } = this.state;
-    if (!choosedInsurance) {
-      message.error('请选择需要添加的保险产品');
-      return;
-    }
-    if (item.insurances.indexOf(choosedInsurance.toString()) !== -1) {
-      message.error('您已经添加过该产品了');
-      return;
-    }
-    const list = [...item.insurances, choosedInsurance.toString()];
-    dispatch({
-      type: 'normal/publicPost',
-      payload: {
-        insurances: list.join(','),
-        i: item.i,
-      },
-      callback: () => {
-        this.setState({
-          item: {
-            ...item,
-            insurances: list,
-          },
-        });
-        this.handleLoadInsurance(list);
-        message.success('添加成功');
-      },
-    });
-  };
-
-  handleRemoveInsurance = i => {
-    const { dispatch } = this.props;
-    const { item } = this.state;
-    const list = [...item.insurances];
-    const index = list.indexOf(i.toString());
-    list.splice(index, 1);
-    dispatch({
-      type: 'normal/publicPost',
-      payload: {
-        insurances: list.join(','),
-        i: item.i,
-      },
-      callback: () => {
-        this.setState({
-          item: {
-            ...item,
-            insurances: list,
-          },
-        });
-        this.handleLoadInsurance(list);
-        message.success('移除成功');
-      },
-    });
-  };
-
   handleChangeState = type => {
     const { dispatch } = this.props;
     const { item } = this.state;
@@ -199,7 +140,27 @@ export default class BasicProfile extends Component {
     });
   };
 
-  handleGetContet(i) {
+  handleSubscript = type => {
+    const { dispatch } = this.props;
+    const {
+      item: { i },
+    } = this.state;
+    dispatch({
+      type: `normal/${type}`,
+      payload: { i },
+      callback: data => {
+        message.success('操作成功');
+        this.setState({
+          item: {
+            ...data,
+            notice_accounts: data.notice_accounts ? data.notice_accounts.split(',') : [],
+          },
+        });
+      },
+    });
+  };
+
+  handleGetContent(i) {
     const { dispatch } = this.props;
     dispatch({
       type: 'normal/getContent',
@@ -228,26 +189,6 @@ export default class BasicProfile extends Component {
         </Link>
       </Menu.Item>
       <Menu.Item>
-        <Link
-          to={{
-            pathname: '/poster',
-            search: `item_i=${record.i}&type=normal`,
-          }}
-        >
-          产品海报
-        </Link>
-      </Menu.Item>
-      <Menu.Item>
-        <Link
-          to={{
-            pathname: '/album',
-            search: `item_i=${record.i}`,
-          }}
-        >
-          相册图库
-        </Link>
-      </Menu.Item>
-      <Menu.Item>
         <a onClick={() => this.handlePreview(record, 'preview')}>产品预览</a>
       </Menu.Item>
       <Menu.Item>
@@ -260,7 +201,7 @@ export default class BasicProfile extends Component {
             search: `item_i=${record.i}&info=常规产品${record.i}`,
           }}
         >
-          操作日志
+          操作记录
         </Link>
       </Menu.Item>
     </Menu>
@@ -296,6 +237,7 @@ export default class BasicProfile extends Component {
   );
 
   render() {
+    const { userid } = this.props;
     const { item, modalTitle, modalVisible, qrcodeSrc, qrcodeTitle } = this.state;
     const Action = (
       <div>
@@ -319,6 +261,29 @@ export default class BasicProfile extends Component {
           >
             <Button type="primary" ghost style={{ marginRight: 8 }}>
               上架
+            </Button>
+          </Popconfirm>
+        )}
+        {item.notice_accounts && item.notice_accounts.includes(userid) ? (
+          <Popconfirm
+            title="确认取消订阅?"
+            onConfirm={() => this.handleSubscript('unsubscript')}
+            okText="确认"
+            cancelText="取消"
+          >
+            <Button type="danger" ghost style={{ marginRight: 8 }}>
+              取消订阅
+            </Button>
+          </Popconfirm>
+        ) : (
+          <Popconfirm
+            title="确认订阅该产品?"
+            onConfirm={() => this.handleSubscript('subscript')}
+            okText="确认"
+            cancelText="取消"
+          >
+            <Button type="primary" ghost style={{ marginRight: 8 }}>
+              订阅通知
             </Button>
           </Popconfirm>
         )}

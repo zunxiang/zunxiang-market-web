@@ -13,6 +13,7 @@ import {
   Divider,
   Popconfirm,
   Radio,
+  Avatar,
 } from 'antd';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import SearchForm from '@/components/FormGenerator/SearchForm';
@@ -175,28 +176,28 @@ export default class TableList extends PureComponent {
       dataIndex: 'last_login_time',
     },
     {
+      title: '微信绑定',
+      dataIndex: 'logo',
+      render: (val, record) => (record.wxopenid ? <Avatar src={val} /> : '未绑定'),
+    },
+    {
       title: '操作',
-      render: (val, row) => {
-        if (row.state === 1) {
-          return (
-            <Fragment>
-              <Popconfirm
-                title="确认禁用该账号?"
-                onConfirm={() => this.handleClose(row.i)}
-                okText="确认"
-                cancelText="取消"
-              >
-                <a style={{ color: '#f5222d' }} href="#">
-                  禁用
-                </a>
-              </Popconfirm>
-              <Divider type="vertical" />
-              <a onClick={() => this.handleEditEvent(row)}>修改信息</a>
-            </Fragment>
-          );
-        }
-        return (
-          <Fragment>
+      render: (val, row) => (
+        <Fragment>
+          <a onClick={() => this.handleEditEvent(row)}>修改信息</a>
+          <Divider type="vertical" />
+          {row.state === 1 ? (
+            <Popconfirm
+              title="确认禁用该账号?"
+              onConfirm={() => this.handleClose(row.i)}
+              okText="确认"
+              cancelText="取消"
+            >
+              <a style={{ color: '#f5222d' }} href="#">
+                禁用
+              </a>
+            </Popconfirm>
+          ) : (
             <Popconfirm
               title="确认启用该账号?"
               onConfirm={() => this.handleOpen(row.i)}
@@ -205,11 +206,22 @@ export default class TableList extends PureComponent {
             >
               <a style={{ color: '#5b8c00' }}>启用</a>
             </Popconfirm>
-            <Divider type="vertical" />
-            <a onClick={() => this.handleEditEvent(row)}>修改信息</a>
-          </Fragment>
-        );
-      },
+          )}
+          {row.wxopenid && (
+            <Fragment>
+              <Divider type="vertical" />
+              <Popconfirm
+                title="确认解绑该账号的微信订阅?"
+                onConfirm={() => this.handleUnbind(row.i)}
+                okText="确认"
+                cancelText="取消"
+              >
+                <a style={{ color: '#f5222d' }}>解绑</a>
+              </Popconfirm>
+            </Fragment>
+          )}
+        </Fragment>
+      ),
     },
   ];
 
@@ -369,6 +381,18 @@ export default class TableList extends PureComponent {
     dispatch({
       type: 'account/edit',
       payload: { i, state: 0 },
+      callback: () => {
+        message.success('操作成功');
+        this.loadData();
+      },
+    });
+  };
+
+  handleUnbind = i => {
+    const { dispatch } = this.props;
+    dispatch({
+      type: 'account/unbind',
+      payload: { i },
       callback: () => {
         message.success('操作成功');
         this.loadData();

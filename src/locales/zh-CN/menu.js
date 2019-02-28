@@ -63,4 +63,5 @@ export default {
   'menu.customer': '用户列表',
   'menu.finance': '账单记录',
   'menu.finance.finance-bill': '账单记录',
+  'menu.subscript': '通知订阅',
 };

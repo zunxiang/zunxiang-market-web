@@ -112,6 +112,24 @@ export default {
       if (code !== 0) return;
       if (callback) callback(response);
     },
+    *subscript({ payload, callback }, { call }) {
+      const msg = {
+        handler: '/v1/mp/item/item/book_order_notice',
+        message: JSON.stringify(payload),
+      };
+      const [code, response] = yield call(GET, msg);
+      if (code !== 0) return;
+      if (callback) callback(response);
+    },
+    *unsubscript({ payload, callback }, { call }) {
+      const msg = {
+        handler: '/v1/mp/item/item/unbook_order_notice',
+        message: JSON.stringify(payload),
+      };
+      const [code, response] = yield call(GET, msg);
+      if (code !== 0) return;
+      if (callback) callback(response);
+    },
   },
 
   reducers: {
