@@ -6,6 +6,7 @@ import './style.less';
 
 const FormItem = Form.Item;
 const { Option } = Select;
+const { TextArea } = Input;
 
 const NameFormItem = props => {
   const { form, initialValue } = props;
@@ -168,6 +169,24 @@ const NoticeMobileFormItem = props => {
   );
 };
 
+const SmsTempFormItem = props => {
+  const { form, initialValue } = props;
+  const { getFieldDecorator } = form;
+  return (
+    <FormItem {...formItemLayout} label="通知短信模板">
+      {getFieldDecorator('sms_template', {
+        rules: [
+          {
+            required: true,
+            message: '请输入通知短信模板',
+          },
+        ],
+        initialValue: initialValue.sms_template,
+      })(<TextArea placeholder="请输入" rows={4} />)}
+    </FormItem>
+  );
+};
+
 const BasicFormItem = props => {
   const {
     initialValue: { type },
@@ -186,6 +205,7 @@ const BasicFormItem = props => {
         </Fragment>
       ) : null}
       <NoticeMobileFormItem {...props} />
+      <SmsTempFormItem {...props} />
     </Fragment>
   );
 };

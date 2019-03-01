@@ -53,6 +53,9 @@ export default class TableList extends PureComponent {
 
   componentDidMount() {
     this.loadData();
+    this.loadSmsTemp('HOTEL');
+    this.loadSmsTemp('PKG');
+    this.loadSmsTemp('GROUP');
   }
 
   loadData = () => {
@@ -75,6 +78,14 @@ export default class TableList extends PureComponent {
           data: { ...data },
         });
       },
+    });
+  };
+
+  loadSmsTemp = type => {
+    const { dispatch } = this.props;
+    dispatch({
+      type: 'normal/getSmsTemp',
+      payload: { item_type: type },
     });
   };
 

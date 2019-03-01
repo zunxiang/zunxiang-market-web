@@ -10,6 +10,7 @@ export default {
       pagination: {},
     },
     current: {},
+    smsTemp: {},
   },
   effects: {
     *find({ payload, callback }, { call, put }) {
@@ -130,6 +131,20 @@ export default {
       if (code !== 0) return;
       if (callback) callback(response);
     },
+    *getSmsTemp({ payload }, { call, put }) {
+      const msg = {
+        handler: '/v1/mp/item/item/get_sms_template',
+        message: JSON.stringify(payload),
+      };
+      const [code, response] = yield call(GET, msg);
+      if (code !== 0) return;
+      yield put({
+        type: 'setSmsTemp',
+        payload: {
+          [payload.item_type]: response,
+        },
+      });
+    },
   },
 
   reducers: {
@@ -148,6 +163,16 @@ export default {
       return {
         ...state,
         current: action.payload,
+      };
+    },
+    setSmsTemp(state, action) {
+      const { smsTemp } = state;
+      return {
+        ...state,
+        smsTemp: {
+          ...smsTemp,
+          ...action.payload,
+        },
       };
     },
   },
