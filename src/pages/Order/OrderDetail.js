@@ -1,11 +1,12 @@
 import React, { Component, Fragment } from 'react';
 import { connect } from 'dva';
 import { parse } from 'qs';
-import { Card, Table, Divider, Button, Tag, Modal } from 'antd';
+import { Card, Table, Divider, Button, Tag, Modal, message } from 'antd';
 import Ellipsis from '@/components/Ellipsis';
 import DescriptionList from '@/components/DescriptionList';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import { orderType, orderStatus, orderStatusMap } from './common';
+import Prompt from '@/components/Prompt';
 import styles from './OrderDetail.less';
 
 const { Description } = DescriptionList;
@@ -115,6 +116,8 @@ export default class NormalOrderDetail extends Component {
     logs: [],
     query: parse(this.props.location.search, { ignoreQueryPrefix: true }),
     order: {},
+    showPrompt: false,
+    promptInit: '',
   };
 
   componentDidMount = () => {
@@ -162,7 +165,11 @@ export default class NormalOrderDetail extends Component {
         dispatch({
           type: 'order/finish',
           payload: { i },
-          callback: () => {
+          callback: data => {
+            this.setState({
+              promptInit: data,
+              showPrompt: true,
+            });
             this.loadData();
           },
         });
@@ -196,20 +203,78 @@ export default class NormalOrderDetail extends Component {
     });
   };
 
+  handlePromptCancel = () => {
+    this.setState({
+      showPrompt: false,
+    });
+  };
+
+  handlePromptSubmit = value => {
+    const { dispatch } = this.props;
+    const {
+      query: { order_i: i },
+    } = this.state;
+    dispatch({
+      type: 'order/sendSms',
+      payload: {
+        i,
+        ...value,
+      },
+      callback: () => {
+        message.success('发送成功');
+      },
+    });
+  };
+
+  handleGetSms = () => {
+    const { dispatch } = this.props;
+    const {
+      query: { order_i: i },
+    } = this.state;
+    dispatch({
+      type: 'order/getSms',
+      payload: {
+        i,
+      },
+      callback: data => {
+        this.setState({
+          promptInit: data,
+          showPrompt: true,
+        });
+      },
+    });
+  };
+
   render() {
     const { billLoading, loading } = this.props;
-    const { order, logs } = this.state;
+    const { order, logs, showPrompt, promptInit } = this.state;
     const Action = (
       <Fragment>
         {order.state === 2 ? (
-          <Button type="primary" onClick={this.handleOnConfirm} loading={loading}>
+          <Button
+            type="primary"
+            onClick={this.handleOnConfirm}
+            loading={loading}
+            style={{ marginRight: 8 }}
+          >
             确认
           </Button>
         ) : null}
         {[2, 3].includes(order.state) ? (
-          <Button loading={loading} onClick={this.handleOnRefund}>
-            退款
-          </Button>
+          <>
+            <Button loading={loading} onClick={this.handleOnRefund}>
+              退款
+            </Button>
+            <Button
+              type="primary"
+              ghost
+              onClick={this.handleGetSms}
+              loading={loading}
+              style={{ marginLeft: 8 }}
+            >
+              重发短信
+            </Button>
+          </>
         ) : null}
       </Fragment>
     );
@@ -277,6 +342,17 @@ export default class NormalOrderDetail extends Component {
             rowKey="i"
             dataSource={logs}
             columns={logColumns}
+          />
+          <Prompt
+            title="发送通知短信"
+            label="短信内容"
+            error="请输入短信内容"
+            name="sms_content"
+            onOk={this.handlePromptSubmit}
+            onCancel={this.handlePromptCancel}
+            modalVisible={showPrompt}
+            type="textArea"
+            initialValue={promptInit}
           />
         </Card>
       </PageHeaderWrapper>

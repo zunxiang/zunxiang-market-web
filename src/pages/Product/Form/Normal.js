@@ -112,8 +112,8 @@ export default class ItemMainForms extends PureComponent {
     const initialValue = {
       type,
       model,
+      sms_template: smsTemp[type],
       ...current,
-      sms_template: current.sms_template || smsTemp[type],
     };
     const destination = [current.termini_province, current.termini_city];
     return (

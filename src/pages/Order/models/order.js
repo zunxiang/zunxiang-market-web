@@ -79,6 +79,24 @@ export default {
       if (code !== 0) return;
       if (callback) callback(response);
     },
+    *getSms({ payload, callback }, { call }) {
+      const msg = {
+        handler: '/v1/mp/order/mp_order/get_finish_sms',
+        message: JSON.stringify(payload),
+      };
+      const [code, response] = yield call(GET, msg);
+      if (code !== 0) return;
+      if (callback) callback(response);
+    },
+    *sendSms({ payload, callback }, { call }) {
+      const msg = {
+        handler: '/v1/mp/order/mp_order/send_finish_sms',
+        message: JSON.stringify(payload),
+      };
+      const [code, response] = yield call(GET, msg);
+      if (code !== 0) return;
+      if (callback) callback(response);
+    },
   },
 
   reducers: {
