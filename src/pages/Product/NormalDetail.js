@@ -8,6 +8,7 @@ import QRCode from 'qrcode-react';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import PackageList from './NormalPackageList';
 import { NormalTypes } from './common';
+import Poster from './Poster.tsx';
 
 const { Description } = DescriptionList;
 
@@ -51,6 +52,7 @@ export default class BasicProfile extends Component {
           item: {
             ...data,
             notice_accounts: data.notice_accounts ? data.notice_accounts.split(',') : [],
+            poster: data.poster ? data.poster.split(',') : [],
           },
         });
         this.handleGetContent(data.rich_text_content_i);
@@ -154,6 +156,26 @@ export default class BasicProfile extends Component {
           item: {
             ...data,
             notice_accounts: data.notice_accounts ? data.notice_accounts.split(',') : [],
+          },
+        });
+      },
+    });
+  };
+
+  handleUploadPoster = posters => {
+    const { dispatch } = this.props;
+    const { item } = this.state;
+    dispatch({
+      type: 'normal/publicPost',
+      payload: {
+        i: item.i,
+        poster: posters.join(','),
+      },
+      callback: () => {
+        this.setState({
+          item: {
+            ...item,
+            poster: [...posters],
           },
         });
       },
@@ -297,7 +319,10 @@ export default class BasicProfile extends Component {
     );
     return (
       <PageHeaderWrapper title={item.title} content={this.renderBaseInfo(item)} action={Action}>
-        {item.i ? <PackageList item={item} /> : null}
+        {item.i && <PackageList item={item} />}
+        <div style={{ marginTop: 16 }}>
+          {item.i && <Poster data={item.poster} onUpload={this.handleUploadPoster} />}
+        </div>
         <Modal
           title={modalTitle}
           visible={modalVisible}
