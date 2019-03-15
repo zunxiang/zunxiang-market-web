@@ -330,6 +330,7 @@ export default class NormalOrderDetail extends Component {
                 rowKey="i"
                 dataSource={order.travellers || []}
                 columns={visitorColumns}
+                scroll={{ x: 700 }}
               />
             </Fragment>
           ) : (

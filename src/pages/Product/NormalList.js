@@ -1,5 +1,5 @@
 import React from 'react';
-import { List, Row, Col, Tag } from 'antd';
+import { List, Tag, Card, Button } from 'antd';
 import { Link } from 'dva/router';
 import Ellipsis from '@/components/Ellipsis';
 import { BaseImgUrl } from '@/common/config';
@@ -23,61 +23,114 @@ const types = {
   GROUP: '跟团',
 };
 
-const PresaleListContent = props => {
+const CoverContent = props => {
   const { item } = props;
   const imgs = item.images && item.images.split(',');
   return (
-    <div className={styles.wrap}>
-      <div className={styles.contentLeft}>
-        <img src={BaseImgUrl + (item.images ? imgs[0] : 'default.png')} alt="产品图片" />
+    <div
+      style={{
+        width: '100%',
+        position: 'relative',
+      }}
+    >
+      <div
+        style={{
+          position: 'absolute',
+          left: 0,
+          right: 0,
+          top: 5,
+          width: '100%',
+          display: 'flex',
+          justifyContent: 'space-between',
+        }}
+      >
+        <Tag>{types[item.type]}</Tag>
+        <Tag color={statusMap[item.state]}>{status[item.state]}</Tag>
       </div>
-      <div className={styles.contentCenter}>
-        <Row type="flex" justify="space-between" align="middle" gutter={16}>
-          <Col span={7}>
-            <div>
-              <Link
-                to={{
-                  pathname: '/product/normal/detail',
-                  search: `i=${item.i}`,
-                }}
-              >
-                <Ellipsis lines={2} tooltip className={styles.color59}>
-                  {item.title}
-                </Ellipsis>
-              </Link>
-            </div>
-          </Col>
-          <Col span={14}>
-            <div className={styles.detailContainer}>
-              <span className={styles.detailContent}>id：{item.i}</span>
-              <span className={styles.detailContent}>分类：{types[item.type]}</span>
-              <span className={styles.detailContent}>销量：{item.sales}</span>
-            </div>
-          </Col>
-          <Col span={3}>
-            <div>
-              <Tag color={statusMap[item.state]}>{status[item.state]}</Tag>
-            </div>
-          </Col>
-        </Row>
-      </div>
-      <div className={styles.contentRight}>{props.operates ? props.operates(item) : null}</div>
+      <Link
+        to={{
+          pathname: '/product/normal/detail',
+          search: `i=${item.i}`,
+        }}
+      >
+        <img
+          alt={item.title}
+          src={BaseImgUrl + (item.images ? imgs[0] : 'default.png')}
+          style={{ height: 150, width: '100%' }}
+        />
+      </Link>
     </div>
   );
 };
+
+const ListContent = props => {
+  const { item, actions } = props;
+  return (
+    <Card
+      className={styles.card}
+      hoverable
+      cover={<CoverContent {...props} />}
+      bodyStyle={{ padding: '10px 5px' }}
+      actions={actions(item)}
+    >
+      <Link
+        to={{
+          pathname: '/product/normal/detail',
+          search: `i=${item.i}`,
+        }}
+      >
+        <Ellipsis lines={1} tooltip className={styles.color59}>
+          {item.title}
+        </Ellipsis>
+      </Link>
+    </Card>
+  );
+};
 const ProductList = props => {
-  const newProps = { ...props };
-  delete newProps.item;
-  delete newProps.operates;
+  const { item: xitem, actions, onEdit, ...newProps } = props;
   return (
     <List
       {...newProps}
-      className={styles.listContainer}
-      renderItem={item => (
-        <List.Item>
-          <PresaleListContent item={item} operates={props.operates} />
-        </List.Item>
-      )}
+      renderItem={item =>
+        item ? (
+          <List.Item>
+            <ListContent item={item} actions={actions} />
+          </List.Item>
+        ) : (
+          <List.Item>
+            <div
+              style={{
+                height: 225,
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'center',
+              }}
+            >
+              <Button block type="primary" ghost onClick={() => onEdit('add', 'HOTEL', {})}>
+                新建酒店产品
+              </Button>
+              <Button
+                block
+                type="primary"
+                ghost
+                style={{ marginTop: 16 }}
+                onClick={() => onEdit('add', 'PKG', {})}
+              >
+                新建自由行产品
+              </Button>
+              <Button
+                block
+                type="primary"
+                ghost
+                style={{ marginTop: 16 }}
+                onClick={() => onEdit('add', 'GROUP', {})}
+              >
+                新建跟团产品
+              </Button>
+            </div>
+          </List.Item>
+        )
+      }
     />
   );
 };

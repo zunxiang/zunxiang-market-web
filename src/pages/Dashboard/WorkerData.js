@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import moment from 'moment';
 import { connect } from 'dva';
-import { Card, List, Avatar } from 'antd';
+import { Card, List, Avatar, Row, Col, Statistic } from 'antd';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 
 import styles from './Workplace.less';
@@ -37,13 +37,14 @@ export default class Workplace extends Component {
     const hour = moment().hour();
     if (hour < 12) {
       return '上午好';
-    } else if (hour >= 12 && hour < 14) {
-      return '中午好';
-    } else if (hour >= 14 && hour <= 19) {
-      return '下午好';
-    } else {
-      return '晚上好';
     }
+    if (hour >= 12 && hour < 14) {
+      return '中午好';
+    }
+    if (hour >= 14 && hour <= 19) {
+      return '下午好';
+    }
+    return '晚上好';
   };
 
   renderActivities = () => {
@@ -124,6 +125,28 @@ export default class Workplace extends Component {
 
     return (
       <PageHeaderWrapper content={pageHeaderContent} extraContent={extraContent}>
+        <Row gutter={16}>
+          <Col md={6} sm={8} xs={12}>
+            <Card>
+              <Statistic title="产品数" value={100} />
+            </Card>
+          </Col>
+          <Col md={6} sm={8} xs={12}>
+            <Card>
+              <Statistic title="产品数" value={100} />
+            </Card>
+          </Col>
+          <Col md={6} sm={8} xs={12}>
+            <Card>
+              <Statistic title="产品数" value={100} />
+            </Card>
+          </Col>
+          <Col md={6} sm={8} xs={12}>
+            <Card>
+              <Statistic title="产品数" value={100} />
+            </Card>
+          </Col>
+        </Row>
         <Card
           bodyStyle={{ padding: 0 }}
           bordered={false}

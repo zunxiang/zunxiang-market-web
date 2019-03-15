@@ -3,18 +3,7 @@ import { connect } from 'dva';
 import { Link } from 'dva/router';
 import { parse, stringify } from 'qs';
 import QRCode from 'qrcode-react';
-import {
-  Card,
-  Form,
-  Button,
-  Menu,
-  message,
-  Popconfirm,
-  Modal,
-  Divider,
-  Dropdown,
-  Icon,
-} from 'antd';
+import { Card, Form, Button, Menu, message, Popconfirm, Modal, Dropdown, Icon } from 'antd';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import ProductList from './NormalList';
 import SearchForm from '@/components/FormGenerator/SearchForm';
@@ -36,7 +25,7 @@ export default class TableList extends PureComponent {
     this.state = {
       filters: {},
       currentPage: 1,
-      pageSize: 10,
+      pageSize: 20,
       formValues: {},
       modalVisible: false,
       qrcodeSrc: undefined,
@@ -247,39 +236,6 @@ export default class TableList extends PureComponent {
       <Menu.Item>
         <Link
           to={{
-            pathname: '/order/list',
-            search: `item_i=${record.i}`,
-          }}
-        >
-          查看订单
-        </Link>
-      </Menu.Item>
-      <Menu.Item>
-        <Link
-          to={{
-            pathname: '/poster',
-            search: `item_i=${record.i}&type=normal`,
-          }}
-        >
-          产品海报
-        </Link>
-      </Menu.Item>
-      <Menu.Item>
-        <Link
-          to={{
-            pathname: '/album',
-            search: `item_i=${record.i}`,
-          }}
-        >
-          相册图库
-        </Link>
-      </Menu.Item>
-      <Menu.Item>
-        <a onClick={() => this.handlePreview(record)}>产品预览</a>
-      </Menu.Item>
-      <Menu.Item>
-        <Link
-          to={{
             pathname: '/log',
             search: `item_i=${record.i}&info=常规产品${record.i}`,
           }}
@@ -290,48 +246,41 @@ export default class TableList extends PureComponent {
     </Menu>
   );
 
-  renderOperate = record => {
-    if (record.state === 1) {
-      return (
-        <div>
-          <Popconfirm
-            title="确认下架该产品?"
-            onConfirm={() => this.handleClose(record.i)}
-            okText="确认"
-            cancelText="取消"
-          >
-            <a style={{ color: '#f5222d' }}>下架</a>
-          </Popconfirm>
-          <Divider type="vertical" />
-          <Dropdown overlay={this.renderMenu(record)} placement="bottomCenter">
-            <a className="ant-dropdown-link">
-              更多操作
-              <Icon type="down" />
-            </a>
-          </Dropdown>
-        </div>
-      );
-    }
-    return (
-      <div>
-        <Popconfirm
-          title="确认上架架该产品?"
-          onConfirm={() => this.handleOpen(record.i)}
-          okText="确认"
-          cancelText="取消"
-        >
-          <a style={{ color: '#5b8c00' }}>上架</a>
-        </Popconfirm>
-        <Divider type="vertical" />
-        <Dropdown overlay={this.renderMenu(record)}>
-          <a className="ant-dropdown-link">
-            更多操作
-            <Icon type="down" />
-          </a>
-        </Dropdown>
-      </div>
-    );
-  };
+  renderOperate = record => [
+    record.state === 1 ? (
+      <Popconfirm
+        title="确认下架该产品?"
+        onConfirm={() => this.handleClose(record.i)}
+        okText="确认"
+        cancelText="取消"
+      >
+        <a style={{ color: '#f5222d' }}>下架</a>
+      </Popconfirm>
+    ) : (
+      <Popconfirm
+        title="确认上架架该产品?"
+        onConfirm={() => this.handleOpen(record.i)}
+        okText="确认"
+        cancelText="取消"
+      >
+        <a style={{ color: '#5b8c00' }}>上架</a>
+      </Popconfirm>
+    ),
+    <Link
+      to={{
+        pathname: '/order/list',
+        search: `item_i=${record.i}`,
+      }}
+    >
+      查看订单
+    </Link>,
+    <Dropdown overlay={this.renderMenu(record)} placement="bottomCenter">
+      <a className="ant-dropdown-link">
+        更多
+        <Icon type="down" />
+      </a>
+    </Dropdown>,
+  ];
 
   renderCreateMenu = () => (
     <Menu>
@@ -412,22 +361,14 @@ export default class TableList extends PureComponent {
               }
             />
             <ProductList
-              header={
-                <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-                  <Dropdown overlay={this.renderCreateMenu()}>
-                    <Button icon="plus" ghost type="primary">
-                      新建
-                    </Button>
-                  </Dropdown>
-                </div>
-              }
-              bordered
-              itemLayout="vertical"
-              size="middle"
+              onEdit={this.handleEdit}
+              grid={{ gutter: 16, xl: 5, lg: 3, md: 3, sm: 2, xs: 1 }}
+              itemLayout="horizontal"
+              size="small"
               loading={loading}
               pagination={paginationProps}
-              dataSource={list}
-              operates={this.renderOperate}
+              dataSource={['', ...list]}
+              actions={this.renderOperate}
             />
           </div>
         </Card>

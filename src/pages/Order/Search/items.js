@@ -180,8 +180,8 @@ export const departureTime = {
 
 export const receiptState = {
   type: 'select',
-  parse: 'in',
-  key: 'receipt_state',
+  parse: 'default',
+  key: 'receipt_state@in',
   label: '收款状态',
   selectMode: 'multiple',
   selectOptions: [
@@ -202,8 +202,8 @@ export const receiptState = {
 
 export const defrayState = {
   type: 'select',
-  parse: 'in',
-  key: 'defray_state',
+  parse: 'default',
+  key: 'defray_state@in',
   label: '付款状态',
   selectMode: 'multiple',
   selectOptions: [
@@ -224,8 +224,8 @@ export const defrayState = {
 
 export const refundState = {
   type: 'select',
-  parse: 'in',
-  key: 'refund_state',
+  parse: 'default',
+  key: 'refund_state@in',
   label: '退款状态',
   selectMode: 'multiple',
   selectOptions: [
@@ -246,8 +246,8 @@ export const refundState = {
 
 export const supplierButtMode = {
   type: 'select',
-  parse: 'in',
-  key: 'supplier_butt_mode',
+  parse: 'default',
+  key: 'supplier_butt_mode@in',
   label: '发单方式',
   selectMode: 'multiple',
   selectOptions: [
@@ -268,8 +268,8 @@ export const supplierButtMode = {
 
 export const source = {
   type: 'select',
-  parse: 'in',
-  key: 'source',
+  parse: 'default',
+  key: 'source@in',
   label: '订单来源',
   selectMode: 'multiple',
   selectOptions: [
@@ -290,8 +290,8 @@ export const source = {
 
 export const itemType = {
   type: 'select',
-  parse: 'in',
-  key: 'item_type',
+  parse: 'default',
+  key: 'item_type@in',
   label: '产品类型',
   selectMode: 'multiple',
   selectOptions: [
@@ -330,8 +330,8 @@ export const notice = {
 
 export const state = {
   type: 'select',
-  parse: 'in',
-  key: 'state',
+  parse: 'default',
+  key: 'state@in',
   label: '订单状态',
   selectMode: 'multiple',
   selectOptions: [
@@ -353,6 +353,10 @@ export const state = {
     },
     {
       value: 4,
+      text: '退款中',
+    },
+    {
+      value: 5,
       text: '已退款',
     },
     {
@@ -364,8 +368,8 @@ export const state = {
 
 export const payWay = {
   type: 'select',
-  parse: 'in',
-  key: 'pay_way',
+  parse: 'default',
+  key: 'pay_way@in',
   label: '支付方式',
   selectMode: 'multiple',
   selectOptions: [

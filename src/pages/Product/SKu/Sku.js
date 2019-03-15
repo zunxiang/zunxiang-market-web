@@ -168,9 +168,14 @@ export default class SkuManager extends PureComponent {
   handleChangeMonth = month => {
     const { calendarValue } = this.state;
     const date = moment(calendarValue).add(month, 'month');
-    this.setState({
-      calendarValue: date,
-    });
+    this.setState(
+      {
+        calendarValue: date,
+      },
+      () => {
+        this.loadData();
+      }
+    );
   };
 
   renderCell = date => {

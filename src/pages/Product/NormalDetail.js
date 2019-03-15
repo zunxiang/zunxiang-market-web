@@ -155,6 +155,7 @@ export default class BasicProfile extends Component {
         this.setState({
           item: {
             ...data,
+            poster: data.poster ? data.poster.split(',') : [],
             notice_accounts: data.notice_accounts ? data.notice_accounts.split(',') : [],
           },
         });
