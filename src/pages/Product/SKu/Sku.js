@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'dva';
-import { Card, Calendar, Drawer, Button, Spin } from 'antd';
+import { Card, Calendar, Drawer, Button, Spin, Dropdown, Menu } from 'antd';
 import { parse } from 'qs';
 import moment from 'moment';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
@@ -28,6 +28,7 @@ export default class SkuManager extends PureComponent {
       selectedSKu: {},
       calendarValue: now,
       today: now.format('YYYY-MM-DD'),
+      settings: ['price', 'stock', 'lag', 'fee'],
     };
   }
 
@@ -91,6 +92,7 @@ export default class SkuManager extends PureComponent {
         model: 'single',
         selectedDate: date,
         selectedSKu: skuMap[key] || {},
+        settings: ['price', 'stock', 'lag', 'fee'],
       },
       () => {
         this.handleDrawerVisiable(true);
@@ -98,12 +100,14 @@ export default class SkuManager extends PureComponent {
     );
   };
 
-  handleSetRange = () => {
+  handleSetRange = type => {
+    const settings = type ? [type] : ['price', 'stock', 'lag', 'fee'];
     this.setState(
       {
         model: 'range',
         selectedDate: null,
         selectedSKu: {},
+        settings,
       },
       () => {
         this.handleDrawerVisiable(true);
@@ -225,9 +229,37 @@ export default class SkuManager extends PureComponent {
     );
   };
 
+  renderMenu = (
+    <Menu>
+      <Menu.Item>
+        <a onClick={() => this.handleSetRange(null)}>设置全部</a>
+      </Menu.Item>
+      <Menu.Item>
+        <a onClick={() => this.handleSetRange('price')}>设置价格</a>
+      </Menu.Item>
+      <Menu.Item>
+        <a onClick={() => this.handleSetRange('fee')}>设置佣金</a>
+      </Menu.Item>
+      <Menu.Item>
+        <a onClick={() => this.handleSetRange('stock')}>设置库存</a>
+      </Menu.Item>
+      <Menu.Item>
+        <a onClick={() => this.handleSetRange('lag')}>设置提前天数</a>
+      </Menu.Item>
+    </Menu>
+  );
+
   render() {
     const { loading } = this.props;
-    const { showDrawer, model, itemType, selectedDate, selectedSKu, calendarValue } = this.state;
+    const {
+      showDrawer,
+      model,
+      itemType,
+      selectedDate,
+      selectedSKu,
+      calendarValue,
+      settings,
+    } = this.state;
     const formProps = {
       model,
       itemType,
@@ -235,6 +267,7 @@ export default class SkuManager extends PureComponent {
       selectedSKu,
       onSubmit: this.handleSubmit,
       disabledDate: this.handleDisableDate,
+      settings,
     };
     return (
       <PageHeaderWrapper>
@@ -242,9 +275,9 @@ export default class SkuManager extends PureComponent {
           <Spin spinning={loading}>
             <div className={styles.calendarWrap}>
               <div className={styles.operationBtnWrap}>
-                <Button type="default" onClick={this.handleSetRange}>
-                  区间设置
-                </Button>
+                <Dropdown overlay={this.renderMenu}>
+                  <Button type="default">区间设置</Button>
+                </Dropdown>
               </div>
               <div className={styles.prevMonthBtn}>
                 <Button type="default" onClick={() => this.handleChangeMonth(-1)}>

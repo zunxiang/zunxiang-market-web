@@ -1,4 +1,96 @@
 export default [
+  // admin user
+  {
+    path: '/admin-user',
+    component: '../layouts/UserLayout',
+    routes: [
+      { path: '/admin-user', redirect: '/admin/user/login' },
+      { path: '/admin-user/login', component: './Admin/User/Login' },
+    ],
+  },
+  // admin app
+  {
+    path: '/admin',
+    component: '../layouts/AdminLayout',
+    Routes: ['src/pages/AdminAuthorized'],
+    authority: ['defualt'],
+    routes: [
+      // dashboard
+      { path: '/admin', redirect: '/admin/dashboard/workplace' },
+      {
+        path: '/admin/dashboard/workplace',
+        name: 'workplace',
+        icon: 'dashboard',
+        component: './Dashboard/Analysis',
+      },
+      {
+        path: '/admin/wemall/list',
+        name: 'admin-wemall-list',
+        icon: 'table',
+        component: './Admin/WeMall/List',
+      },
+      {
+        path: '/admin/account/list',
+        name: 'admin-account-list',
+        icon: 'user',
+        component: './Admin/WeMall/Child',
+      },
+      {
+        icon: 'team',
+        name: 'salesman-list',
+        path: '/admin/salesman/list',
+        component: './Admin/Salesman/List',
+      },
+      {
+        name: 'withdraw',
+        icon: 'pay-circle',
+        path: '/admin/salesman/withdraw',
+        component: './Admin/Salesman/Withdraw',
+      },
+      {
+        name: 'admin-announcement',
+        icon: 'sound',
+        path: '/admin/announcement/list',
+        component: './Admin/Announcement/List',
+      },
+      {
+        name: 'admin-log',
+        icon: 'info-circle',
+        path: '/admin/log/list',
+        component: './Admin/Log/List',
+      },
+      {
+        name: 'exception',
+        icon: 'warnning',
+        path: '/exception',
+        hideInMenu: true,
+        routes: [
+          // exception
+          {
+            path: '/exception/403',
+            name: 'not-permission',
+            component: './Exception/403',
+          },
+          {
+            path: '/exception/404',
+            name: 'not-find',
+            component: './Exception/404',
+          },
+          {
+            path: '/exception/500',
+            name: 'server-error',
+            component: './Exception/500',
+          },
+          {
+            path: '/exception/trigger',
+            name: 'trigger',
+            hideInMenu: true,
+            component: './Exception/TriggerException',
+          },
+        ],
+      },
+    ],
+  },
   // user
   {
     path: '/user',

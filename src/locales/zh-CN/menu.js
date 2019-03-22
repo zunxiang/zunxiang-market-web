@@ -64,4 +64,8 @@ export default {
   'menu.finance': '账单记录',
   'menu.finance.finance-bill': '账单记录',
   'menu.subscript': '通知订阅',
+  'menu.admin-wemall-list': '公众号列表',
+  'menu.admin-account-list': '子账号列表',
+  'menu.admin-announcement': '系统公告',
+  'menu.admin-log': '日志记录',
 };

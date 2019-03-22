@@ -16,7 +16,7 @@ export default class SkuForm extends PureComponent {
   state = {};
 
   handleOnSave = () => {
-    const { form, itemType, model, onSubmit } = this.props;
+    const { form, itemType, model, onSubmit, settings } = this.props;
     form.validateFieldsAndScroll((err, fieldsvalue) => {
       if (err) return;
       const values = {};
@@ -31,21 +31,29 @@ export default class SkuForm extends PureComponent {
         values.end_date = date;
         values.weekday = defaultWeek;
       }
-      values.stock = fieldsvalue.stock || 0;
-      values.lag = fieldsvalue.lag || 0;
-      values.price = fieldsvalue.price ? currency(fieldsvalue.price).intValue : 0;
-      if (itemType === 'GROUP') {
-        values.child_price = fieldsvalue.child_price
-          ? currency(fieldsvalue.child_price).intValue
-          : 0;
+      if (settings.includes('stock')) {
+        values.stock = fieldsvalue.stock || 0;
       }
-      const feeP = [];
-      const feeT = [];
-      for (let i = 0; i < 5; i += 1) {
-        feeP[i] = fieldsvalue[`feeP${i}`] ? currency(fieldsvalue[`feeP${i}`]).intValue : 0;
-        feeT[i] = fieldsvalue[`feeT${i}`] ? currency(fieldsvalue[`feeT${i}`]).intValue : 0;
+      if (settings.includes('lag')) {
+        values.lag = fieldsvalue.lag || 0;
       }
-      values.fee = JSON.stringify([feeP, feeT]);
+      if (settings.includes('price')) {
+        values.price = fieldsvalue.price ? currency(fieldsvalue.price).intValue : 0;
+        if (itemType === 'GROUP') {
+          values.child_price = fieldsvalue.child_price
+            ? currency(fieldsvalue.child_price).intValue
+            : 0;
+        }
+      }
+      if (settings.includes('fee')) {
+        const feeP = [];
+        const feeT = [];
+        for (let i = 0; i < 5; i += 1) {
+          feeP[i] = fieldsvalue[`feeP${i}`] ? currency(fieldsvalue[`feeP${i}`]).intValue : 0;
+          feeT[i] = fieldsvalue[`feeT${i}`] ? currency(fieldsvalue[`feeT${i}`]).intValue : 0;
+        }
+        values.fee = JSON.stringify([feeP, feeT]);
+      }
       onSubmit(values);
     });
   };
@@ -191,6 +199,7 @@ export default class SkuForm extends PureComponent {
       model = 'range',
       itemType = 'GROUP',
       selectedSKu: { stock, lag, feeP, feeT },
+      settings = ['price', 'stock', 'lag', 'fee'],
     } = this.props;
     const { getFieldDecorator } = form;
     return (
@@ -198,72 +207,81 @@ export default class SkuForm extends PureComponent {
         <Form layout="inline">
           <Row gutter={16}>
             {model === 'range' ? this.renderDateRange() : this.renderDateSingle()}
-            {itemType === 'GROUP' ? this.renderGroupPrice() : this.renderSigelPrice()}
-            <Col span={12}>
-              <div className={styles.formItem}>
-                <FormItem label="库存">
-                  {getFieldDecorator('stock', {
-                    rules: [
-                      {
-                        required: false,
-                        message: '请设置库存',
-                      },
-                    ],
-                    initialValue: stock,
-                  })(<InputNumber min={0} placeholder="请输入" style={{ width: '100%' }} />)}
-                </FormItem>
-              </div>
-            </Col>
-            <Col span={12}>
-              <div className={styles.formItem}>
-                <FormItem label="提前天数">
-                  {getFieldDecorator('lag', {
-                    rules: [
-                      {
-                        required: false,
-                        message: '请设置提前天数',
-                      },
-                    ],
-                    initialValue: lag,
-                  })(<InputNumber min={0} placeholder="请输入" style={{ width: '100%' }} />)}
-                </FormItem>
-              </div>
-            </Col>
-            <Col span={24}>
-              <div className={styles.formTitle}>佣金计划</div>
-            </Col>
-            <Col span={12}>
-              <div className={styles.subTitle}>店返</div>
-              {feeLevels.map((fee, index) => (
-                <FormItem label={`${fee}级`} key={`feeP${fee}`}>
-                  {getFieldDecorator(`feeP${index}`, {
-                    rules: [
-                      {
-                        required: false,
-                        message: '请输入佣金',
-                      },
-                    ],
-                    initialValue: feeP && feeP[index],
-                  })(<InputNumber placeholder="请输入" style={{ width: '80%' }} />)}
-                </FormItem>
-              ))}
-            </Col>
-            <Col span={12}>
-              <div className={styles.subTitle}>团返</div>
-              {feeLevels.map((fee, index) => (
-                <FormItem label={`${fee}级`} key={`feeT${fee}`}>
-                  {getFieldDecorator(`feeT${index}`, {
-                    rules: [
-                      {
-                        required: false,
-                        message: '请输入佣金',
-                      },
-                    ],
-                    initialValue: feeT && feeT[index],
-                  })(<InputNumber placeholder="请输入" style={{ width: '100%' }} />)}
-                </FormItem>
-              ))}
-            </Col>
+            {settings.includes('price') &&
+              (itemType === 'GROUP' ? this.renderGroupPrice() : this.renderSigelPrice())}
+            {settings.includes('stock') && (
+              <Col span={12}>
+                <div className={styles.formItem}>
+                  <FormItem label="库存">
+                    {getFieldDecorator('stock', {
+                      rules: [
+                        {
+                          required: false,
+                          message: '请设置库存',
+                        },
+                      ],
+                      initialValue: stock,
+                    })(<InputNumber min={0} placeholder="请输入" style={{ width: '100%' }} />)}
+                  </FormItem>
+                </div>
+              </Col>
+            )}
+            {settings.includes('lag') && (
+              <Col span={12}>
+                <div className={styles.formItem}>
+                  <FormItem label="提前天数">
+                    {getFieldDecorator('lag', {
+                      rules: [
+                        {
+                          required: false,
+                          message: '请设置提前天数',
+                        },
+                      ],
+                      initialValue: lag,
+                    })(<InputNumber min={0} placeholder="请输入" style={{ width: '100%' }} />)}
+                  </FormItem>
+                </div>
+              </Col>
+            )}
+            {settings.includes('fee') && (
+              <Fragment>
+                <Col span={24}>
+                  <div className={styles.formTitle}>佣金计划</div>
+                </Col>
+                <Col span={12}>
+                  <div className={styles.subTitle}>店返</div>
+                  {feeLevels.map((fee, index) => (
+                    <FormItem label={`${fee}级`} key={`feeP${fee}`}>
+                      {getFieldDecorator(`feeP${index}`, {
+                        rules: [
+                          {
+                            required: false,
+                            message: '请输入佣金',
+                          },
+                        ],
+                        initialValue: feeP && feeP[index],
+                      })(<InputNumber placeholder="请输入" style={{ width: '80%' }} />)}
+                    </FormItem>
+                  ))}
+                </Col>
+                <Col span={12}>
+                  <div className={styles.subTitle}>团返</div>
+                  {feeLevels.map((fee, index) => (
+                    <FormItem label={`${fee}级`} key={`feeT${fee}`}>
+                      {getFieldDecorator(`feeT${index}`, {
+                        rules: [
+                          {
+                            required: false,
+                            message: '请输入佣金',
+                          },
+                        ],
+                        initialValue: feeT && feeT[index],
+                      })(<InputNumber placeholder="请输入" style={{ width: '100%' }} />)}
+                    </FormItem>
+                  ))}
+                </Col>
+              </Fragment>
+            )}
             <Col span={24}>
               <div className={styles.formBtnWrap}>
                 <Button type="primary" onClick={this.handleOnSave}>
