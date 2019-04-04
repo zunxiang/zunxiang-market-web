@@ -60,6 +60,12 @@ export default [
         component: './Admin/Log/List',
       },
       {
+        icon: 'setting',
+        path: '/admin/setting/password',
+        name: 'admin-setting-password',
+        component: './Admin/User/Setting',
+      },
+      {
         name: 'exception',
         icon: 'warnning',
         path: '/exception',

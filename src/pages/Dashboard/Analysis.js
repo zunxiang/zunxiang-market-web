@@ -25,14 +25,14 @@ class Analysis extends Component {
     rangePickerValue: getTimeDistance('year'),
   };
 
-  componentDidMount() {
+  /* componentDidMount() {
     const { dispatch } = this.props;
     this.reqRef = requestAnimationFrame(() => {
       dispatch({
         type: 'chart/fetch',
       });
     });
-  }
+  } */
 
   componentWillUnmount() {
     const { dispatch } = this.props;

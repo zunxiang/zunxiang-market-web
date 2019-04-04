@@ -68,4 +68,5 @@ export default {
   'menu.admin-account-list': '子账号列表',
   'menu.admin-announcement': '系统公告',
   'menu.admin-log': '日志记录',
+  'menu.admin-setting-password': '修改密码',
 };
