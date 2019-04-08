@@ -33,7 +33,7 @@ const AddForm = Form.create()(props => {
       if (err) return;
       const values = {
         ...fieldsValue,
-        merchant: fieldsValue.merchant.join(','),
+        // merchant: fieldsValue.merchant.join(','),
         wx_tmplmsg: JSON.stringify(JSON.parse(fieldsValue.wx_tmplmsg)),
       };
       if (initVal.username) {
