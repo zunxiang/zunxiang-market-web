@@ -131,6 +131,18 @@ const AddForm = Form.create()(props => {
           initialValue: initVal.huiju_key,
         })(<Input placeholder="请输入" />)}
       </FormItem>
+      <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="短信商户id">
+        {form.getFieldDecorator('sms_mchid', {
+          rules: [{ required: true, message: '请输入汇聚商户' }],
+          initialValue: initVal.sms_mchid,
+        })(<Input placeholder="请输入" />)}
+      </FormItem>
+      <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="短信KEY">
+        {form.getFieldDecorator('sms_key', {
+          rules: [{ required: true, message: '请输入汇聚支付KEY' }],
+          initialValue: initVal.sms_key,
+        })(<Input placeholder="请输入" />)}
+      </FormItem>
       <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="联系人">
         {form.getFieldDecorator('contacts', {
           rules: [{ required: true, message: '请输联系人' }],
