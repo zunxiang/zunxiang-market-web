@@ -107,6 +107,18 @@ const AddForm = Form.create()(props => {
           initialValue: initVal.wx_token,
         })(<Input placeholder="请输入" />)}
       </FormItem>
+      <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="小程序APPID">
+        {form.getFieldDecorator('miniprogram_appid', {
+          rules: [{ required: false, message: '请输入小程序APPID' }],
+          initialValue: initVal.miniprogram_appid,
+        })(<Input placeholder="请输入" />)}
+      </FormItem>
+      <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="小程序KEY">
+        {form.getFieldDecorator('miniprogram_key', {
+          rules: [{ required: false, message: '请输入小程序KEY' }],
+          initialValue: initVal.miniprogram_key,
+        })(<Input placeholder="请输入" />)}
+      </FormItem>
       <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="微信商户id">
         {form.getFieldDecorator('wx_pay_mchid', {
           rules: [{ required: true, message: '请输入微信商户id' }],
