@@ -98,7 +98,7 @@ export const ListContent = props => {
             </div>
             <div>
               佣金：￥
-              {o.commission / 100 || 0}
+              {o.total_fee / 100 || 0}
             </div>
           </Col>
           <Col span={2}>

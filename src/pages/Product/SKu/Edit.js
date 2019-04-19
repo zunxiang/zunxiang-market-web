@@ -13,7 +13,31 @@ const feeLevels = ['一', '二', '三', '四', '五'];
 
 @Form.create()
 export default class SkuForm extends PureComponent {
-  state = {};
+  constructor(props) {
+    super(props);
+    const {
+      selectedSKu: { feeP, feeT },
+    } = props;
+    this.state = {
+      feeP: feeP || [null, null, null, null, null],
+      feeT: feeT || [null, null, null, null, null],
+    };
+  }
+
+  handleFillFee = (type, index) => {
+    const { form } = this.props;
+    const value = this.state[type][index - 1];
+    form.setFieldsValue({ [type + index]: value });
+    this.handleFeeChange(value, type, index);
+  };
+
+  handleFeeChange = (value, type, index) => {
+    const newFee = [...this.state[type]];
+    newFee[index] = value;
+    this.setState({
+      [type]: [...newFee],
+    });
+  };
 
   handleOnSave = () => {
     const { form, itemType, model, onSubmit, settings } = this.props;
@@ -144,7 +168,7 @@ export default class SkuForm extends PureComponent {
                 },
               ],
               initialValue: price,
-            })(<InputNumber placeholder="请输入" style={{ width: '100%' }} />)}
+            })(<InputNumber precision={2} placeholder="请输入" style={{ width: '100%' }} />)}
           </FormItem>
         </div>
       </Col>
@@ -170,7 +194,7 @@ export default class SkuForm extends PureComponent {
                   },
                 ],
                 initialValue: price,
-              })(<InputNumber placeholder="请输入" style={{ width: '100%' }} />)}
+              })(<InputNumber precision={2} placeholder="请输入" style={{ width: '100%' }} />)}
             </FormItem>
           </div>
         </Col>
@@ -185,7 +209,7 @@ export default class SkuForm extends PureComponent {
                   },
                 ],
                 initialValue: childPrice,
-              })(<InputNumber placeholder="请输入" style={{ width: '100%' }} />)}
+              })(<InputNumber precision={2} placeholder="请输入" style={{ width: '100%' }} />)}
             </FormItem>
           </div>
         </Col>
@@ -198,9 +222,10 @@ export default class SkuForm extends PureComponent {
       form,
       model = 'range',
       itemType = 'GROUP',
-      selectedSKu: { stock, lag, feeP, feeT },
+      selectedSKu: { stock, lag },
       settings = ['price', 'stock', 'lag', 'fee'],
     } = this.props;
+    const { feeP, feeT } = this.state;
     const { getFieldDecorator } = form;
     return (
       <div className={styles.tableListForm}>
@@ -221,7 +246,14 @@ export default class SkuForm extends PureComponent {
                         },
                       ],
                       initialValue: stock,
-                    })(<InputNumber min={0} placeholder="请输入" style={{ width: '100%' }} />)}
+                    })(
+                      <InputNumber
+                        precision={0}
+                        min={0}
+                        placeholder="请输入"
+                        style={{ width: '100%' }}
+                      />
+                    )}
                   </FormItem>
                 </div>
               </Col>
@@ -238,7 +270,14 @@ export default class SkuForm extends PureComponent {
                         },
                       ],
                       initialValue: lag,
-                    })(<InputNumber min={0} placeholder="请输入" style={{ width: '100%' }} />)}
+                    })(
+                      <InputNumber
+                        precision={0}
+                        min={0}
+                        placeholder="请输入"
+                        style={{ width: '100%' }}
+                      />
+                    )}
                   </FormItem>
                 </div>
               </Col>
@@ -251,33 +290,67 @@ export default class SkuForm extends PureComponent {
                 <Col span={12}>
                   <div className={styles.subTitle}>店返</div>
                   {feeLevels.map((fee, index) => (
-                    <FormItem label={`${fee}级`} key={`feeP${fee}`}>
-                      {getFieldDecorator(`feeP${index}`, {
-                        rules: [
-                          {
-                            required: false,
-                            message: '请输入佣金',
-                          },
-                        ],
-                        initialValue: feeP && feeP[index],
-                      })(<InputNumber placeholder="请输入" style={{ width: '80%' }} />)}
-                    </FormItem>
+                    <div className={styles.feeWrap} key={`feeP${fee}`}>
+                      <FormItem label={`${fee}级`}>
+                        {getFieldDecorator(`feeP${index}`, {
+                          rules: [
+                            {
+                              required: false,
+                              message: '请输入佣金',
+                            },
+                          ],
+                          initialValue: feeP && feeP[index],
+                        })(
+                          <InputNumber
+                            placeholder="请输入"
+                            style={{ width: '80%' }}
+                            precision={2}
+                            onChange={val => this.handleFeeChange(val, 'feeP', index)}
+                          />
+                        )}
+                      </FormItem>
+                      {index > 0 && (
+                        <a
+                          onClick={() => this.handleFillFee('feeP', index)}
+                          className={styles.feeBtn}
+                        >
+                          同上
+                        </a>
+                      )}
+                    </div>
                   ))}
                 </Col>
                 <Col span={12}>
                   <div className={styles.subTitle}>团返</div>
                   {feeLevels.map((fee, index) => (
-                    <FormItem label={`${fee}级`} key={`feeT${fee}`}>
-                      {getFieldDecorator(`feeT${index}`, {
-                        rules: [
-                          {
-                            required: false,
-                            message: '请输入佣金',
-                          },
-                        ],
-                        initialValue: feeT && feeT[index],
-                      })(<InputNumber placeholder="请输入" style={{ width: '100%' }} />)}
-                    </FormItem>
+                    <div className={styles.feeWrap} key={`feeT${fee}`}>
+                      <FormItem label={`${fee}级`}>
+                        {getFieldDecorator(`feeT${index}`, {
+                          rules: [
+                            {
+                              required: false,
+                              message: '请输入佣金',
+                            },
+                          ],
+                          initialValue: feeT && feeT[index],
+                        })(
+                          <InputNumber
+                            placeholder="请输入"
+                            style={{ width: '80%' }}
+                            precision={2}
+                            onChange={val => this.handleFeeChange(val, 'feeT', index)}
+                          />
+                        )}
+                      </FormItem>
+                      {index > 0 && (
+                        <a
+                          onClick={() => this.handleFillFee('feeT', index)}
+                          className={styles.feeBtn}
+                        >
+                          同上
+                        </a>
+                      )}
+                    </div>
                   ))}
                 </Col>
               </Fragment>

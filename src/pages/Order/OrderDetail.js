@@ -290,6 +290,7 @@ export default class NormalOrderDetail extends Component {
             <Description term="状态">
               <Tag color={orderStatusMap[order.state]}>{orderStatus[order.state]}</Tag>
             </Description>
+            <Description term="流水号">{order.trade_no}</Description>
           </DescriptionList>
           <Divider style={{ marginBottom: 32 }} />
           <DescriptionList size="large" title="产品信息" style={{ marginBottom: 15 }} col={1}>
