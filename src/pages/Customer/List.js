@@ -10,6 +10,10 @@ import styles from './List.less';
 
 const statusMap = ['error', 'success'];
 const status = ['禁用', '正常'];
+const refer = {
+  APPLET: '小程序',
+  SUB: '公众号',
+};
 
 @connect(({ customer, loading }) => ({
   customer,
@@ -45,6 +49,11 @@ export default class TableList extends PureComponent {
     {
       title: '昵称',
       dataIndex: 'nickname',
+    },
+    {
+      title: '来源',
+      dataIndex: 'app_type',
+      render: val => refer[val],
     },
     {
       title: '积分',

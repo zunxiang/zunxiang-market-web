@@ -31,6 +31,10 @@ const statusMap = {
   1: 'success',
   0: 'error',
 };
+const refer = {
+  APPLET: '小程序',
+  SUB: '公众号',
+};
 
 const levels = ['一级', '二级', '三级', '四级', '五级'];
 
@@ -75,6 +79,11 @@ class SalesmanList extends PureComponent {
         title: '昵称',
         width: 100,
         dataIndex: 'nickname',
+      },
+      {
+        title: '来源',
+        dataIndex: 'app_type',
+        render: val => refer[val],
       },
       {
         title: '姓名',

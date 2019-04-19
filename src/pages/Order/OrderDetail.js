@@ -11,6 +11,12 @@ import styles from './OrderDetail.less';
 
 const { Description } = DescriptionList;
 const { confirm } = Modal;
+const salesmanLevel = ['一级', '二级', '三级', '四级', '五级'];
+const feeLevel = ['店返', '团返'];
+const refer = {
+  APPLET: '小程序',
+  SUB: '公众号',
+};
 
 const skusColumns = [
   {
@@ -46,6 +52,32 @@ const groupSkusColumns = [
     dataIndex: 'child_price',
     inputType: 'number',
     editable: true,
+    render: val => val / 100,
+  },
+];
+
+const feeColumns = [
+  {
+    title: '描述',
+    dataIndex: 'text',
+  },
+  {
+    title: '分销',
+    dataIndex: 'salesman_name',
+  },
+  {
+    title: '分销等级',
+    dataIndex: 'salesman_level',
+    render: val => salesmanLevel[val],
+  },
+  {
+    title: '佣金类型',
+    dataIndex: 'fee_level',
+    render: val => feeLevel[val],
+  },
+  {
+    title: '佣金金额',
+    dataIndex: 'fee',
     render: val => val / 100,
   },
 ];
@@ -134,7 +166,10 @@ export default class NormalOrderDetail extends Component {
       },
       callback: data => {
         this.setState({
-          order: { ...data },
+          order: {
+            ...data,
+            fee_details: data.fee_details ? JSON.parse(data.fee_details) : [],
+          },
         });
       },
     });
@@ -291,15 +326,20 @@ export default class NormalOrderDetail extends Component {
               <Tag color={orderStatusMap[order.state]}>{orderStatus[order.state]}</Tag>
             </Description>
             <Description term="流水号">{order.trade_no}</Description>
+            <Description term="订单来源">{refer[order.source]}</Description>
           </DescriptionList>
           <Divider style={{ marginBottom: 32 }} />
           <DescriptionList size="large" title="产品信息" style={{ marginBottom: 15 }} col={1}>
             <Description term="产品名称">{order.item_title}</Description>
             <Description term="套餐">{order.package_name}</Description>
-            <Description term="房型">{order.package ? `${order.package.room}` : ''}</Description>
+            {order.item_type === 'HOTEL' && (
+              <Description term="房型">{order.package ? `${order.package.room}` : ''}</Description>
+            )}
           </DescriptionList>
           <DescriptionList size="large" style={{ marginBottom: 32 }} col={4}>
-            <Description term="酒店名称">{order.hotel_name}</Description>
+            {order.item_type === 'HOTEL' && (
+              <Description term="酒店名称">{order.hotel_name}</Description>
+            )}
           </DescriptionList>
           <Divider style={{ marginBottom: 32 }} />
           <DescriptionList size="large" title="用户信息" style={{ marginBottom: 32 }} col={4}>
@@ -337,6 +377,15 @@ export default class NormalOrderDetail extends Component {
           ) : (
             ''
           )}
+          <Divider style={{ marginBottom: 32 }} />
+          <div className={styles.title}>佣金明细</div>
+          <Table
+            style={{ marginBottom: 24 }}
+            pagination={false}
+            rowKey="salesman_i"
+            dataSource={order.fee_details}
+            columns={feeColumns}
+          />
           <div className={styles.title}>操作记录</div>
           <Table
             style={{ marginBottom: 16 }}
