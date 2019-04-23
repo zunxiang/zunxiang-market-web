@@ -66,7 +66,7 @@ export default {
         handler: '/v1/mp/item/package/post',
         message: JSON.stringify(payload),
       };
-      const [code] = yield call(GET, msg);
+      const [code] = yield call(POST, msg);
       if (code !== 0) return;
       if (callback) callback();
     },
@@ -84,7 +84,7 @@ export default {
         handler: '/v1/mp/item/package/add',
         message: JSON.stringify(payload),
       };
-      const [code] = yield call(GET, msg);
+      const [code] = yield call(POST, msg);
       if (code !== 0) return;
       if (callback) callback();
     },
@@ -93,7 +93,7 @@ export default {
         handler: '/v1/mp/item/package/post',
         message: JSON.stringify(payload),
       };
-      const [code] = yield call(GET, msg);
+      const [code] = yield call(POST, msg);
       if (code !== 0) return;
       if (callback) callback();
     },
