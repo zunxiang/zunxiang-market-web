@@ -128,7 +128,7 @@ export default class BasicForms extends PureComponent {
             formItemLayout={formItemLayout}
             editorOptions={{
               initialFrameHeight: 350,
-              initialFrameWidth: 350,
+              initialFrameWidth: 550,
             }}
           />
         ) : null}
