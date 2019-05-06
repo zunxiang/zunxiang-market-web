@@ -52,6 +52,7 @@ export default class ItemMainForms extends PureComponent {
           images: images.map(f => f.response.hash).join(','),
           tags: tags.join(','),
           type,
+          item_class: 'NORMAL',
         };
         if (type === 'GROUP') {
           const [province, city] = destination;

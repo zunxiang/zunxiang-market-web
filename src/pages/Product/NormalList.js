@@ -106,7 +106,12 @@ const ProductList = props => {
                 justifyContent: 'center',
               }}
             >
-              <Button block type="primary" ghost onClick={() => onEdit('add', 'HOTEL', {})}>
+              <Button
+                block
+                type="primary"
+                ghost
+                onClick={() => onEdit('add', 'normal', 'HOTEL', {})}
+              >
                 新建酒店产品
               </Button>
               <Button
@@ -114,7 +119,7 @@ const ProductList = props => {
                 type="primary"
                 ghost
                 style={{ marginTop: 16 }}
-                onClick={() => onEdit('add', 'PKG', {})}
+                onClick={() => onEdit('add', 'normal', 'PKG', {})}
               >
                 新建自由行产品
               </Button>
@@ -123,9 +128,18 @@ const ProductList = props => {
                 type="primary"
                 ghost
                 style={{ marginTop: 16 }}
-                onClick={() => onEdit('add', 'GROUP', {})}
+                onClick={() => onEdit('add', 'noraml', 'GROUP', {})}
               >
                 新建跟团产品
+              </Button>
+              <Button
+                block
+                type="danger"
+                ghost
+                style={{ marginTop: 16 }}
+                onClick={() => onEdit('add', 'presale', 'HOTEL', {})}
+              >
+                新建酒店预售
               </Button>
             </div>
           </List.Item>

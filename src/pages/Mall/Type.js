@@ -82,7 +82,7 @@ const IconTagFrom = Form.create()(props => {
               },
             ],
             valuePropName: 'color',
-            initialValue: '#d9d9d9',
+            initialValue: '#FFFFFF',
           })(<SketchPicker />)}
         </FormItem>
         <FormItem {...formItemLayout} label="分类名称">

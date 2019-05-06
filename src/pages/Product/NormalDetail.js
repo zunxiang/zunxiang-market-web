@@ -8,6 +8,7 @@ import QRCode from 'qrcode-react';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import PackageList from './NormalPackageList';
 import { NormalTypes } from './common';
+import PresaleInfo from './Detail/PresaleInfo';
 import Poster from './Poster.tsx';
 
 const { Description } = DescriptionList;
@@ -53,6 +54,7 @@ export default class BasicProfile extends Component {
             ...data,
             notice_accounts: data.notice_accounts ? data.notice_accounts.split(',') : [],
             poster: data.poster ? data.poster.split(',') : [],
+            fee: data.fee ? JSON.parse(data.fee) : [[0, 0, 0, 0, 0], [0, 0, 0, 0, 0]],
           },
         });
         this.handleGetContent(data.rich_text_content_i);
@@ -97,6 +99,7 @@ export default class BasicProfile extends Component {
           tags: record.tags ? record.tags.split(',') : [],
           content,
         },
+        itemClass: record.item_class === 'NORMAL' ? 'normal' : 'presale',
         query: {
           model,
           type,
@@ -320,6 +323,7 @@ export default class BasicProfile extends Component {
     );
     return (
       <PageHeaderWrapper title={item.title} content={this.renderBaseInfo(item)} action={Action}>
+        {item.i && item.item_class === 'RUSH' && <PresaleInfo item={item} />}
         {item.i && <PackageList item={item} />}
         <div style={{ marginTop: 16 }}>
           {item.i && <Poster data={item.poster} onUpload={this.handleUploadPoster} />}

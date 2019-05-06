@@ -84,7 +84,9 @@ export default {
         type: 'keepCurrent',
         payload: payload.record,
       });
-      yield put(routerRedux.push(`/product/normal/create?${stringify(payload.query)}`));
+      yield put(
+        routerRedux.push(`/product/${payload.itemClass}/create?${stringify(payload.query)}`)
+      );
     },
     *publicAdd({ payload, callback }, { call }) {
       const msg = {

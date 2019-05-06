@@ -169,12 +169,13 @@ export default class TableList extends PureComponent {
     });
   };
 
-  handleEdit = (model, type, record) => {
+  handleEdit = (model, itemClass, type, record) => {
     const { dispatch } = this.props;
     dispatch({
       type: 'normal/editNormal',
       payload: {
         record,
+        itemClass,
         query: {
           model,
           type,
