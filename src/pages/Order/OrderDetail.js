@@ -321,7 +321,9 @@ export default class NormalOrderDetail extends Component {
               {order.create_time && order.create_time.substring(0, 19)}
             </Description>
             <Description term="订单号">{order.order_no}</Description>
-            <Description term="订单类型">{orderType[order.item_type]}</Description>
+            <Description term="订单类型">
+              {orderType[`${order.item_class}_${order.item_type}`]}
+            </Description>
             <Description term="状态">
               <Tag color={orderStatusMap[order.state]}>{orderStatus[order.state]}</Tag>
             </Description>
@@ -331,16 +333,22 @@ export default class NormalOrderDetail extends Component {
           <Divider style={{ marginBottom: 32 }} />
           <DescriptionList size="large" title="产品信息" style={{ marginBottom: 15 }} col={1}>
             <Description term="产品名称">{order.item_title}</Description>
-            <Description term="套餐">{order.package_name}</Description>
-            {order.item_type === 'HOTEL' && (
-              <Description term="房型">{order.package ? `${order.package.room}` : ''}</Description>
+            {order.item_class === 'NORMAL' && (
+              <>
+                <Description term="套餐">{order.package_name}</Description>
+                {order.item_type === 'HOTEL' && (
+                  <Description term="房型">
+                    {order.package ? `${order.package.room}` : ''}
+                  </Description>
+                )}
+              </>
             )}
           </DescriptionList>
-          <DescriptionList size="large" style={{ marginBottom: 32 }} col={4}>
-            {order.item_type === 'HOTEL' && (
+          {order.item_class === 'NORMAL' && order.item_type === 'HOTEL' && (
+            <DescriptionList size="large" style={{ marginBottom: 32 }} col={4}>
               <Description term="酒店名称">{order.hotel_name}</Description>
-            )}
-          </DescriptionList>
+            </DescriptionList>
+          )}
           <Divider style={{ marginBottom: 32 }} />
           <DescriptionList size="large" title="用户信息" style={{ marginBottom: 32 }} col={4}>
             <Description term="用户姓名">{order.contacts}</Description>
@@ -354,15 +362,19 @@ export default class NormalOrderDetail extends Component {
             <Description term="金额">{order.amount && order.amount / 100}</Description>
             <Description term="佣金">{order.total_fee && order.total_fee / 100}</Description>
           </DescriptionList>
-          <Divider style={{ marginBottom: 32 }} />
-          <div className={styles.title}>每日费用详情</div>
-          <Table
-            style={{ marginBottom: 24 }}
-            pagination={false}
-            rowKey="date"
-            dataSource={order.skus || []}
-            columns={order.item_type === 'GROUP' ? groupSkusColumns : skusColumns}
-          />
+          {order.item_class === 'NORAML' && (
+            <>
+              <Divider style={{ marginBottom: 32 }} />
+              <div className={styles.title}>每日费用详情</div>
+              <Table
+                style={{ marginBottom: 24 }}
+                pagination={false}
+                rowKey="date"
+                dataSource={order.skus || []}
+                columns={order.item_type === 'GROUP' ? groupSkusColumns : skusColumns}
+              />
+            </>
+          )}
           {order.item_type === 'GROUP' ? (
             <Fragment>
               <div className={styles.title}>团员信息</div>

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'dva';
-import { Menu, Dropdown, Icon, Button, message, Modal, Popconfirm } from 'antd';
+import { Menu, Dropdown, Icon, Button, message, Modal, Popconfirm, Card } from 'antd';
 import { Link } from 'dva/router';
 import { parse } from 'qs';
 import DescriptionList from '@/components/DescriptionList';
@@ -250,9 +250,6 @@ export default class BasicProfile extends Component {
       <Description term="酒店星级" col={3}>
         {item.hotel_star}
       </Description>
-      <Description term="通知手机" col={3}>
-        {item.notice_mobile}
-      </Description>
       <Description term="地址" col={3}>
         {item.origin_address}
       </Description>
@@ -322,9 +319,12 @@ export default class BasicProfile extends Component {
       </div>
     );
     return (
-      <PageHeaderWrapper title={item.title} content={this.renderBaseInfo(item)} action={Action}>
+      <PageHeaderWrapper title={item.title} action={Action}>
+        <Card title="基本信息" style={{ marginBottom: 16 }}>
+          {this.renderBaseInfo(item)}
+        </Card>
         {item.i && item.item_class === 'RUSH' && <PresaleInfo item={item} />}
-        {item.i && <PackageList item={item} />}
+        {item.i && item.item_class === 'NORMAL' && <PackageList item={item} />}
         <div style={{ marginTop: 16 }}>
           {item.i && <Poster data={item.poster} onUpload={this.handleUploadPoster} />}
         </div>

@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react';
-import { List, Row, Col, Tag } from 'antd';
+import { List, Row, Col, Tag, Divider } from 'antd';
 import { Link } from 'dva/router';
 import { orderType, orderStatus, orderStatusMap } from './common';
 import Ellipsis from '@/components/Ellipsis';
@@ -7,6 +7,9 @@ import styles from './NormalList.less';
 
 const DateInfo = props => {
   const { order: o } = props;
+  if (o.item_class === 'RUSH') {
+    return <div>{`数量：${o.item_num}份`}</div>;
+  }
   if (o.item_type === 'HOTEL') {
     return (
       <Fragment>
@@ -51,7 +54,9 @@ export const ListContent = props => {
           <span className={styles.marginLeft32}>
             {`创建时间: ${o.create_time.substring(0, 19)}`}
           </span>
-          <span className={styles.marginLeft32}>{`类型：${orderType[o.item_type]}`}</span>
+          <span className={styles.marginLeft32}>
+            {`类型：${orderType[`${o.item_class}_${o.item_type}`]}`}
+          </span>
         </div>
         <div>
           <Tag color={orderStatusMap[o.state]}>{orderStatus[o.state]}</Tag>
@@ -72,34 +77,44 @@ export const ListContent = props => {
                 </Ellipsis>
               </Link>
             </div>
-            <div>
-              <Ellipsis lines={1} tooltip>
-                {`套餐: ${o.package_name}`}
-              </Ellipsis>
-            </div>
-            {o.item_type === 'HOTEL' ? (
-              <div>
-                {o.package.room}
-                <span style={{ marginLeft: 12 }}>{o.package.content}</span>
-              </div>
-            ) : null}
+            {o.item_class === 'NORMAL' && (
+              <>
+                <div>
+                  <Ellipsis lines={1} tooltip>
+                    {`套餐: ${o.package_name}`}
+                  </Ellipsis>
+                </div>
+                {o.item_type === 'HOTEL' ? (
+                  <div>
+                    {o.package.room}
+                    <span style={{ marginLeft: 12 }}>{o.package.content}</span>
+                  </div>
+                ) : null}
+              </>
+            )}
           </Col>
           <Col span={4}>
-            <div>{o.contacts}</div>
-            <div>{o.contacts_mobile}</div>
+            <div>
+              {o.contacts}({o.contacts_mobile})
+            </div>
+            <div>{`备注：${o.remarks || ''}`}</div>
           </Col>
           <Col span={4}>
             <DateInfo order={o} />
           </Col>
           <Col span={4}>
             <div>
-              金额：￥
-              {o.amount / 100}
+              <span>
+                金额：￥
+                {o.amount / 100}
+              </span>
+              <Divider type="vertical" />
+              <span>
+                佣金：￥
+                {o.total_fee / 100 || 0}
+              </span>
             </div>
-            <div>
-              佣金：￥
-              {o.total_fee / 100 || 0}
-            </div>
+            <div>{`分销：${o.salesman_name || '无'}`}</div>
           </Col>
           <Col span={2}>
             <div style={{ textAlign: 'right' }}>
@@ -114,12 +129,6 @@ export const ListContent = props => {
             </div>
           </Col>
         </Row>
-      </div>
-      <div className={styles.orderFooter}>
-        <div className={styles.footerLeft}>
-          <div>{`备注：${o.remarks || ''}`}</div>
-          <div>{`分销：${o.salesman_name || '无'}`}</div>
-        </div>
       </div>
     </div>
   );

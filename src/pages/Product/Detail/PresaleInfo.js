@@ -18,7 +18,7 @@ const PresaleInfo = props => {
           <Description term="结束时间">{item.presales_begin_time}</Description>
         </DescriptionList>
       </Card>
-      <Card title="佣金计划" style={{ marginTop: 32 }}>
+      <Card title="佣金计划" style={{ marginTop: 16 }}>
         <DescriptionList title="店返" size="small" style={{ marginBottom: 16 }} col={6}>
           {feeP.map((fee, index) => (
             <Description term={feeLevels[index]} key={`feeP${feeLevels[index]}`}>

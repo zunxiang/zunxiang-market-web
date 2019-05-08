@@ -363,9 +363,6 @@ export default class TableList extends PureComponent {
             />
             <ProductList
               onEdit={this.handleEdit}
-              grid={{ gutter: 16, xl: 5, lg: 3, md: 3, sm: 2, xs: 1 }}
-              itemLayout="horizontal"
-              size="small"
               loading={loading}
               pagination={paginationProps}
               dataSource={['', ...list]}

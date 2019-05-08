@@ -25,7 +25,10 @@ const PresaleInfo = props => {
                 ],
                 initialValue:
                   initialValue.model !== 'add'
-                    ? [moment(initialValue.rush_begin_time), moment(initialValue.rush_end_time)]
+                    ? [
+                        moment(initialValue.presales_begin_time),
+                        moment(initialValue.presales_end_time),
+                      ]
                     : [],
               })(
                 <RangePicker
@@ -54,7 +57,7 @@ const PresaleInfo = props => {
                   { required: true, message: '请输入销售价格' },
                   { type: 'number', min: 0, message: '价格不能小于0' },
                 ],
-                initialValue: initialValue.price && initialValue.price,
+                initialValue: initialValue.price,
               })(
                 <InputNumber
                   style={{ width: '100%' }}

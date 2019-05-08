@@ -287,12 +287,28 @@ export const source = {
     },
   ],
 };
-
+export const itemClass = {
+  type: 'select',
+  parse: 'default',
+  key: 'item_class@in',
+  label: '产品主类',
+  selectMode: 'multiple',
+  selectOptions: [
+    {
+      text: '常规',
+      value: 'NORMAL',
+    },
+    {
+      text: '预售',
+      value: 'RUSH',
+    },
+  ],
+};
 export const itemType = {
   type: 'select',
   parse: 'default',
   key: 'item_type@in',
-  label: '产品类型',
+  label: '产品子类',
   selectMode: 'multiple',
   selectOptions: [
     {

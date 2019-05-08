@@ -18,9 +18,12 @@ const status = {
 };
 
 const types = {
-  HOTEL: '酒店',
-  PKG: '自由行',
-  GROUP: '跟团',
+  NORMAL_HOTEL: '常规酒店',
+  NORMAL_PKG: '常规自由行',
+  NORMAL_GROUP: '常规跟团',
+  RUSH_HOTEL: '预售酒店',
+  RUSH_PKG: '预售自由行',
+  RUSH_GROUP: '预售跟团',
 };
 
 const CoverContent = props => {
@@ -44,7 +47,7 @@ const CoverContent = props => {
           justifyContent: 'space-between',
         }}
       >
-        <Tag>{types[item.type]}</Tag>
+        <Tag>{types[`${item.item_class}_${item.type}`]}</Tag>
         <Tag color={statusMap[item.state]}>{status[item.state]}</Tag>
       </div>
       <Link
@@ -91,19 +94,20 @@ const ProductList = props => {
   return (
     <List
       {...newProps}
+      grid={{ gutter: 32, xl: 4, lg: 4, md: 3, sm: 2, xs: 1 }}
       renderItem={item =>
         item ? (
-          <List.Item>
+          <List.Item style={{ height: 256 }}>
             <ListContent item={item} actions={actions} />
           </List.Item>
         ) : (
           <List.Item>
             <div
               style={{
-                height: 225,
                 display: 'flex',
                 flexDirection: 'column',
                 justifyContent: 'center',
+                height: 256,
               }}
             >
               <Button

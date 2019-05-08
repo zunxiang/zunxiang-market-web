@@ -147,10 +147,11 @@ export default class ItemMainForms extends PureComponent {
       model,
       sms_template: smsTemp[type],
       ...current,
-      price: current.price / 100,
+      price: current.price && current.price / 100,
     };
     const destination = [current.termini_province, current.termini_city];
-    const [feeP, feeT] = current.fee || [[], []];
+    const feeP = current.fee ? current.fee[0] : [];
+    const feeT = current.fee ? current.fee[1] : [];
     return (
       <PageHeaderWrapper>
         <Card bordered={false} title={current.name}>
@@ -216,7 +217,7 @@ export default class ItemMainForms extends PureComponent {
                               message: '请输入佣金',
                             },
                           ],
-                          initialValue: feeP && feeP[index] / 100,
+                          initialValue: feeP[index] && feeP[index] / 100,
                         })(
                           <InputNumber
                             placeholder="请输入"
@@ -245,7 +246,7 @@ export default class ItemMainForms extends PureComponent {
                               message: '请输入佣金',
                             },
                           ],
-                          initialValue: feeT && feeT[index] / 100,
+                          initialValue: feeT[index] && feeT[index] / 100,
                         })(
                           <InputNumber
                             placeholder="请输入"

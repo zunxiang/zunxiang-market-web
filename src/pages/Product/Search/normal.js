@@ -14,8 +14,25 @@ export const normalSearchItems = [
   {
     type: 'select',
     parse: 'array',
+    key: 'item_class@in',
+    label: '主分类',
+    selectMode: 'multiple',
+    selectOptions: [
+      {
+        text: '常规',
+        value: 'NORMAL',
+      },
+      {
+        text: '预售',
+        value: 'RUSH',
+      },
+    ],
+  },
+  {
+    type: 'select',
+    parse: 'array',
     key: 'type@in',
-    label: '分类',
+    label: '子分类',
     selectMode: 'multiple',
     selectOptions: [
       {

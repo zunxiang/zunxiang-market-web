@@ -151,24 +151,6 @@ const HotelStarFormItem = props => {
   );
 };
 
-const NoticeMobileFormItem = props => {
-  const { form, initialValue } = props;
-  const { getFieldDecorator } = form;
-  return (
-    <FormItem {...formItemLayout} label="通知手机">
-      {getFieldDecorator('notice_mobile', {
-        rules: [
-          {
-            required: true,
-            message: '请输入通知手机',
-          },
-        ],
-        initialValue: initialValue.notice_mobile,
-      })(<Input placeholder="请输入通知手机" />)}
-    </FormItem>
-  );
-};
-
 const SmsTempFormItem = props => {
   const { form, initialValue } = props;
   const { getFieldDecorator } = form;
@@ -204,7 +186,6 @@ const BasicFormItem = props => {
           <HotelStarFormItem {...props} />
         </Fragment>
       ) : null}
-      <NoticeMobileFormItem {...props} />
       <SmsTempFormItem {...props} />
     </Fragment>
   );
