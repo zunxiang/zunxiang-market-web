@@ -22,7 +22,10 @@ const plugins = [
       dynamicImport: {
         loadingComponent: './components/PageLoading/index',
       },
-      chunks: ['icons', 'antd', 'reactBase', 'commons', 'umi'],
+      chunks:
+        process.env.NODE_ENV === 'production'
+          ? ['icons', 'antd', 'reactBase', 'commons', 'umi']
+          : ['vendors', 'umi'],
       pwa: {
         workboxPluginMode: 'InjectManifest',
         workboxOptions: {

@@ -45,6 +45,7 @@ export default class TableList extends PureComponent {
     this.loadSmsTemp('HOTEL');
     this.loadSmsTemp('PKG');
     this.loadSmsTemp('GROUP');
+    this.loadSmsTemp('RUSH');
   }
 
   loadData = () => {

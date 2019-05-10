@@ -145,7 +145,7 @@ export default class ItemMainForms extends PureComponent {
     const initialValue = {
       type,
       model,
-      sms_template: smsTemp[type],
+      sms_template: smsTemp.RUSH,
       ...current,
       price: current.price && current.price / 100,
     };
