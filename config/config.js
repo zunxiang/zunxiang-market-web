@@ -22,6 +22,7 @@ const plugins = [
       dynamicImport: {
         loadingComponent: './components/PageLoading/index',
       },
+      chunks: ['icons', 'antd', 'reactBase', 'commons', 'umi'],
       pwa: {
         workboxPluginMode: 'InjectManifest',
         workboxOptions: {
@@ -54,6 +55,7 @@ if (process.env.APP_TYPE === 'site') {
 
 export default {
   // add for transfer to umi
+  base: '/mp/',
   plugins,
   targets: {
     ie: 11,
@@ -105,7 +107,7 @@ export default {
     },
   },
   manifest: {
-    basePath: '/mp',
+    basePath: '/mp/',
   },
 
   chainWebpack: webpackPlugin,

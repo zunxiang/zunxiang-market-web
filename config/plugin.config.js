@@ -34,5 +34,45 @@ export default config => {
       .plugin('html2psp')
       .use(html2psp)
       .end();
+    config.optimization.splitChunks({
+      cacheGroups: {
+        vendors: {
+          name: 'vendors',
+          chunks: 'all',
+          test: /[\\/]node_modules[\\/](react|react-dom|react-router|react-router-dom)[\\/]/,
+        },
+        commons: {
+          name: 'commons',
+          chunks: 'async',
+          priority: 2,
+          minChunks: 5,
+          minSize: 0,
+        },
+        icons: {
+          test: module => /ant-design/.test(module.context),
+          name: 'icons',
+          chunks: 'initial',
+          priority: 3,
+        },
+        antd: {
+          test: module => /ant/.test(module.context),
+          name: 'antd',
+          chunks: 'async',
+          priority: 3,
+        },
+        bizcharts: {
+          test: module => /bizcharts/i.test(module.context),
+          name: 'bizchart',
+          chunks: 'async',
+          priority: 3,
+        },
+        reactBase: {
+          name: 'reactBase',
+          test: module => /react|redux|prop-types/.test(module.context),
+          chunks: 'initial',
+          priority: 10,
+        },
+      },
+    });
   }
 };
