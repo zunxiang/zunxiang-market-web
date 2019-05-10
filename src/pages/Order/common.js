@@ -7,8 +7,8 @@ export const orderType = {
   RUSH_GROUP: '预售订单',
   RUSH_BOOK: '预约订单',
   NORMAL_HOTEL: '酒店订单',
-  NOrAML_GROUP: '跟团订单',
-  NOrAML_PKG: '自由行订单',
+  NORMAL_GROUP: '跟团订单',
+  NORMAL_PKG: '自由行订单',
 };
 
 export const orderStatusMap = {

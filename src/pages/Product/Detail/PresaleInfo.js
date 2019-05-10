@@ -15,7 +15,7 @@ const PresaleInfo = props => {
           <Description term="价格">{item.price / 100}</Description>
           <Description term="库存">{item.stock}</Description>
           <Description term="开始时间">{item.presales_begin_time}</Description>
-          <Description term="结束时间">{item.presales_begin_time}</Description>
+          <Description term="结束时间">{item.presales_end_time}</Description>
         </DescriptionList>
       </Card>
       <Card title="佣金计划" style={{ marginTop: 16 }}>
