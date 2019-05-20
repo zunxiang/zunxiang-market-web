@@ -132,7 +132,7 @@ const ProductList = props => {
                 type="primary"
                 ghost
                 style={{ marginTop: 16 }}
-                onClick={() => onEdit('add', 'noraml', 'GROUP', {})}
+                onClick={() => onEdit('add', 'normal', 'GROUP', {})}
               >
                 新建跟团产品
               </Button>
