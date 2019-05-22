@@ -1,37 +1,90 @@
 import React, { Component } from 'react';
 import moment from 'moment';
 import { connect } from 'dva';
-import { Card, List, Avatar, Row, Col, Statistic } from 'antd';
+import { Card, List, Avatar, Row, Col, Statistic, Collapse } from 'antd';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 
 import styles from './Workplace.less';
 
+const { Panel } = Collapse;
+
 @connect(({ user, loading }) => ({
   user,
-  projectLoading: loading.models.user,
+  notifyLoading: loading.models.notify,
 }))
 export default class Workplace extends Component {
   state = {
-    notifyContent: '',
+    notifys: {
+      list: [],
+      pagination: {},
+    },
+    productNum: 0,
+    orderNum: 0,
+    userNum: 0,
+    salesmanNum: 0,
   };
 
-  /* componentDidMount() {
+  componentDidMount() {
     const { dispatch } = this.props;
     dispatch({
-      type: 'notify/get',
+      type: 'statistics/count',
       payload: {
-        i: 1,
+        name: 'item',
       },
-      callback: data => {
-        if (data.content) {
-          const { content } = data;
-          this.setState({
-            notifyContent: content,
-          });
-        }
+      callback: total => {
+        this.setState({
+          productNum: total,
+        });
       },
     });
-  } */
+    dispatch({
+      type: 'statistics/count',
+      payload: {
+        name: 'order',
+      },
+      callback: total => {
+        this.setState({
+          orderNum: total,
+        });
+      },
+    });
+    dispatch({
+      type: 'statistics/count',
+      payload: {
+        name: 'user',
+      },
+      callback: total => {
+        this.setState({
+          userNum: total,
+        });
+      },
+    });
+    dispatch({
+      type: 'statistics/count',
+      payload: {
+        name: 'salesman',
+      },
+      callback: total => {
+        this.setState({
+          salesmanNum: total,
+        });
+      },
+    });
+    dispatch({
+      type: 'notify/find',
+      payload: {
+        pageSize: 50,
+        currentPage: 1,
+      },
+      callback: data => {
+        this.setState({
+          notifys: {
+            ...data,
+          },
+        });
+      },
+    });
+  }
 
   handleGreetings = () => {
     const hour = moment().hour();
@@ -48,46 +101,30 @@ export default class Workplace extends Component {
   };
 
   renderActivities = () => {
-    const list = [];
-    return list.map(item => {
-      const events = item.template.split(/@\{([^{}]*)\}/gi).map(key => {
-        if (item[key]) {
-          return (
-            <a href={item[key].link} key={item[key].name}>
-              {item[key].name}
-            </a>
-          );
-        }
-        return key;
-      });
-      return (
-        <List.Item key={item.id}>
-          <List.Item.Meta
-            avatar={<Avatar src={item.user.avatar} />}
-            title={
-              <span>
-                <a className={styles.username}>{item.user.name}</a>
-                &nbsp;
-                <span className={styles.event}>{events}</span>
-              </span>
-            }
-            description={
-              <span className={styles.datetime} title={item.updatedAt}>
-                {moment(item.updatedAt).fromNow()}
-              </span>
-            }
-          />
-        </List.Item>
-      );
-    });
+    const {
+      notifys: { list },
+    } = this.state;
+    return list.map(item => <List.Item key={item.id}>{item.title}</List.Item>);
   };
 
   render() {
     const {
-      activitiesLoading,
+      notifyLoading,
       user: { currentUser },
     } = this.props;
-    const { notifyContent } = this.state;
+    const {
+      productNum,
+      orderNum,
+      userNum,
+      salesmanNum,
+      notifys: { list },
+    } = this.state;
+    const customPanelStyle = {
+      background: '#fff',
+      borderRadius: 4,
+      marginBottom: 0,
+      overflow: 'hidden',
+    };
     const pageHeaderContent = (
       <div className={styles.pageHeaderContent}>
         <div className={styles.avatar}>
@@ -110,11 +147,11 @@ export default class Workplace extends Component {
       <div className={styles.extraContent}>
         <div className={styles.statItem}>
           <p>产品数</p>
-          <p>---</p>
+          <p>{productNum}</p>
         </div>
         <div className={styles.statItem}>
-          <p>新订单</p>
-          <p>---</p>
+          <p>订单数</p>
+          <p>{orderNum}</p>
         </div>
         <div className={styles.statItem}>
           <p>业绩</p>
@@ -128,37 +165,41 @@ export default class Workplace extends Component {
         <Row gutter={16}>
           <Col md={6} sm={8} xs={12}>
             <Card>
-              <Statistic title="产品数" value={100} />
+              <Statistic title="产品数" value={productNum} />
             </Card>
           </Col>
           <Col md={6} sm={8} xs={12}>
             <Card>
-              <Statistic title="产品数" value={100} />
+              <Statistic title="订单数" value={orderNum} />
             </Card>
           </Col>
           <Col md={6} sm={8} xs={12}>
             <Card>
-              <Statistic title="产品数" value={100} />
+              <Statistic title="用户数" value={userNum} />
             </Card>
           </Col>
           <Col md={6} sm={8} xs={12}>
             <Card>
-              <Statistic title="产品数" value={100} />
+              <Statistic title="分销数" value={salesmanNum} />
             </Card>
           </Col>
         </Row>
         <Card
           bodyStyle={{ padding: 0 }}
+          style={{ marginTop: 24 }}
           bordered={false}
-          className={styles.activeCard}
           title="消息"
-          loading={activitiesLoading}
+          loading={notifyLoading}
         >
-          <List loading={activitiesLoading} size="large">
-            <div className={styles.activitiesList}>{this.renderActivities()}</div>
-          </List>
-          {/* eslint react/no-danger: 0 */}
-          <div style={{ padding: 15 }} dangerouslySetInnerHTML={{ __html: notifyContent }} />
+          <Collapse accordion bordered={false}>
+            {list.map(item => (
+              <Panel header={item.title} key={item.i} style={customPanelStyle}>
+                {/* eslint-disable */}
+                <div dangerouslySetInnerHTML={{ __html: item.content }} />
+                {/* eslint-disable */}
+              </Panel>
+            ))}
+          </Collapse>
         </Card>
       </PageHeaderWrapper>
     );
