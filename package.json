@@ -31,6 +31,7 @@
     "docker:push": "npm run docker-hub:build && npm run docker:tag && docker push chenshuai2144/ant-design-pro"
   },
   "dependencies": {
+    "@ant-design/pro-layout": "^4.4.2",
     "@antv/data-set": "^0.10.0",
     "@babel/runtime": "^7.4.4",
     "antd": "^3.17.0",

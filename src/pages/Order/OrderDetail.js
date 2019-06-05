@@ -11,7 +11,7 @@ import styles from './OrderDetail.less';
 
 const { Description } = DescriptionList;
 const { confirm } = Modal;
-const salesmanLevel = ['一级', '二级', '三级', '四级', '五级'];
+const salesmanLevel = ['', '一级', '二级', '三级', '四级', '五级'];
 const feeLevel = ['店返', '团返'];
 const refer = {
   APPLET: '小程序',

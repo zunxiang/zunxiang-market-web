@@ -2,7 +2,7 @@ export const normalSearchItems = [
   {
     type: 'text',
     parse: 'default',
-    key: 'name@like',
+    key: 'title@like',
     label: '名称',
   },
   {
