@@ -319,7 +319,7 @@ export default class BasicProfile extends Component {
       </div>
     );
     return (
-      <PageHeaderWrapper title={item.title} action={Action}>
+      <PageHeaderWrapper title={`[id:${item.i}] ${item.title}`} action={Action}>
         <Card title="基本信息" style={{ marginBottom: 16 }}>
           {this.renderBaseInfo(item)}
         </Card>

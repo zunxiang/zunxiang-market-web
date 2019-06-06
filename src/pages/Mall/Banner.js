@@ -1,6 +1,6 @@
 import React, { PureComponent, Fragment } from 'react';
 import { connect } from 'dva';
-import { Card, message, Popconfirm, Input, Button, Modal, Form } from 'antd';
+import { Card, message, Popconfirm, Input, Button, Modal, Form, Select } from 'antd';
 import update from 'immutability-helper';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import DragSortingTable from '@/components/DragSortingTable';
@@ -9,7 +9,12 @@ import { BaseImgUrl } from '@/common/config';
 import styles from './Style.less';
 
 const FormItem = Form.Item;
+const { Option } = Select;
 
+const mpTypes = {
+  detail: '产品详情',
+  list: '搜索列表',
+};
 const AddForm = Form.create()(props => {
   const { modalVisible, form, handleModalVisible, handleAdd } = props;
   const okHandle = () => {
@@ -18,7 +23,7 @@ const AddForm = Form.create()(props => {
       const params = {
         ...fieldsValue,
         img_id: fieldsValue.img_id[0].response.hash,
-        link: `http://${fieldsValue.link}`,
+        link: fieldsValue.link && `http://${fieldsValue.link}`,
       };
       handleAdd(params);
       form.resetFields();
@@ -28,6 +33,15 @@ const AddForm = Form.create()(props => {
     form.resetFields();
     handleModalVisible(false);
   };
+
+  const prefixSelector = form.getFieldDecorator('mp_type', {
+    initialValue: 'detail',
+  })(
+    <Select style={{ width: 100 }}>
+      <Option value="detail">产品详情</Option>
+      <Option value="list">搜索列表</Option>
+    </Select>
+  );
   return (
     <Modal
       title="添加轮播图"
@@ -40,11 +54,6 @@ const AddForm = Form.create()(props => {
           rules: [{ required: true, message: '请输入轮播图标题' }],
         })(<Input placeholder="请输入" />)}
       </FormItem>
-      <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="跳转地址">
-        {form.getFieldDecorator('link', {
-          rules: [{ required: true, message: '请输入跳转链接' }],
-        })(<Input addonBefore="http://" placeholder="请输入" />)}
-      </FormItem>
       <UploadImgFormItem
         label="轮播图片"
         name="img_id"
@@ -52,6 +61,21 @@ const AddForm = Form.create()(props => {
         max={1}
         getFieldDecorator={form.getFieldDecorator}
       />
+      <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="跳转地址">
+        {form.getFieldDecorator('link', {
+          rules: [{ required: false, message: '请输入跳转链接' }],
+        })(<Input addonBefore="http://" placeholder="公众号网页商城跳转地址" />)}
+      </FormItem>
+      <FormItem
+        labelCol={{ span: 5 }}
+        wrapperCol={{ span: 15 }}
+        label="小程序跳转"
+        help="跳转详情请输入产品id，列表请输入关键字"
+      >
+        {form.getFieldDecorator('mp_link', {
+          rules: [{ required: false, message: '请输入跳转链接' }],
+        })(<Input addonBefore={prefixSelector} placeholder="请输入" />)}
+      </FormItem>
     </Modal>
   );
 });
@@ -70,15 +94,25 @@ export default class BasicList extends PureComponent {
     {
       title: '轮播图片',
       dataIndex: 'img_id',
-      render: val => <img src={BaseImgUrl + val} alt="轮播图片" style={{ width: 100 }} />,
+      width: 200,
+      render: val => <img src={BaseImgUrl + val} alt="轮播图片" style={{ width: 200 }} />,
     },
     {
       title: '标题',
       dataIndex: 'title',
     },
     {
-      title: '跳转链接',
+      title: '网页跳转链接',
       dataIndex: 'link',
+    },
+    {
+      title: '小程序跳转类型',
+      dataIndex: 'mp_type',
+      render: val => mpTypes[val],
+    },
+    {
+      title: '小程序跳转值',
+      dataIndex: 'mp_link',
     },
     {
       title: '操作',

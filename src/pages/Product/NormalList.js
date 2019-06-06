@@ -83,7 +83,7 @@ const ListContent = props => {
         }}
       >
         <Ellipsis lines={1} tooltip className={styles.color59}>
-          {item.title}
+          {`[id:${item.i}] ${item.title}`}
         </Ellipsis>
       </Link>
     </Card>
