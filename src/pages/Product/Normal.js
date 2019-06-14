@@ -366,11 +366,42 @@ export default class TableList extends PureComponent {
                 </Fragment>
               }
             />
+            <div style={{ marginBottom: 16 }}>
+              <Button.Group size="default">
+                <Button
+                  type="primary"
+                  ghost
+                  onClick={() => this.onEdit('add', 'normal', 'HOTEL', {})}
+                >
+                  新建酒店产品
+                </Button>
+                <Button
+                  type="primary"
+                  ghost
+                  onClick={() => this.onEdit('add', 'normal', 'PKG', {})}
+                >
+                  新建自由行产品
+                </Button>
+                <Button
+                  type="primary"
+                  ghost
+                  onClick={() => this.onEdit('add', 'normal', 'GROUP', {})}
+                >
+                  新建跟团产品
+                </Button>
+                <Button
+                  type="danger"
+                  ghost
+                  onClick={() => this.onEdit('add', 'presale', 'HOTEL', {})}
+                >
+                  新建酒店预售
+                </Button>
+              </Button.Group>
+            </div>
             <ProductList
-              onEdit={this.handleEdit}
               loading={loading}
               pagination={paginationProps}
-              dataSource={['', ...list]}
+              dataSource={list}
               actions={this.renderOperate}
             />
           </div>

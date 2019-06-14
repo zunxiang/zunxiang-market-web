@@ -1,5 +1,5 @@
 import React from 'react';
-import { List, Tag, Card, Button } from 'antd';
+import { List, Tag, Card } from 'antd';
 import { Link } from 'dva/router';
 import Ellipsis from '@/components/Ellipsis';
 import { BaseImgUrl } from '@/common/config';
@@ -90,65 +90,16 @@ const ListContent = props => {
   );
 };
 const ProductList = props => {
-  const { item: xitem, actions, onEdit, ...newProps } = props;
+  const { item: xitem, actions, ...newProps } = props;
   return (
     <List
       {...newProps}
       grid={{ gutter: 32, xl: 4, lg: 4, md: 3, sm: 2, xs: 1 }}
-      renderItem={item =>
-        item ? (
-          <List.Item style={{ height: 256 }}>
-            <ListContent item={item} actions={actions} />
-          </List.Item>
-        ) : (
-          <List.Item>
-            <div
-              style={{
-                display: 'flex',
-                flexDirection: 'column',
-                justifyContent: 'center',
-                height: 256,
-              }}
-            >
-              <Button
-                block
-                type="primary"
-                ghost
-                onClick={() => onEdit('add', 'normal', 'HOTEL', {})}
-              >
-                新建酒店产品
-              </Button>
-              <Button
-                block
-                type="primary"
-                ghost
-                style={{ marginTop: 16 }}
-                onClick={() => onEdit('add', 'normal', 'PKG', {})}
-              >
-                新建自由行产品
-              </Button>
-              <Button
-                block
-                type="primary"
-                ghost
-                style={{ marginTop: 16 }}
-                onClick={() => onEdit('add', 'normal', 'GROUP', {})}
-              >
-                新建跟团产品
-              </Button>
-              <Button
-                block
-                type="danger"
-                ghost
-                style={{ marginTop: 16 }}
-                onClick={() => onEdit('add', 'presale', 'HOTEL', {})}
-              >
-                新建酒店预售
-              </Button>
-            </div>
-          </List.Item>
-        )
-      }
+      renderItem={item => (
+        <List.Item style={{ height: 256 }} key={item.i}>
+          <ListContent item={item} actions={actions} />
+        </List.Item>
+      )}
     />
   );
 };
