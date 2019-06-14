@@ -63,9 +63,13 @@ export default class TableList extends PureComponent {
     dispatch({
       type: 'normal/find',
       payload: params,
-      callback: data => {
+      callback: ({ list, pagination, sum }) => {
         this.setState({
-          data: { ...data },
+          data: {
+            list: [...list],
+            pagination: { ...pagination },
+            sum: { ...sum },
+          },
         });
       },
     });
