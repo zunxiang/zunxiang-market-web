@@ -88,12 +88,12 @@ export default class SearchForm extends Component {
         <Form onSubmit={this.onSubmit} layout="inline">
           <Row gutter={{ md: 8, lg: 24, xl: 48 }} type="flex" justify="start">
             {generteItems(itemProps).map(Item => (
-              <Col md={8} sm={24} key={Item.key}>
+              <Col md={8} sm={24} xs={24} key={Item.key}>
                 {Item}
               </Col>
             ))}
             {expandForm ? null : (
-              <Col md={8} sm={24}>
+              <Col md={8} sm={24} style={{ marginBottom: 16 }}>
                 <span className={styles.submitButtons}>
                   <Button type="primary" htmlType="submit">
                     查询

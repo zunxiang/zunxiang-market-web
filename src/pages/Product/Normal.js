@@ -371,28 +371,28 @@ export default class TableList extends PureComponent {
                 <Button
                   type="primary"
                   ghost
-                  onClick={() => this.onEdit('add', 'normal', 'HOTEL', {})}
+                  onClick={() => this.handleEdit('add', 'normal', 'HOTEL', {})}
                 >
                   新建酒店产品
                 </Button>
                 <Button
                   type="primary"
                   ghost
-                  onClick={() => this.onEdit('add', 'normal', 'PKG', {})}
+                  onClick={() => this.handleEdit('add', 'normal', 'PKG', {})}
                 >
                   新建自由行产品
                 </Button>
                 <Button
                   type="primary"
                   ghost
-                  onClick={() => this.onEdit('add', 'normal', 'GROUP', {})}
+                  onClick={() => this.handleEdit('add', 'normal', 'GROUP', {})}
                 >
                   新建跟团产品
                 </Button>
                 <Button
                   type="danger"
                   ghost
-                  onClick={() => this.onEdit('add', 'presale', 'HOTEL', {})}
+                  onClick={() => this.handleEdit('add', 'presale', 'HOTEL', {})}
                 >
                   新建酒店预售
                 </Button>
