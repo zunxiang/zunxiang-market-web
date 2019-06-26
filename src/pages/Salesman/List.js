@@ -308,6 +308,8 @@ class SalesmanList extends PureComponent {
     const paginationProps = {
       showSizeChanger: true,
       showQuickJumper: true,
+      onChange: this.handlePaginationChange,
+      onShowSizeChange: this.handlePageSizeChange,
       showTotal: total => (
         <span>
           <Button

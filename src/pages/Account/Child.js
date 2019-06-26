@@ -412,6 +412,8 @@ export default class TableList extends PureComponent {
     const paginationProps = {
       showSizeChanger: true,
       showQuickJumper: true,
+      onChange: this.handlePaginationChange,
+      onShowSizeChange: this.handlePageSizeChange,
       showTotal: total => (
         <span>
           <span>共</span>

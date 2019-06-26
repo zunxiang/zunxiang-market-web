@@ -51,7 +51,7 @@ const ListContent = props => {
             <div>
               <Link
                 to={{
-                  pathname: '/presale/detail',
+                  pathname: '/product/presale/detail',
                   search: `i=${o.rush_i}`,
                 }}
               >
@@ -67,15 +67,13 @@ const ListContent = props => {
               <Divider type="vertical" />
               {`金额：￥${o.amount / 100}`}
               <Divider type="vertical" />
-              {` 佣金：￥${o.commission / 100 || 0 }`}
+              {` 佣金：￥${o.commission / 100 || 0}`}
             </div>
           </Col>
           <Col span={6}>
             <div>
               {o.contacts}
-              <span style={{ marginLeft: 8 }}>
-                {o.contacts_mobile}
-              </span>
+              <span style={{ marginLeft: 8 }}>{o.contacts_mobile}</span>
             </div>
           </Col>
           <Col span={2}>

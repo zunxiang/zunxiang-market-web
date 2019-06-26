@@ -68,7 +68,7 @@ export const ListContent = props => {
             <div>
               <Link
                 to={{
-                  pathname: '/normal/detail',
+                  pathname: '/product/normal/detail',
                   search: `i=${o.item_i}`,
                 }}
               >
