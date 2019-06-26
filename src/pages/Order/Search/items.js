@@ -1,84 +1,84 @@
 export const orderNo = {
   type: 'text',
-  parse: 'like',
-  key: 'order_no',
+  parse: 'default',
+  key: 'order_no@like',
   label: '订单号',
 };
 
 export const itemName = {
   type: 'text',
-  parse: 'like',
-  key: 'item_title',
+  parse: 'default',
+  key: 'item_title@like',
   label: '产品名',
 };
 
 export const rushTitle = {
   type: 'text',
-  parse: 'like',
-  key: 'rush_title',
+  parse: 'default',
+  key: 'rush_title@linke',
   label: '产品名',
 };
 
 export const productPersonName = {
   type: 'text',
-  parse: 'like',
-  key: 'product_person_name',
+  parse: 'default',
+  key: 'product_person_name@like',
   label: '产品人',
 };
 
 export const teamNo = {
   type: 'text',
-  parse: 'like',
-  key: 'team_no',
+  parse: 'default',
+  key: 'team_no@like',
   label: '关联单号',
 };
 
 export const supplierName = {
   type: 'text',
-  parse: 'like',
-  key: 'supplier_name',
+  parse: 'default',
+  key: 'supplier_name@like',
   label: '供应商',
 };
 
 export const creatorName = {
   type: 'text',
-  parse: 'like',
-  key: 'creator_name',
+  parse: 'default',
+  key: 'creator_name@like',
   label: '创建人',
 };
 
 export const salesmanName = {
   type: 'text',
-  parse: 'like',
-  key: 'salesman_name',
+  parse: 'default',
+  key: 'salesman_name@like',
   label: '分销名',
 };
 
 export const franchiserName = {
   type: 'text',
-  parse: 'like',
-  key: 'franchiser_name',
+  parse: 'default',
+  key: 'franchiser_name@like',
   label: '内部分销',
 };
 
 export const franchiserCity = {
   type: 'text',
-  parse: 'like',
-  key: 'franchiser_city',
+  parse: 'default',
+  key: 'franchiser_city@like',
   label: '分销城市',
 };
 
 export const franchsierManagerName = {
   type: 'text',
-  parse: 'like',
-  key: 'franchiser_manager_name',
+  parse: 'default',
+  key: 'franchiser_manager_name@like',
   label: '销售经理',
 };
 
 export const franchiserSettlementCycle = {
   type: 'select',
-  parse: 'in',
-  key: 'franchiser_settlement_cycle',
+  parse: 'default',
+  key: 'franchiser_settlement_cycle@in',
   label: '结算周期',
   selectMode: 'multiple',
   selectOptions: [
@@ -103,22 +103,22 @@ export const franchiserSettlementCycle = {
 
 export const contacts = {
   type: 'text',
-  parse: 'like',
-  key: 'contacts',
+  parse: 'default',
+  key: 'contacts@like',
   label: '联系人',
 };
 
 export const contactsMobile = {
   type: 'text',
-  parse: 'like',
-  key: 'contacts_mobile',
+  parse: 'defualt',
+  key: 'contacts_mobile@like',
   label: '手机号',
 };
 
 export const orderMobile = {
   type: 'text',
-  parse: 'like',
-  key: 'order_mobile',
+  parse: 'default',
+  key: 'order_mobile@like',
   label: '登录账号',
 };
 

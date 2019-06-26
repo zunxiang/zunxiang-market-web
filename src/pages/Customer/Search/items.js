@@ -21,8 +21,8 @@ const lastLogin = {
 
 const state = {
   type: 'select',
-  parse: 'in',
-  key: 'defray_state',
+  parse: 'default',
+  key: 'state@in',
   label: '状态',
   selectMode: 'multiple',
   selectOptions: [

@@ -1,7 +1,7 @@
 const name = {
   type: 'text',
-  parse: 'like',
-  key: 'bankman',
+  parse: 'default',
+  key: 'real_name@like',
   label: '姓名',
 };
 
@@ -14,15 +14,15 @@ const id = {
 
 const mobile = {
   type: 'text',
-  parse: 'like',
-  key: 'mobile',
+  parse: 'default',
+  key: 'mobile@like',
   label: '手机号',
 };
 
 const state = {
   type: 'select',
-  parse: 'in',
-  key: 'defray_state',
+  parse: 'default',
+  key: 'state@in',
   label: '状态',
   selectMode: 'multiple',
   selectOptions: [
@@ -39,8 +39,8 @@ const state = {
 
 export const SUM = {
   type: 'select',
-  parse: 'array',
-  key: 'SUM',
+  parse: 'default',
+  key: 'SUM@in',
   label: '数据统计',
   selectMode: 'multiple',
   selectOptions: [
