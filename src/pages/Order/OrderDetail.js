@@ -7,6 +7,7 @@ import DescriptionList from '@/components/DescriptionList';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import { orderType, orderStatus, orderStatusMap } from './common';
 import Prompt from '@/components/Prompt';
+
 import styles from './OrderDetail.less';
 
 const { Description } = DescriptionList;
@@ -125,16 +126,30 @@ const logColumns = [
   },
   {
     title: '内容',
-    dataIndex: 'content',
+    dataIndex: 'message',
     render: val => (
       <Ellipsis length={30} tooltip>
         {val}
       </Ellipsis>
     ),
   },
+];
+
+const messagesColumns = [
   {
-    title: '操作者',
-    dataIndex: 'operator',
+    title: '创建时间',
+    dataIndex: 'create_time',
+    render: val => val && val.substring(0, 19),
+    width: 150,
+  },
+  {
+    title: '内容',
+    dataIndex: 'message',
+    render: val => (
+      <Ellipsis lines={1} tooltip>
+        {val}
+      </Ellipsis>
+    ),
   },
 ];
 
@@ -150,10 +165,13 @@ export default class NormalOrderDetail extends Component {
     order: {},
     showPrompt: false,
     promptInit: '',
+    messages: [],
+    messagePromptVisiable: false,
   };
 
   componentDidMount = () => {
     this.loadData();
+    this.loadMessage();
   };
 
   loadData = () => {
@@ -166,10 +184,7 @@ export default class NormalOrderDetail extends Component {
       },
       callback: data => {
         this.setState({
-          order: {
-            ...data,
-            fee_details: data.fee_details ? JSON.parse(data.fee_details) : [],
-          },
+          order: { ...data },
         });
       },
     });
@@ -183,6 +198,24 @@ export default class NormalOrderDetail extends Component {
       callback: data => {
         this.setState({
           logs: data.list,
+        });
+      },
+    });
+  };
+
+  loadMessage = () => {
+    const { dispatch } = this.props;
+    const { query } = this.state;
+    dispatch({
+      type: 'order/findMessage',
+      payload: {
+        order_i: query.order_i,
+        currentPage: 1,
+        pageSize: 99,
+      },
+      callback: data => {
+        this.setState({
+          messages: [...data.list],
         });
       },
     });
@@ -280,9 +313,32 @@ export default class NormalOrderDetail extends Component {
     });
   };
 
+  handleShowMessagePrompt = flag => {
+    this.setState({
+      messagePromptVisiable: !!flag,
+    });
+  };
+
+  handleAddMessage = msg => {
+    const { dispatch } = this.props;
+    const { query } = this.state;
+    dispatch({
+      type: 'order/addMessage',
+      payload: {
+        order_i: query.order_i,
+        message: msg.message,
+      },
+      callback: () => {
+        message.success('添加成功');
+        this.loadMessage();
+        this.handleShowMessagePrompt(false);
+      },
+    });
+  };
+
   render() {
     const { billLoading, loading } = this.props;
-    const { order, logs, showPrompt, promptInit } = this.state;
+    const { order, logs, showPrompt, promptInit, messages, messagePromptVisiable } = this.state;
     const Action = (
       <Fragment>
         {order.state === 2 ? (
@@ -362,7 +418,36 @@ export default class NormalOrderDetail extends Component {
             <Description term="金额">{order.amount && order.amount / 100}</Description>
             <Description term="佣金">{order.total_fee && order.total_fee / 100}</Description>
           </DescriptionList>
-          {order.item_class === 'NORAML' && (
+          {order.item_class === 'NORMAL' && order.item_type === 'HOTEL' && (
+            <DescriptionList size="large" style={{ marginBottom: 32 }} col={4}>
+              <Description term="入住时间">{order.start_time}</Description>
+              <Description term="离开时间">{order.end_time}</Description>
+              <Description term="间夜数">
+                {order.item_num} 间 {order.skus.length} 晚
+              </Description>
+            </DescriptionList>
+          )}
+          <Divider style={{ marginBottom: 32 }} />
+          <div className={styles.title}>
+            备注记录
+            <Button
+              type="primary"
+              ghost
+              size="small"
+              className={styles.action}
+              onClick={() => this.handleShowMessagePrompt(true)}
+            >
+              添加
+            </Button>
+          </div>
+          <Table
+            style={{ marginBottom: 24 }}
+            pagination={false}
+            rowKey="i"
+            dataSource={messages}
+            columns={messagesColumns}
+          />
+          {order.item_class === 'NORMAL' && (
             <>
               <Divider style={{ marginBottom: 32 }} />
               <div className={styles.title}>每日费用详情</div>
@@ -370,24 +455,22 @@ export default class NormalOrderDetail extends Component {
                 style={{ marginBottom: 24 }}
                 pagination={false}
                 rowKey="date"
-                dataSource={order.skus || []}
+                dataSource={order.skus}
                 columns={order.item_type === 'GROUP' ? groupSkusColumns : skusColumns}
               />
             </>
           )}
-          {order.item_type === 'GROUP' ? (
-            <Fragment>
+          {order.item_type === 'GROUP' && (
+            <>
               <div className={styles.title}>团员信息</div>
               <Table
                 style={{ marginBottom: 24 }}
                 rowKey="i"
-                dataSource={order.travellers || []}
+                dataSource={order.travellers}
                 columns={visitorColumns}
                 scroll={{ x: 700 }}
               />
-            </Fragment>
-          ) : (
-            ''
+            </>
           )}
           <Divider style={{ marginBottom: 32 }} />
           <div className={styles.title}>佣金明细</div>
@@ -416,6 +499,17 @@ export default class NormalOrderDetail extends Component {
             modalVisible={showPrompt}
             type="textArea"
             initialValue={promptInit}
+          />
+          <Prompt
+            title="添加备注"
+            label="备注内容"
+            error="请输入备注内容"
+            name="message"
+            onOk={this.handleAddMessage}
+            onCancel={() => this.handleShowMessagePrompt(false)}
+            modalVisible={messagePromptVisiable}
+            type="textArea"
+            initialValue=""
           />
         </Card>
       </PageHeaderWrapper>
