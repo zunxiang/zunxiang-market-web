@@ -270,7 +270,7 @@ class SalesmanList extends PureComponent {
         <Link
           to={{
             pathname: '/salesman/withdraw',
-            search: `user_i=${record.i}`,
+            search: `account_i=${record.i}`,
           }}
         >
           账单明细

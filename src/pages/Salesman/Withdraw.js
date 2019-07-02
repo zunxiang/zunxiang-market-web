@@ -8,10 +8,9 @@ import SearchForm from '@/components/FormGenerator/SearchForm';
 import styles from './style.less';
 
 const status = {
-  WITHDRAW_WAIT: '待处理',
-  WITHDRAW_EXPORT: '已导出',
-  WITHDRAW_FINISHED: '提现成功',
-  WITHDRAW_ERROR: '提现失败',
+  0: '待处理',
+  1: '处理中',
+  2: '已成功',
 };
 const searchItems = [
   {
@@ -48,21 +47,16 @@ export default class withdrawList extends PureComponent {
     this.columns = [
       {
         title: '流水号',
-        dataIndex: 'i',
+        dataIndex: 'withdraw_no',
         sorter: true,
       },
       {
         title: '账户ID',
-        dataIndex: 'user_i',
+        dataIndex: 'account_i',
       },
       {
         title: '创建时间',
         dataIndex: 'create_time',
-        render: val => val && val.substring(0, 19),
-      },
-      {
-        title: '完成时间',
-        dataIndex: 'auth_time',
         render: val => val && val.substring(0, 19),
       },
       {
@@ -80,9 +74,7 @@ export default class withdrawList extends PureComponent {
         key: 'op',
         render: (val, record) => (
           <Fragment>
-            <a onClick={() => this.handleExport(record.i)}>导出订单明细</a>
-            <Divider type="vertical" />
-            {record.state === 'WITHDRAW_WAIT' ? (
+            {record.state === 1 ? (
               <Fragment>
                 <Popconfirm
                   title="确认该笔提现完成?"
