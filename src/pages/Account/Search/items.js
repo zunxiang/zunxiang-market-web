@@ -28,7 +28,7 @@ const mobile = {
 
 const lastLogin = {
   type: 'dateRange',
-  parse: 'dateRange',
+  parse: 'dateRangeArray',
   key: 'last_login',
   label: '最后登录',
 };

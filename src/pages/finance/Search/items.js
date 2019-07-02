@@ -1,14 +1,14 @@
 const createTime = {
   type: 'dateRange',
-  parse: 'dateRange',
+  parse: 'dateRangeArray',
   key: 'create_time',
   label: '创建时间',
 };
 
 const orderNo = {
   type: 'text',
-  parse: 'like',
-  key: 'order_no',
+  parse: 'default',
+  key: 'order_no@like',
   label: '流水号',
 };
 

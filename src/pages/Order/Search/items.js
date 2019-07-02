@@ -159,21 +159,21 @@ export const skus = {
 
 export const createTime = {
   type: 'dateRange',
-  parse: 'dateRange',
+  parse: 'dateRangeArray',
   key: 'create_time',
   label: '下单时间',
 };
 
 export const payTime = {
   type: 'dateRange',
-  parse: 'dateRange',
+  parse: 'dateRangeArray',
   key: 'pay_time',
   label: '付款时间',
 };
 
 export const departureTime = {
   type: 'dateRange',
-  parse: 'dateRange',
+  parse: 'dateRangeArray',
   key: 'departure_time',
   label: '出行时间',
 };
