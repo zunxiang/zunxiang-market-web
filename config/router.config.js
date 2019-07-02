@@ -280,6 +280,7 @@ export default [
         name: 'finance',
         icon: 'table',
         path: '/finance',
+        hideInMenu: true,
         routes: [
           {
             path: '/finance',
