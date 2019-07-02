@@ -35,6 +35,7 @@ export default {
         avatar: response.logo || `${BaseImgUrl}/${'user.png'}`,
         userid: response.i,
         wxopenid: response.wxopenid,
+        mpid: response.miniprogram_appid,
       };
       yield put({
         type: 'saveCurrentUser',
@@ -56,6 +57,7 @@ export default {
         avatar: response.logo || `${BaseImgUrl}/${'user.png'}`,
         userid: response.i,
         wxopenid: response.wxopenid,
+        mpid: response.app.miniprogram_appid,
       };
       yield put({
         type: 'saveCurrentUser',

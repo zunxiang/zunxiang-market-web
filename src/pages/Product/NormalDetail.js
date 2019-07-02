@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'dva';
 import { Menu, Dropdown, Icon, Button, message, Modal, Popconfirm, Card } from 'antd';
 import { Link } from 'dva/router';
-import { parse } from 'qs';
+import { parse, stringify } from 'qs';
 import DescriptionList from '@/components/DescriptionList';
 import QRCode from 'qrcode-react';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
@@ -22,6 +22,7 @@ const status = {
 @connect(({ normal, user, loading }) => ({
   normal,
   userid: `${user.currentUser.userid}`,
+  mpid: user.currentUser.mpid,
   loading: loading.effects['normal/get'],
 }))
 export default class BasicProfile extends Component {
@@ -69,19 +70,31 @@ export default class BasicProfile extends Component {
   };
 
   handlePreview = (record, type) => {
+    const { mpid } = this.props;
+    const str = stringify({
+      scene: stringify({
+        i: record.i,
+      }),
+      page: 'pages/detail/main',
+      width: 280,
+      auto_color: true,
+      is_hyaline: true,
+    });
     if (type === 'preview') {
       this.setState({
         modalVisible: true,
         modalTitle: '产品预览',
-        qrcodeTitle: record.name,
+        qrcodeTitle: record.title,
         qrcodeSrc: `http://${location.host}/m/item_details.html?i=${record.i}&preview=true`,
+        mpCodeSrc: `https://www.zxtgo.com/production/${mpid}//db/v1/client/miniprogram_qrcode?${str}`,
       });
     } else {
       this.setState({
         modalVisible: true,
         modalTitle: '购买地址',
-        qrcodeTitle: record.name,
+        qrcodeTitle: record.title,
         qrcodeSrc: `http://${location.host}/m/item_details.html?i=${record.i}`,
+        mpCodeSrc: `https://www.zxtgo.com/production/${mpid}//db/v1/client/miniprogram_qrcode?${str}`,
       });
     }
   };
@@ -207,7 +220,7 @@ export default class BasicProfile extends Component {
       <Menu.Item>
         <Link
           to={{
-            pathname: '/normal/orders',
+            pathname: '/order/list',
             search: `item_i=${record.i}`,
           }}
         >
@@ -219,16 +232,6 @@ export default class BasicProfile extends Component {
       </Menu.Item>
       <Menu.Item>
         <a onClick={() => this.handlePreview(record, 'real')}>商城地址</a>
-      </Menu.Item>
-      <Menu.Item>
-        <Link
-          to={{
-            pathname: '/log',
-            search: `item_i=${record.i}&info=常规产品${record.i}`,
-          }}
-        >
-          操作记录
-        </Link>
       </Menu.Item>
     </Menu>
   );
@@ -261,7 +264,7 @@ export default class BasicProfile extends Component {
 
   render() {
     const { userid } = this.props;
-    const { item, modalTitle, modalVisible, qrcodeSrc, qrcodeTitle } = this.state;
+    const { item, modalTitle, modalVisible, qrcodeSrc, qrcodeTitle, mpCodeSrc } = this.state;
     const Action = (
       <div>
         {item.state === 1 ? (
@@ -343,6 +346,12 @@ export default class BasicProfile extends Component {
             </div>
             <div style={{ display: 'inline-block', marginLeft: 'auto', marginRight: 'auto' }}>
               <QRCode value={qrcodeSrc} />
+            </div>
+          </div>
+          <div style={{ textAlign: 'center', marginTop: 30 }}>
+            <div>小程序码</div>
+            <div style={{ display: 'inline-block', marginLeft: 'auto', marginRight: 'auto' }}>
+              <img src={mpCodeSrc} alt="小程序码" style={{ width: 150 }} />
             </div>
           </div>
         </Modal>
