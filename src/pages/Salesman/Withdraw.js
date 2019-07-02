@@ -15,11 +15,17 @@ const status = {
 const searchItems = [
   {
     type: 'select',
-    parse: 'in',
-    key: 'state',
+    parse: 'default',
+    key: 'state@in',
     label: '状态',
     selectOptions: status,
     selectMode: 'multiple',
+  },
+  {
+    type: 'text',
+    parse: 'default',
+    key: 'account_i',
+    label: '分销id',
   },
 ];
 @connect(({ loading }) => ({
