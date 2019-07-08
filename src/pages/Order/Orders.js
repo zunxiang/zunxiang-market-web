@@ -76,12 +76,16 @@ export default class TableList extends PureComponent {
     this.searchForm.getFormValue(values => {
       const params = {
         order: sorter,
-        ...query,
-        ...values,
-        ...filters,
+        query: [
+          {
+            ...query,
+            ...values,
+            ...filters,
+          },
+        ],
       };
       const msg = {
-        handler: '/v1/admin/order',
+        handler: '/v1/mp/order/mp_order/find',
         message: JSON.stringify(params),
       };
       window.open(`http://${location.host}/csv?${stringify(msg)}`);
