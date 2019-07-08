@@ -85,7 +85,7 @@ export default class TableList extends PureComponent {
         ],
       };
       const msg = {
-        handler: '/v1/mp/order/mp_order/find',
+        handler: '/v1/mp/order/mp_order',
         message: JSON.stringify(params),
       };
       window.open(`http://${location.host}/csv?${stringify(msg)}`);
