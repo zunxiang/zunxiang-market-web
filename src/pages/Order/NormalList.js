@@ -97,7 +97,7 @@ export const ListContent = props => {
             <div>
               {o.contacts}({o.contacts_mobile})
             </div>
-            <div>{`备注：${o.contanct_remarks || ''}`}</div>
+            <div>{`备注：${o.contancts_remarks || ''}`}</div>
           </Col>
           <Col span={4}>
             <DateInfo order={o} />

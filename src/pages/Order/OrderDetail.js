@@ -409,7 +409,7 @@ export default class NormalOrderDetail extends Component {
           <DescriptionList size="large" title="用户信息" style={{ marginBottom: 32 }} col={4}>
             <Description term="用户姓名">{order.contacts}</Description>
             <Description term="联系电话">{order.contacts_mobile}</Description>
-            <Description term="备注">{order.contact_remarks || '无'}</Description>
+            <Description term="备注">{order.contacts_remarks || '无'}</Description>
           </DescriptionList>
           <Divider style={{ marginBottom: 32 }} />
           <DescriptionList size="large" title="金额信息" style={{ marginBottom: 32 }} col={4}>

@@ -92,7 +92,7 @@ const ListContent = props => {
       </div>
       <div className={styles.orderFooter}>
         <div className={styles.footerLeft}>
-          <div>{`备注：${o.contact_remarks || '无'}`}</div>
+          <div>{`备注：${o.contacts_remarks || '无'}`}</div>
           <div>{`分销：${o.salesman_name || '无'}`}</div>
         </div>
       </div>
