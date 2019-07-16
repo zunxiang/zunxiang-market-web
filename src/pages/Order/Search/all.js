@@ -16,7 +16,6 @@ import {
   state,
   payerI,
   itemI,
-  SUM,
   skus,
 } from './items';
 
@@ -39,5 +38,4 @@ export const orderSearchItems = [
   salesmanName,
   payerI,
   itemI,
-  SUM,
 ];

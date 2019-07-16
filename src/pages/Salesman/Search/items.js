@@ -37,18 +37,4 @@ const state = {
   ],
 };
 
-export const SUM = {
-  type: 'select',
-  parse: 'default',
-  key: 'SUM@in',
-  label: '数据统计',
-  selectMode: 'multiple',
-  selectOptions: [
-    {
-      text: '余额',
-      value: 'balance',
-    },
-  ],
-};
-
-export const searchItems = [name, id, mobile, state, SUM];
+export const searchItems = [name, id, mobile, state];

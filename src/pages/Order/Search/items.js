@@ -423,7 +423,7 @@ export const rushI = {
 
 export const SUM = {
   type: 'select',
-  parse: 'array',
+  parse: 'default',
   key: 'SUM',
   label: '数据统计',
   selectMode: 'multiple',
