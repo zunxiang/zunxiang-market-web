@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Form } from 'antd';
 import ReactUeditor from 'ifanrx-react-ueditor';
 import { BaseImgUrl, getQiniuToken } from '@/common/config';
@@ -18,38 +18,42 @@ const itemLayout = {
   },
 };
 
-const uploadImage = e =>
+const uploadOne = (file, token) =>
   new Promise((resolve, reject) => {
-    const file = e.target.files[0];
-    getQiniuToken().then(token => {
-      const serverURL = 'http://up-z2.qiniu.com';
-      const xhr = new XMLHttpRequest();
-      const fd = new FormData();
-      const successFn = () => {
-        const blkRet = JSON.parse(xhr.responseText);
-        resolve(BaseImgUrl + blkRet.key);
-      };
+    const serverURL = 'http://up-z2.qiniu.com';
+    const xhr = new XMLHttpRequest();
+    const fd = new FormData();
+    const successFn = () => {
+      const blkRet = JSON.parse(xhr.responseText);
+      resolve(BaseImgUrl + blkRet.key);
+    };
+    const errorFn = () => {
+      reject(new Error('上传失败'));
+    };
+    // xhr.upload.addEventListener('progress', progressFn, false);
+    xhr.addEventListener('load', successFn, false);
+    xhr.addEventListener('error', errorFn, false);
+    xhr.addEventListener('abort', errorFn, false);
 
-      /* const progressFn = event => {
-        param.progress(event.loaded / event.total * 100);
-      }; */
+    fd.append('file', file);
+    fd.append('token', token);
+    xhr.open('POST', serverURL, true);
+    xhr.send(fd);
+  });
 
-      const errorFn = () => {
-        reject(new Error('上传失败'));
-      };
-
-      // xhr.upload.addEventListener('progress', progressFn, false);
-      xhr.addEventListener('load', successFn, false);
-      xhr.addEventListener('error', errorFn, false);
-      xhr.addEventListener('abort', errorFn, false);
-
-      fd.append('file', file);
-      fd.append('token', token);
-      xhr.open('POST', serverURL, true);
-      xhr.send(fd);
+export const Ueditor = props => {
+  const [token, setToken] = useState(null);
+  useEffect(() => {
+    getQiniuToken().then(tk => {
+      setToken(tk);
     });
   });
-export const Ueditor = props => {
+
+  const uploadImage = e => {
+    const files = Array.from(e.target.files);
+    return Promise.all(files.map(file => uploadOne(file, token)));
+  };
+
   const {
     form,
     initialValue = '',
@@ -100,6 +104,7 @@ export const Ueditor = props => {
             config={editorConfig}
             onChange={updateEditorContent}
             uploadImage={uploadImage}
+            multipleImagesUpload
             plugins={['uploadImage', 'insertCode']}
             ueditorPath="/ueditor"
             value={initialValue}
