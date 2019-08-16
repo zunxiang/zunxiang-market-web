@@ -16,12 +16,13 @@ export default {
   },
   effects: {
     *platfind({ payload, callback }, { call }) {
-      const { currentPage, pageSize, order, ...params } = payload;
+      const { currentPage, pageSize, order, sum, ...params } = payload;
       const msg = {
         handler: '/v1/mp/user/salesman/find',
         message: JSON.stringify({
           query: [params],
           order,
+          sum,
           limit: pageSize,
           offset: (currentPage - 1) * pageSize,
         }),

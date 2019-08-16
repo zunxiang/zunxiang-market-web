@@ -2,19 +2,7 @@ import React, { PureComponent } from 'react';
 import { connect } from 'dva';
 import { Link } from 'dva/router';
 import { parse, stringify } from 'qs';
-import {
-  Table,
-  Card,
-  Form,
-  Icon,
-  Button,
-  Avatar,
-  Dropdown,
-  Menu,
-  message,
-  Select,
-  Badge,
-} from 'antd';
+import { Table, Card, Form, Icon, Avatar, Dropdown, Menu, message, Select, Badge } from 'antd';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import SearchForm from '@/components/FormGenerator/SearchForm';
 import { searchItems } from './Search/items';
@@ -102,6 +90,7 @@ class SalesmanList extends PureComponent {
       },
       {
         title: '邀请人id',
+        sorter: true,
         dataIndex: 'upper_i',
       },
       {
@@ -111,6 +100,7 @@ class SalesmanList extends PureComponent {
       {
         title: '分销等级',
         dataIndex: 'level',
+        sorter: true,
         render: (val, record) => (
           <Select
             size="small"
@@ -156,6 +146,7 @@ class SalesmanList extends PureComponent {
       currentPage,
       pageSize,
       order: sorter,
+      sum: ['balance'],
       ...query,
       ...formValues,
       ...filters,
@@ -303,7 +294,11 @@ class SalesmanList extends PureComponent {
     const { loading } = this.props;
     const {
       selectedRows,
-      data: { list, pagination },
+      data: {
+        list,
+        pagination,
+        sum: { balance },
+      },
     } = this.state;
     const paginationProps = {
       showSizeChanger: true,
@@ -312,20 +307,14 @@ class SalesmanList extends PureComponent {
       onShowSizeChange: this.handlePageSizeChange,
       showTotal: total => (
         <span>
-          <Button
-            icon="sync"
-            shape="circle"
-            size="small"
-            type="dashed"
-            onClick={this.loadData}
-            style={{ marginRight: 8 }}
-            title="刷新"
-            loading={loading}
-          />
+          <span style={{ marginRight: 16 }}>
+            <span>总余额 </span>
+            <span style={{ color: '#1890ff' }}>{balance / 100}</span>
+          </span>
           <span>
-            <span>共</span>
+            <span>共 </span>
             <span style={{ color: '#1890ff' }}>{total}</span>
-            <span>条数据</span>
+            <span> 条数据</span>
           </span>
         </span>
       ),
