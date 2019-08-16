@@ -32,7 +32,7 @@ export default {
         list: response.list.map(orderParser),
         sum: {
           amount: moneyParser(response.sum.amount),
-          size: response.sum.amount,
+          size: response.sum.size,
           totalFee: moneyParser(response.sum.total_fee),
         },
         pagination: {
