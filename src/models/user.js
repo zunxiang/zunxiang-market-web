@@ -1,10 +1,10 @@
-import { query as queryUsers } from '@/services/user';
 import { routerRedux } from 'dva/router';
 /* eslint-disable-next-line */
 import secureCipher from 'secure';
 import { GET, POST } from '@/services/api';
 import { reloadAuthorized } from '@/utils/Authorized';
 import { BaseImgUrl } from '@/common/config';
+import { query as queryUsers } from '@/services/user';
 
 export default {
   namespace: 'user',

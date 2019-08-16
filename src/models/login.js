@@ -61,7 +61,7 @@ export default {
       if (redirect && redirect.indexOf('/login') !== -1) {
         redirect = '/';
       }
-      yield put(routerRedux.replace(redirect || '/'));
+      yield put(routerRedux.replace('/'));
     },
 
     *getCaptcha({ payload }, { call }) {
