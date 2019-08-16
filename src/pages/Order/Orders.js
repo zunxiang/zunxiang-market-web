@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'dva';
 import { parse, stringify } from 'qs';
-import { Card, Form, Button } from 'antd';
+import { Card, Form, Button, Descriptions } from 'antd';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import OrderList from './AllList';
 import SearchForm from '@/components/FormGenerator/SearchForm';
@@ -46,6 +46,7 @@ export default class TableList extends PureComponent {
       currentPage,
       pageSize,
       order: sorter,
+      sum: ['amount', 'fee_total', 'size'],
       ...query,
       ...formValues,
       ...filters,
@@ -112,6 +113,25 @@ export default class TableList extends PureComponent {
     );
   };
 
+  renderCount = () => {
+    const {
+      data: { sum },
+    } = this.state;
+    return (
+      <Descriptions size="small" column={6}>
+        <Descriptions.Item label="总金额">
+          <a>{sum.amount}</a>
+        </Descriptions.Item>
+        <Descriptions.Item label="总佣金">
+          <a>{sum.totalFee}</a>
+        </Descriptions.Item>
+        <Descriptions.Item label="总份数">
+          <a>{sum.size}</a>
+        </Descriptions.Item>
+      </Descriptions>
+    );
+  };
+
   render() {
     const { loading } = this.props;
     const {
@@ -168,6 +188,7 @@ export default class TableList extends PureComponent {
                 </Button>
               }
             />
+            <div>{this.renderCount()}</div>
             <OrderList
               bordered
               itemLayout="vertical"

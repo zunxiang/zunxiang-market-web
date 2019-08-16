@@ -1,4 +1,5 @@
 import { GET } from '@/services/api';
+import { moneyParser } from '@/utils/parser';
 import orderParser from '../parser';
 
 export default {
@@ -14,13 +15,14 @@ export default {
   },
   effects: {
     *find({ payload, callback }, { call, put }) {
-      const { currentPage, pageSize, order, ...params } = payload;
+      const { currentPage, pageSize, order, sum, ...params } = payload;
       const msg = {
         handler: '/v1/mp/order/mp_order/find',
         message: JSON.stringify({
           query: [params],
           order,
           limit: pageSize,
+          sum,
           offset: (currentPage - 1) * pageSize,
         }),
       };
@@ -28,7 +30,11 @@ export default {
       if (code !== 0) return;
       const data = {
         list: response.list.map(orderParser),
-        sum: response.sum,
+        sum: {
+          amount: moneyParser(response.sum.amount),
+          size: response.sum.amount,
+          totalFee: moneyParser(response.sum.total_fee),
+        },
         pagination: {
           current: currentPage,
           pageSize,
