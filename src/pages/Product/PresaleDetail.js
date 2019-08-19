@@ -1,14 +1,11 @@
 import React, { Component } from 'react';
 import { connect } from 'dva';
-import { Card, Menu, Dropdown, Icon, Button, message, Modal, Popconfirm } from 'antd';
+import { Card, Menu, Dropdown, Icon, Button, message, Modal, Popconfirm, Descriptions } from 'antd';
 import { Link } from 'dva/router';
 import { parse } from 'qs';
-import DescriptionList from '@/components/DescriptionList';
 import QRCode from 'qrcode-react';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import PackageList from './PresalePackageList';
-
-const { Description } = DescriptionList;
 
 const status = {
   BEFORE: '未开始',
@@ -222,39 +219,39 @@ export default class BasicProfile extends Component {
     return (
       <PageHeaderWrapper>
         <Card bordered={false} title={item.title} extra={Action}>
-          <DescriptionList size="large" title="系统信息" style={{ marginBottom: 32 }} col="4">
-            <Description term="id">{item.i}</Description>
-            <Description term="状态">{status[item.state]}</Description>
-            <Description term="预售数量">{item.inventory}</Description>
-            <Description term="销量">{item.sales}</Description>
-          </DescriptionList>
-          <DescriptionList size="large" title="产品信息" style={{ marginBottom: 32 }} col="1">
-            <Description term="标题">{item.title}</Description>
-          </DescriptionList>
-          <DescriptionList size="large" style={{ marginBottom: 16 }} col="4">
-            <Description term="产品人">{item.product_person_name}</Description>
-            <Description term="供应商">{item.supplier_name}</Description>
-            <Description term="价格">{item.price / 100}</Description>
-            <Description term="佣金">{item.commission / 100}</Description>
-            <Description term="预售时间">
+          <Descriptions size="large" title="系统信息" column={4}>
+            <Descriptions.Item label="id">{item.i}</Descriptions.Item>
+            <Descriptions.Item label="状态">{status[item.state]}</Descriptions.Item>
+            <Descriptions.Item label="预售数量">{item.inventory}</Descriptions.Item>
+            <Descriptions.Item label="销量">{item.sales}</Descriptions.Item>
+          </Descriptions>
+          <Descriptions size="large" title="产品信息" column={1}>
+            <Descriptions.Item label="标题">{item.title}</Descriptions.Item>
+          </Descriptions>
+          <Descriptions size="large" style={{ marginBottom: 16 }} column={4}>
+            <Descriptions.Item label="产品人">{item.product_person_name}</Descriptions.Item>
+            <Descriptions.Item label="供应商">{item.supplier_name}</Descriptions.Item>
+            <Descriptions.Item label="价格">{item.price / 100}</Descriptions.Item>
+            <Descriptions.Item label="佣金">{item.commission / 100}</Descriptions.Item>
+            <Descriptions.Item label="预售时间">
               {item.rush_begin_time && item.rush_begin_time.substring(0, 10)}~
               {item.rush_end_time && item.rush_end_time.substring(0, 10)}
-            </Description>
-            <Description term="发码时间">
+            </Descriptions.Item>
+            <Descriptions.Item label="发码时间">
               {item.send_code_time && item.send_code_time.substring(0, 10)}
-            </Description>
-            <Description term="使用时间">
+            </Descriptions.Item>
+            <Descriptions.Item label="使用时间">
               {item.use_begin_time && item.use_begin_time.substring(0, 10)}~
               {item.use_end_time && item.use_end_time.substring(0, 10)}
-            </Description>
-            <Description term="满减优惠">
+            </Descriptions.Item>
+            <Descriptions.Item label="满减优惠">
               {`满${item.discount_limit_num}减${item.discount_reduce / 100}`}
-            </Description>
-            <Description term="最小购买数">{item.min_pay_num}</Description>
-            <Description term="最大购买数">{item.max_pay_num}</Description>
-            <Description term="每份电子码">{item.create_ecode_num}</Description>
-            <Description term="团号">{item.team_no}</Description>
-          </DescriptionList>
+            </Descriptions.Item>
+            <Descriptions.Item label="最小购买数">{item.min_pay_num}</Descriptions.Item>
+            <Descriptions.Item label="最大购买数">{item.max_pay_num}</Descriptions.Item>
+            <Descriptions.Item label="每份电子码">{item.create_ecode_num}</Descriptions.Item>
+            <Descriptions.Item label="团号">{item.team_no}</Descriptions.Item>
+          </Descriptions>
         </Card>
         {item.i ? <PackageList item={item} location={location} /> : null}
         <Modal

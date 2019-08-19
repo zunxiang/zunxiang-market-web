@@ -1,8 +1,6 @@
 import React from 'react';
-import { Card } from 'antd';
-import DescriptionList from '@/components/DescriptionList';
+import { Card, Descriptions } from 'antd';
 
-const { Description } = DescriptionList;
 const feeLevels = ['一级', '二级', '三级', '四级', '五级'];
 
 const PresaleInfo = props => {
@@ -11,28 +9,28 @@ const PresaleInfo = props => {
   return (
     <>
       <Card title="预售信息">
-        <DescriptionList size="small" style={{ marginBottom: 16 }} col={4}>
-          <Description term="价格">{item.price / 100}</Description>
-          <Description term="库存">{item.stock}</Description>
-          <Description term="开始时间">{item.presales_begin_time}</Description>
-          <Description term="结束时间">{item.presales_end_time}</Description>
-        </DescriptionList>
+        <Descriptions size="small" column={4}>
+          <Descriptions.Item label="价格">{item.price / 100}</Descriptions.Item>
+          <Descriptions.Item label="库存">{item.stock}</Descriptions.Item>
+          <Descriptions.Item label="开始时间">{item.presales_begin_time}</Descriptions.Item>
+          <Descriptions.Item label="结束时间">{item.presales_end_time}</Descriptions.Item>
+        </Descriptions>
       </Card>
       <Card title="佣金计划" style={{ marginTop: 16 }}>
-        <DescriptionList title="店返" size="small" style={{ marginBottom: 16 }} col={6}>
+        <Descriptions title="店返" size="small" column={6}>
           {feeP.map((fee, index) => (
-            <Description term={feeLevels[index]} key={`feeP${feeLevels[index]}`}>
+            <Descriptions.Item label={feeLevels[index]} key={`feeP${feeLevels[index]}`}>
               {fee / 100}
-            </Description>
+            </Descriptions.Item>
           ))}
-        </DescriptionList>
-        <DescriptionList title="团返" size="small" style={{ marginBottom: 16 }} col={6}>
+        </Descriptions>
+        <Descriptions title="团返" size="small" column={6}>
           {feeT.map((fee, index) => (
-            <Description term={feeLevels[index]} key={`feeT${feeLevels[index]}`}>
+            <Descriptions.Item label={feeLevels[index]} key={`feeT${feeLevels[index]}`}>
               {fee / 100}
-            </Description>
+            </Descriptions.Item>
           ))}
-        </DescriptionList>
+        </Descriptions>
       </Card>
     </>
   );

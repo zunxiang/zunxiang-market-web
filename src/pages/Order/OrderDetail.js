@@ -1,16 +1,14 @@
 import React, { Component, Fragment } from 'react';
 import { connect } from 'dva';
 import { parse } from 'qs';
-import { Card, Table, Divider, Button, Tag, Modal, message } from 'antd';
+import { Card, Table, Divider, Button, Tag, Modal, message, Descriptions } from 'antd';
 import Ellipsis from '@/components/Ellipsis';
-import DescriptionList from '@/components/DescriptionList';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import { orderType, orderStatus, orderStatusMap } from './common';
 import Prompt from '@/components/Prompt';
 
 import styles from './OrderDetail.less';
 
-const { Description } = DescriptionList;
 const { confirm } = Modal;
 const salesmanLevel = ['', '一级', '二级', '三级', '四级', '五级'];
 const feeLevel = ['店返', '团返'];
@@ -372,62 +370,64 @@ export default class NormalOrderDetail extends Component {
     return (
       <PageHeaderWrapper>
         <Card title={order.order_no} extra={Action}>
-          <DescriptionList size="large" title="订单信息" style={{ marginBottom: 32 }} col={4}>
-            <Description term="下单时间">
+          <Descriptions size="large" title="订单信息" column={4}>
+            <Descriptions.Item label="下单时间">
               {order.create_time && order.create_time.substring(0, 19)}
-            </Description>
-            <Description term="订单号">{order.order_no}</Description>
-            <Description term="订单类型">
+            </Descriptions.Item>
+            <Descriptions.Item label="订单号">{order.order_no}</Descriptions.Item>
+            <Descriptions.Item label="订单类型">
               {orderType[`${order.item_class}_${order.item_type}`]}
-            </Description>
-            <Description term="状态">
+            </Descriptions.Item>
+            <Descriptions.Item label="状态">
               <Tag color={orderStatusMap[order.state]}>{orderStatus[order.state]}</Tag>
-            </Description>
-            <Description term="流水号">{order.trade_no}</Description>
-            <Description term="订单来源">{refer[order.source]}</Description>
-          </DescriptionList>
-          <Divider style={{ marginBottom: 32 }} />
-          <DescriptionList size="large" title="产品信息" style={{ marginBottom: 15 }} col={1}>
-            <Description term="产品名称">{order.item_title}</Description>
+            </Descriptions.Item>
+            <Descriptions.Item label="流水号">{order.trade_no}</Descriptions.Item>
+            <Descriptions.Item label="订单来源">{refer[order.source]}</Descriptions.Item>
+          </Descriptions>
+          <Divider style={{ marginBottom: 16 }} />
+          <Descriptions size="large" title="产品信息" column={1}>
+            <Descriptions.Item label="产品名称">{order.item_title}</Descriptions.Item>
             {order.item_class === 'NORMAL' && (
-              <>
-                <Description term="套餐">{order.package_name}</Description>
-                {order.item_type === 'HOTEL' && (
-                  <Description term="房型">
-                    {order.package ? `${order.package.room}` : ''}
-                  </Description>
-                )}
-              </>
+              <Descriptions.Item label="套餐">{order.package_name}</Descriptions.Item>
             )}
-          </DescriptionList>
+            {order.item_class === 'NORMAL' && order.item_type === 'HOTEL' && (
+              <Descriptions.Item label="房型">
+                {order.package ? `${order.package.room}` : ''}
+              </Descriptions.Item>
+            )}
+          </Descriptions>
           {order.item_class === 'NORMAL' && order.item_type === 'HOTEL' && (
-            <DescriptionList size="large" style={{ marginBottom: 32 }} col={4}>
-              <Description term="酒店名称">{order.hotel_name}</Description>
-            </DescriptionList>
+            <Descriptions size="large" style={{ marginBottom: 16 }} column={4}>
+              <Descriptions.Item label="酒店名称">{order.hotel_name}</Descriptions.Item>
+            </Descriptions>
           )}
-          <Divider style={{ marginBottom: 32 }} />
-          <DescriptionList size="large" title="用户信息" style={{ marginBottom: 32 }} col={4}>
-            <Description term="用户姓名">{order.contacts}</Description>
-            <Description term="联系电话">{order.contacts_mobile}</Description>
-            <Description term="备注">{order.contacts_remarks || '无'}</Description>
-          </DescriptionList>
-          <Divider style={{ marginBottom: 32 }} />
-          <DescriptionList size="large" title="金额信息" style={{ marginBottom: 32 }} col={4}>
-            <Description term="单价">{order.item_price && order.item_price / 100}</Description>
-            <Description term="数量">{order.item_num}</Description>
-            <Description term="金额">{order.amount && order.amount / 100}</Description>
-            <Description term="佣金">{order.total_fee && order.total_fee / 100}</Description>
-          </DescriptionList>
+          <Divider style={{ marginBottom: 16 }} />
+          <Descriptions size="large" title="用户信息" column={4}>
+            <Descriptions.Item label="用户姓名">{order.contacts}</Descriptions.Item>
+            <Descriptions.Item label="联系电话">{order.contacts_mobile}</Descriptions.Item>
+            <Descriptions.Item label="备注">{order.contacts_remarks || '无'}</Descriptions.Item>
+          </Descriptions>
+          <Divider style={{ marginBottom: 16 }} />
+          <Descriptions size="large" title="金额信息" column={4}>
+            <Descriptions.Item label="单价">
+              {order.item_price && order.item_price / 100}
+            </Descriptions.Item>
+            <Descriptions.Item label="数量">{order.item_num}</Descriptions.Item>
+            <Descriptions.Item label="金额">{order.amount && order.amount / 100}</Descriptions.Item>
+            <Descriptions.Item label="佣金">
+              {order.total_fee && order.total_fee / 100}
+            </Descriptions.Item>
+          </Descriptions>
           {order.item_class === 'NORMAL' && order.item_type === 'HOTEL' && (
-            <DescriptionList size="large" style={{ marginBottom: 32 }} col={4}>
-              <Description term="入住时间">{order.start_time}</Description>
-              <Description term="离开时间">{order.end_time}</Description>
-              <Description term="间夜数">
+            <Descriptions size="large" column={4}>
+              <Descriptions.Item label="入住时间">{order.start_time}</Descriptions.Item>
+              <Descriptions.Item label="离开时间">{order.end_time}</Descriptions.Item>
+              <Descriptions.Item label="间夜数">
                 {order.item_num} 间 {order.skus.length} 晚
-              </Description>
-            </DescriptionList>
+              </Descriptions.Item>
+            </Descriptions>
           )}
-          <Divider style={{ marginBottom: 32 }} />
+          <Divider style={{ marginBottom: 16 }} />
           <div className={styles.title}>
             备注记录
             <Button

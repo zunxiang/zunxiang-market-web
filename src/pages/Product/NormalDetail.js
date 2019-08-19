@@ -1,17 +1,14 @@
 import React, { Component } from 'react';
 import { connect } from 'dva';
-import { Menu, Dropdown, Icon, Button, message, Modal, Popconfirm, Card } from 'antd';
+import { Menu, Dropdown, Icon, Button, message, Modal, Popconfirm, Card, Descriptions } from 'antd';
 import { Link } from 'dva/router';
 import { parse, stringify } from 'qs';
-import DescriptionList from '@/components/DescriptionList';
 import QRCode from 'qrcode-react';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import PackageList from './NormalPackageList';
 import { NormalTypes } from './common';
 import PresaleInfo from './Detail/PresaleInfo';
 import Poster from './Poster.tsx';
-
-const { Description } = DescriptionList;
 
 const status = {
   0: '已下架',
@@ -237,29 +234,19 @@ export default class BasicProfile extends Component {
   );
 
   renderBaseInfo = item => (
-    <DescriptionList size="small" style={{ marginBottom: 16 }} col={3}>
-      <Description term="简介" col={1}>
+    <Descriptions size="small" style={{ marginBottom: 16 }} column={3}>
+      <Descriptions.Item label="简介" span={3}>
         {item.intro}
-      </Description>
-      <Description term="类型">{NormalTypes[item.type]}</Description>
-      <Description term="销量">{item.sales}</Description>
-      <Description term="状态">{status[item.state]}</Description>
-      <Description term="酒店名称" col={3}>
-        {item.hotel_name}
-      </Description>
-      <Description term="酒店电话" col={3}>
-        {item.hotel_tel}
-      </Description>
-      <Description term="酒店星级" col={3}>
-        {item.hotel_star}
-      </Description>
-      <Description term="地址" col={3}>
-        {item.origin_address}
-      </Description>
-      <Description term="标签" col={3}>
-        {item.tags}
-      </Description>
-    </DescriptionList>
+      </Descriptions.Item>
+      <Descriptions.Item label="类型">{NormalTypes[item.type]}</Descriptions.Item>
+      <Descriptions.Item label="销量">{item.sales}</Descriptions.Item>
+      <Descriptions.Item label="状态">{status[item.state]}</Descriptions.Item>
+      <Descriptions.Item label="酒店名称">{item.hotel_name}</Descriptions.Item>
+      <Descriptions.Item label="酒店电话">{item.hotel_tel}</Descriptions.Item>
+      <Descriptions.Item label="酒店星级">{item.hotel_star}</Descriptions.Item>
+      <Descriptions.Item label="地址">{item.origin_address}</Descriptions.Item>
+      <Descriptions.Item label="标签">{item.tags}</Descriptions.Item>
+    </Descriptions>
   );
 
   render() {
