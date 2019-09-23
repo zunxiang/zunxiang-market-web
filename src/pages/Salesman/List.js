@@ -2,7 +2,19 @@ import React, { PureComponent } from 'react';
 import { connect } from 'dva';
 import { Link } from 'dva/router';
 import { parse, stringify } from 'qs';
-import { Table, Card, Form, Icon, Avatar, Dropdown, Menu, message, Select, Badge } from 'antd';
+import {
+  Table,
+  Card,
+  Form,
+  Icon,
+  Avatar,
+  Dropdown,
+  Menu,
+  message,
+  Select,
+  Badge,
+  Modal,
+} from 'antd';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import SearchForm from '@/components/FormGenerator/SearchForm';
 import { searchItems } from './Search/items';
@@ -231,6 +243,37 @@ class SalesmanList extends PureComponent {
     });
   };
 
+  handleOfflineWithdraw = record => {
+    if (record.balance === 0) {
+      Modal.error({
+        title: '提示信息',
+        content: '该分销余额已经为0了',
+        okText: '确认',
+      });
+    } else {
+      Modal.confirm({
+        title: '确认信息',
+        content: '确认将该分销的账户余额清零吗？',
+        okType: 'danger',
+        okText: '确认',
+        cancelText: '取消',
+        onOk: () => {
+          const { dispatch } = this.props;
+          dispatch({
+            type: 'franchiser/offlineWithdraw',
+            payload: {
+              salesman_i: record.i,
+            },
+            callback: () => {
+              message.success('操作成功');
+              this.loadData();
+            },
+          });
+        },
+      });
+    }
+  };
+
   handleExport = () => {
     const { filters, sorter, query } = this.state;
     this.searchForm.getFormValue(values => {
@@ -256,6 +299,9 @@ class SalesmanList extends PureComponent {
         ) : (
           <a onClick={() => this.handleChangeState('open', record)}>解禁账号</a>
         )}
+      </Menu.Item>
+      <Menu.Item>
+        <a onClick={() => this.handleOfflineWithdraw(record)}>清空账户余额</a>
       </Menu.Item>
       <Menu.Item>
         <Link

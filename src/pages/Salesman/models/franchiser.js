@@ -90,6 +90,15 @@ export default {
       if (code !== 0) return;
       if (callback) callback();
     },
+    *offlineWithdraw({ payload, callback }, { call }) {
+      const msg = {
+        handler: '/v1/mp/user/salesman/withdraw',
+        message: JSON.stringify(payload),
+      };
+      const [code] = yield call(GET, msg);
+      if (code !== 0) return;
+      if (callback) callback();
+    },
   },
   reducers: {
     findSuccess(state, action) {

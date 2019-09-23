@@ -127,9 +127,13 @@ export default {
       };
     },
     saveCurrentUser(state, action) {
+      const { payload = {} } = action;
       return {
         ...state,
-        currentUser: action.payload || {},
+        currentUser: {
+          ...payload,
+          wxopenid: payload.wxopenid || 'fake_wxopenid',
+        },
       };
     },
     changeNotifyCount(state, action) {
