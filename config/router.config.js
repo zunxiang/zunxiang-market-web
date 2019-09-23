@@ -177,6 +177,11 @@ export default [
             name: 'info',
             component: './Mall/Info',
           },
+          {
+            path: '/mall/mini-code',
+            name: 'minicode',
+            component: './Mall/MiniCode',
+          },
         ],
       },
       {

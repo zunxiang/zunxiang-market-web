@@ -250,7 +250,7 @@ export default class BasicProfile extends Component {
   );
 
   render() {
-    const { userid } = this.props;
+    const { userid, loading } = this.props;
     const { item, modalTitle, modalVisible, qrcodeSrc, qrcodeTitle, mpCodeSrc } = this.state;
     const Action = (
       <div>
@@ -310,7 +310,7 @@ export default class BasicProfile extends Component {
     );
     return (
       <PageHeaderWrapper title={`[id:${item.i}] ${item.title}`} action={Action}>
-        <Card title="基本信息" style={{ marginBottom: 16 }}>
+        <Card title="基本信息" style={{ marginBottom: 16 }} loading={loading}>
           {this.renderBaseInfo(item)}
         </Card>
         {item.i && item.item_class === 'RUSH' && <PresaleInfo item={item} />}
@@ -336,6 +336,10 @@ export default class BasicProfile extends Component {
             </div>
           </div>
           <div style={{ textAlign: 'center', marginTop: 30 }}>
+            <div>小程序路径</div>
+            <div>
+              <a>pages/detail/main?scene=i%3D{item.i}</a>
+            </div>
             <div>小程序码</div>
             <div style={{ display: 'inline-block', marginLeft: 'auto', marginRight: 'auto' }}>
               <img src={mpCodeSrc} alt="小程序码" style={{ width: 150 }} />

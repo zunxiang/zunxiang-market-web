@@ -10,6 +10,7 @@ export default {
   'menu.mall.banner': '轮播图',
   'menu.mall.info': '信息设置',
   'menu.mall.type': '分类推荐',
+  'menu.mall.minicode': '小程序码',
   'menu.product': '产品管理',
   'menu.product.normal': '常规产品',
   'menu.product.normal.normal-list': '常规产品列表',
