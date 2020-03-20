@@ -323,6 +323,7 @@ export default class TableList extends PureComponent {
   };
 
   handleAdd = fileds => {
+    console.log(fileds);
     const { dispatch } = this.props;
     const params = {
       ...fileds,

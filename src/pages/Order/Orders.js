@@ -46,7 +46,7 @@ export default class TableList extends PureComponent {
       currentPage,
       pageSize,
       order: sorter,
-      sum: ['amount', 'fee_total', 'size'],
+      sum: ['amount', 'total_fee', 'size'],
       ...query,
       ...formValues,
       ...filters,
