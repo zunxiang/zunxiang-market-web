@@ -21,6 +21,7 @@ const types = {
   NORMAL_HOTEL: '常规酒店',
   NORMAL_PKG: '常规自由行',
   NORMAL_GROUP: '常规跟团',
+  NORMAL_GOODS: '实体产品',
   RUSH_HOTEL: '预售酒店',
   RUSH_PKG: '预售自由行',
   RUSH_GROUP: '预售跟团',

@@ -241,11 +241,15 @@ export default class BasicProfile extends Component {
       <Descriptions.Item label="类型">{NormalTypes[item.type]}</Descriptions.Item>
       <Descriptions.Item label="销量">{item.sales}</Descriptions.Item>
       <Descriptions.Item label="状态">{status[item.state]}</Descriptions.Item>
-      <Descriptions.Item label="酒店名称">{item.hotel_name}</Descriptions.Item>
-      <Descriptions.Item label="酒店电话">{item.hotel_tel}</Descriptions.Item>
-      <Descriptions.Item label="酒店星级">{item.hotel_star}</Descriptions.Item>
-      <Descriptions.Item label="地址">{item.origin_address}</Descriptions.Item>
+      {item.type === 'HOTEL' && (
+        <>
+          <Descriptions.Item label="酒店名称">{item.hotel_name}</Descriptions.Item>
+          <Descriptions.Item label="酒店电话">{item.hotel_tel}</Descriptions.Item>
+          <Descriptions.Item label="酒店星级">{item.hotel_star}</Descriptions.Item>
+        </>
+      )}
       <Descriptions.Item label="标签">{item.tags}</Descriptions.Item>
+      <Descriptions.Item label="地址">{item.origin_address}</Descriptions.Item>
     </Descriptions>
   );
 

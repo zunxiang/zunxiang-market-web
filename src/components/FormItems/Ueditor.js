@@ -47,7 +47,7 @@ export const Ueditor = props => {
     getQiniuToken().then(tk => {
       setToken(tk);
     });
-  });
+  }, []);
 
   const uploadImage = e => {
     const files = Array.from(e.target.files);

@@ -12,6 +12,13 @@ import { Editor } from '@/components/FormItems/Editor';
 import './style.less';
 
 const FormItem = Form.Item;
+
+const addressLable = {
+  HOTEL: '酒店地址',
+  PKG: '地址',
+  GROUP: '出发地',
+  GOODS: '发货地',
+};
 @connect(({ normal, loading }) => ({
   normal,
   submitting: loading.models.normal,
@@ -132,7 +139,7 @@ export default class ItemMainForms extends PureComponent {
                 <MapFormItem
                   form={form}
                   initialValue={initialValue}
-                  label={type === 'GROUP' ? '出发地' : '地址'}
+                  label={addressLable[type]}
                   fieldName="map"
                 />
                 {type === 'GROUP' ? (

@@ -46,6 +46,7 @@ export default class TableList extends PureComponent {
     this.loadSmsTemp('PKG');
     this.loadSmsTemp('GROUP');
     this.loadSmsTemp('RUSH');
+    this.loadSmsTemp('GOODS');
   }
 
   loadData = () => {
@@ -58,7 +59,7 @@ export default class TableList extends PureComponent {
       ...query,
       ...formValues,
       ...filters,
-      'type@in': ['PKG', 'GROUP', 'HOTEL', 'INT_PKG', 'INT_GROUP', 'INT_HOTEL'],
+      'type@in': ['PKG', 'GROUP', 'HOTEL', 'INT_PKG', 'INT_GROUP', 'INT_HOTEL', 'GOODS'],
     };
     dispatch({
       type: 'normal/find',
@@ -395,6 +396,13 @@ export default class TableList extends PureComponent {
                   onClick={() => this.handleEdit('add', 'presale', 'HOTEL', {})}
                 >
                   新建酒店预售
+                </Button>
+                <Button
+                  type="primary"
+                  ghost
+                  onClick={() => this.handleEdit('add', 'normal', 'GOODS', {})}
+                >
+                  新建实体产品
                 </Button>
               </Button.Group>
             </div>

@@ -11,4 +11,5 @@ export const NormalTypes = {
   HOTEL: '酒店',
   PKG: '自由行',
   GROUP: '跟团游',
+  GOODS: '实体商品',
 };

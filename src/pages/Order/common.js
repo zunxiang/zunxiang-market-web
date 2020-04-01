@@ -9,6 +9,7 @@ export const orderType = {
   NORMAL_HOTEL: '酒店订单',
   NORMAL_GROUP: '跟团订单',
   NORMAL_PKG: '自由行订单',
+  NORMAL_GOODS: '实物订单',
 };
 
 export const orderStatusMap = {

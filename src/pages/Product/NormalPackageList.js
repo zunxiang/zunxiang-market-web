@@ -43,9 +43,7 @@ export default class BasicList extends PureComponent {
             <Link
               to={{
                 pathname: '/product/sku',
-                search: `package_i=${record.i}&item_i=${i}&package_name=${
-                  record.name
-                }&type=${type}`,
+                search: `package_i=${record.i}&item_i=${i}&package_name=${record.name}&type=${type}`,
               }}
             >
               日期管理
@@ -63,6 +61,46 @@ export default class BasicList extends PureComponent {
           </Fragment>
         );
       },
+    },
+  ];
+
+  goodsColumns = [
+    {
+      title: '排序',
+      dataIndex: 'sort',
+      width: 100,
+      render: (val, record, index) => index + 1,
+    },
+    {
+      title: '套餐名',
+      dataIndex: 'name',
+    },
+    {
+      title: '价格',
+      dataIndex: 'price',
+      render: val => val / 100,
+    },
+    {
+      title: '库存',
+      dataIndex: 'stock',
+    },
+    {
+      title: '操作',
+      width: 300,
+      render: (val, record, index) => (
+        <Fragment>
+          <a onClick={() => this.handleEditEvent(record)}>编辑套餐</a>
+          <Divider type="vertical" />
+          <Popconfirm
+            title="确认删除该套餐?"
+            onConfirm={() => this.handleDelete(record.i, index)}
+            okText="确认"
+            cancelText="取消"
+          >
+            <a style={{ color: '#f5222d' }}>删除</a>
+          </Popconfirm>
+        </Fragment>
+      ),
     },
   ];
 
@@ -187,6 +225,9 @@ export default class BasicList extends PureComponent {
           packageName: record.name,
           room: record.room,
           menuId: record.rich_text_content_i,
+          price: record.price,
+          fee: record.fee,
+          stock: record.stock,
         },
       },
       () => {
@@ -214,6 +255,10 @@ export default class BasicList extends PureComponent {
       successCallback: this.handleEditSuccess,
       cancelCallback: this.handleEditCancel,
     };
+    const packList = list.map(p => ({
+      ...p,
+      fee: p.fee ? JSON.parse(p.fee) : [[0, 0, 0, 0, 0], [0, 0, 0, 0, 0]],
+    }));
     return (
       <Card
         className={styles.listCard}
@@ -232,8 +277,8 @@ export default class BasicList extends PureComponent {
           添加
         </Button>
         <DragSortingTable
-          dataSource={list}
-          columns={this.columns}
+          dataSource={packList}
+          columns={type === 'GOODS' ? this.goodsColumns : this.columns}
           moveRow={this.moveRow}
           rowKey="i"
           pagination={false}

@@ -6,7 +6,7 @@ import { NormalListContent } from './NormalList';
 
 import styles from './NormalList.less';
 
-const normalTypes = ['HOTEL', 'GROUP', 'PKG'];
+const normalTypes = ['HOTEL', 'GROUP', 'PKG', 'GOODS'];
 
 const ListContent = props => {
   const { order } = props;

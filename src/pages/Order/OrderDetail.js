@@ -6,6 +6,7 @@ import Ellipsis from '@/components/Ellipsis';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import { orderType, orderStatus, orderStatusMap } from './common';
 import Prompt from '@/components/Prompt';
+import FinishGoodsModal from './Form/FinishGoodsModal';
 
 import styles from './OrderDetail.less';
 
@@ -219,6 +220,24 @@ export default class NormalOrderDetail extends Component {
     });
   };
 
+  handlerOnFinishGoods = fields => {
+    const { dispatch } = this.props;
+    const {
+      order: { i },
+    } = this.state;
+    dispatch({
+      type: 'order/finish',
+      payload: { i, ...fields },
+      callback: data => {
+        this.setState({
+          promptInit: data,
+          showPrompt: true,
+        });
+        this.loadData();
+      },
+    });
+  };
+
   handleOnConfirm = () => {
     const { dispatch } = this.props;
     const {
@@ -339,7 +358,7 @@ export default class NormalOrderDetail extends Component {
     const { order, logs, showPrompt, promptInit, messages, messagePromptVisiable } = this.state;
     const Action = (
       <Fragment>
-        {order.state === 2 ? (
+        {order.state === 2 && order.item_type !== 'GOODS' ? (
           <Button
             type="primary"
             onClick={this.handleOnConfirm}
@@ -348,6 +367,13 @@ export default class NormalOrderDetail extends Component {
           >
             确认
           </Button>
+        ) : null}
+        {order.state === 2 && order.item_type === 'GOODS' ? (
+          <FinishGoodsModal onSubmit={this.handlerOnFinishGoods}>
+            <Button type="primary" loading={loading} style={{ marginRight: 8 }}>
+              发货
+            </Button>
+          </FinishGoodsModal>
         ) : null}
         {[2, 3].includes(order.state) ? (
           <>
@@ -402,11 +428,23 @@ export default class NormalOrderDetail extends Component {
             </Descriptions>
           )}
           <Divider style={{ marginBottom: 16 }} />
-          <Descriptions size="large" title="用户信息" column={4}>
+          <Descriptions size="large" title="用户信息" column={3}>
             <Descriptions.Item label="用户姓名">{order.contacts}</Descriptions.Item>
             <Descriptions.Item label="联系电话">{order.contacts_mobile}</Descriptions.Item>
+            {order.item_type === 'GOODS' && (
+              <Descriptions.Item label="收货地址">{order.shipping_address}</Descriptions.Item>
+            )}
             <Descriptions.Item label="备注">{order.contacts_remarks || '无'}</Descriptions.Item>
           </Descriptions>
+          {order.item_class === 'NORMAL' && order.item_type === 'GOODS' && (
+            <Descriptions size="large" title="发货信息" column={3}>
+              <Descriptions.Item label="快递名称">{order.shipper_name}</Descriptions.Item>
+              <Descriptions.Item label="快递单号">{order.courier_number}</Descriptions.Item>
+              <Descriptions.Item label="发货时间">
+                {order.finish_time && order.finish_time.substring(0, 19)}
+              </Descriptions.Item>
+            </Descriptions>
+          )}
           <Divider style={{ marginBottom: 16 }} />
           <Descriptions size="large" title="金额信息" column={4}>
             <Descriptions.Item label="单价">
@@ -447,7 +485,7 @@ export default class NormalOrderDetail extends Component {
             dataSource={messages}
             columns={messagesColumns}
           />
-          {order.item_class === 'NORMAL' && (
+          {order.item_class === 'NORMAL' && order.item_type !== 'GOODS' && (
             <>
               <Divider style={{ marginBottom: 32 }} />
               <div className={styles.title}>每日费用详情</div>

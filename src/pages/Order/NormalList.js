@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react';
-import { List, Row, Col, Tag, Divider } from 'antd';
+import { List, Row, Col, Tag } from 'antd';
 import { Link } from 'dva/router';
 import { orderType, orderStatus, orderStatusMap } from './common';
 import Ellipsis from '@/components/Ellipsis';
@@ -26,6 +26,14 @@ const DateInfo = props => {
           <span style={{ marginRight: 8 }}>{`${o.adult_num}大${o.child_num}小`}</span>
         </div>
         <div>{`日期：${o.start_time.substring(0, 10)}`}</div>
+      </Fragment>
+    );
+  }
+  if (o.item_type === 'GOODS') {
+    return (
+      <Fragment>
+        <div>{`数量：${o.item_num}份`}</div>
+        <div>{`地址：${o.shipping_address}`}</div>
       </Fragment>
     );
   }
@@ -103,17 +111,8 @@ export const ListContent = props => {
             <DateInfo order={o} />
           </Col>
           <Col span={4}>
-            <div>
-              <span>
-                金额：￥
-                {o.amount / 100}
-              </span>
-              <Divider type="vertical" />
-              <span>
-                佣金：￥
-                {o.total_fee / 100 || 0}
-              </span>
-            </div>
+            <div>金额：￥{o.amount / 100}</div>
+            <div>佣金：￥{o.total_fee / 100 || 0}</div>
             <div>{`分销：${o.salesman_name || '无'}`}</div>
           </Col>
           <Col span={2}>
