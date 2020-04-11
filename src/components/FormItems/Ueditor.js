@@ -85,7 +85,7 @@ export const Ueditor = props => {
     lang: 'zh-cn',
     langPath: '/ueditor/lang/',
     ...editorOptions,
-    UEDITOR_HOME_URL: `http://${location.host}/ueditor/`,
+    UEDITOR_HOME_URL: `//${location.host}/ueditor/`,
   };
 
   return (

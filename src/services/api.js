@@ -1,17 +1,50 @@
 import { stringify } from 'qs';
 import request from '@/utils/request';
+import { apiMap } from './apiMap';
 
-export async function GET(params) {
-  return request(`/db/v1/api?${stringify(params)}`);
+export async function GET({ handler, message }) {
+  if (!apiMap[handler]) {
+    return Promise.resolve([404, `没有接口${apiMap[handler]}`]);
+  }
+  const msg = JSON.parse(message);
+  if (handler.substr(-5, 5) === '/find') {
+    const { limit, offset, order, SUM: sum, ...query } = msg;
+    const params = {
+      limit,
+      offset,
+      order,
+      sum,
+      query: [query],
+    };
+    return request(apiMap[handler], {
+      method: 'POST',
+      body: params,
+    });
+  }
+  return request(`${apiMap[handler]}?${stringify(msg)}`);
+  // return request(`/db/v1/api?${stringify(params)}`);
 }
 
-export async function POST(params) {
-  const data = new FormData();
-  const blob = new Blob([JSON.stringify(params)], { type: 'text/json' });
-  data.append('data', blob);
-  return request('/db/v1/post_api', {
+export async function POST({ handler, message }) {
+  const msg = JSON.parse(message);
+  console.log(handler.substr(-4, 4));
+  if (handler.substr(-4, 4) === '/find') {
+    const { limit, offset, order, SUM: sum, ...query } = msg;
+    const params = {
+      limit,
+      offset,
+      order,
+      sum,
+      query: [query],
+    };
+    return request(apiMap[handler], {
+      method: 'POST',
+      body: params,
+    });
+  }
+  return request(apiMap[handler], {
     method: 'POST',
-    body: data,
+    body: msg,
   });
 }
 

@@ -130,31 +130,28 @@ export default function request(url, option) {
       return response.json();
     })
     .then(res => {
-      if (Number.isInteger(res[0])) {
-        const [status, data] = res;
-        if (status === 0) {
-          return res;
-        }
-        /* eslint-disable */
-        if (status === 401) {
-          window.g_app._store.dispatch({
-            type: 'login/logout',
-          });
-          return res;
-        }
-        /* eslint-disable */
-
-        if (status === 403) {
-          router.push('/exception/403');
-          return res;
-        }
-        notification.error({
-          message: `错误提示 ${status}`,
-          description: data,
-        });
-        return res;
+      const { code: status, result: data, msg } = res;
+      if (status === 200) {
+        return [0, data];
       }
-      return res;
+      /* eslint-disable */
+      if (status === 401) {
+        window.g_app._store.dispatch({
+          type: 'login/logout',
+        });
+        return [status, data];
+      }
+      /* eslint-disable */
+
+      if (status === 403) {
+        router.push('/exception/403');
+        return [status, data];
+      }
+      notification.error({
+        message: `错误提示 ${status}`,
+        description: msg,
+      });
+      return [status, data];
     })
     .catch(e => {
       const status = e.name;

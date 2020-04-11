@@ -20,15 +20,11 @@ export default {
       const { userName: username, password, captcha } = payload;
       const msg = {
         handler: '/v1/mp/app_account/account/login',
-        message: JSON.stringify(
-          secureCipher(
-            JSON.stringify({
-              username,
-              password,
-              captcha,
-            })
-          )
-        ),
+        message: JSON.stringify({
+          username,
+          password,
+          captcha,
+        }),
       };
       const [code, response] = yield call(GET, msg);
       if (code !== 0) {

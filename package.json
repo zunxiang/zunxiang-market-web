@@ -74,7 +74,8 @@
     "react-router-dom": "^4.3.1",
     "react-sortable-hoc": "^0.8.4",
     "reactcss": "^1.2.3",
-    "slash2": "^2.0.0"
+    "slash2": "^2.0.0",
+    "umi": "^2.8.18"
   },
   "devDependencies": {
     "@types/react": "^16.9.1",
@@ -110,7 +111,6 @@
     "tslint": "^5.18.0",
     "tslint-config-prettier": "^1.10.0",
     "tslint-react": "^3.6.0",
-    "umi": "^2.8.18",
     "umi-plugin-ga": "^1.1.5",
     "umi-plugin-react": "^1.9.16"
   },

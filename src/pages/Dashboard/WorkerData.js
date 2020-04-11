@@ -25,65 +25,67 @@ export default class Workplace extends Component {
   };
 
   componentDidMount() {
-    const { dispatch } = this.props;
-    dispatch({
-      type: 'statistics/count',
-      payload: {
-        name: 'item',
-      },
-      callback: total => {
-        this.setState({
-          productNum: total,
-        });
-      },
-    });
-    dispatch({
-      type: 'statistics/count',
-      payload: {
-        name: 'order',
-      },
-      callback: total => {
-        this.setState({
-          orderNum: total,
-        });
-      },
-    });
-    dispatch({
-      type: 'statistics/count',
-      payload: {
-        name: 'user',
-      },
-      callback: total => {
-        this.setState({
-          userNum: total,
-        });
-      },
-    });
-    dispatch({
-      type: 'statistics/count',
-      payload: {
-        name: 'salesman',
-      },
-      callback: total => {
-        this.setState({
-          salesmanNum: total,
-        });
-      },
-    });
-    dispatch({
-      type: 'notify/find',
-      payload: {
-        pageSize: 50,
-        currentPage: 1,
-      },
-      callback: data => {
-        this.setState({
-          notifys: {
-            ...data,
-          },
-        });
-      },
-    });
+    const { dispatch, user } = this.props;
+    if (user.currentUser.userid) {
+      dispatch({
+        type: 'statistics/count',
+        payload: {
+          name: 'item',
+        },
+        callback: total => {
+          this.setState({
+            productNum: total,
+          });
+        },
+      });
+      dispatch({
+        type: 'statistics/count',
+        payload: {
+          name: 'order',
+        },
+        callback: total => {
+          this.setState({
+            orderNum: total,
+          });
+        },
+      });
+      dispatch({
+        type: 'statistics/count',
+        payload: {
+          name: 'user',
+        },
+        callback: total => {
+          this.setState({
+            userNum: total,
+          });
+        },
+      });
+      dispatch({
+        type: 'statistics/count',
+        payload: {
+          name: 'salesman',
+        },
+        callback: total => {
+          this.setState({
+            salesmanNum: total,
+          });
+        },
+      });
+      /* dispatch({
+        type: 'notify/find',
+        payload: {
+          pageSize: 50,
+          currentPage: 1,
+        },
+        callback: data => {
+          this.setState({
+            notifys: {
+              ...data,
+            },
+          });
+        },
+      }); */
+    }
   }
 
   handleGreetings = () => {

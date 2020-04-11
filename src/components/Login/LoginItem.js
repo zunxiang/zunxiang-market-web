@@ -128,14 +128,14 @@ class WrapFormItem extends Component {
               {getFieldDecorator(name, options)(<Input {...customprops} {...inputProps} />)}
             </Col>
             <Col span={8}>
-              <Button className={styles.getCaptcha} size="large" onClick={onRefreshCaptcha}>
+              <div className={styles.getCaptcha} size="large" onClick={onRefreshCaptcha}>
                 <img
                   className={styles.imgCaptcha}
                   src={`/captcha?type=login&ss=${freshTime}`}
                   alt="点击更换验证码"
                   title="点击更换验证码"
                 />
-              </Button>
+              </div>
               <div className={styles.help}>看不清？点击更换</div>
             </Col>
           </Row>
