@@ -54,7 +54,7 @@ export default class ImgFormItem extends PureComponent {
   renderUpload = () => {
     const { upLoading, token } = this.state;
     const uploadProps = {
-      action: 'http://up-z2.qiniu.com',
+      action: '//up-z2.qiniup.com',
       data: {
         token,
       },

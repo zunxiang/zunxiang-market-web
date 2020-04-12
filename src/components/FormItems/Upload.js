@@ -69,7 +69,7 @@ export default class UploadImg extends Component {
     } = this.props;
     const { token, upLoading, previewVisible, previewUrl } = this.state;
     const newUploadProps = {
-      action: 'http://up-z2.qiniu.com',
+      action: '//up-z2.qiniup.com',
       data: {
         token,
       },

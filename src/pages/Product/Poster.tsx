@@ -67,7 +67,7 @@ export default class Poster extends React.Component<IPosterProps, IPostState> {
   renderUpload = () => {
     const { uploading, token } = this.state;
     const uploadProps = {
-      action: 'http://up-z2.qiniu.com',
+      action: '//up-z2.qiniup.com',
       data: {
         token,
       },

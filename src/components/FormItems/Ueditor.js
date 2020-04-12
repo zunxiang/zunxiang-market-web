@@ -20,7 +20,7 @@ const itemLayout = {
 
 const uploadOne = (file, token) =>
   new Promise((resolve, reject) => {
-    const serverURL = 'http://up-z2.qiniu.com';
+    const serverURL = '//up-z2.qiniup.com';
     const xhr = new XMLHttpRequest();
     const fd = new FormData();
     const successFn = () => {

@@ -87,6 +87,9 @@ export default {
     javascriptEnabled: true,
   },
   disableRedirectHoist: true,
+  devServer: {
+    https: true,
+  },
   cssLoaderOptions: {
     modules: true,
     getLocalIdent: (context, localIdentName, localName) => {

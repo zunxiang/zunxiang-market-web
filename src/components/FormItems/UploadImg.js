@@ -61,7 +61,7 @@ export default class UploadImg extends Component {
     const { label, name, error, getFieldDecorator, defaultList = [], required } = this.props;
     const { token, upLoading } = this.state;
     const uploadProps = {
-      action: 'http://up-z2.qiniu.com',
+      action: '//up-z2.qiniup.com',
       data: {
         token,
       },

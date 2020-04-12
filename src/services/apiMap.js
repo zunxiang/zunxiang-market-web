@@ -1,4 +1,6 @@
 export const apiMap = {
+  '/v1/qiniu/main/get_upload_token': '/api/upload_file/get_qiniu_token',
+  '/v1/qiniu/main/get_qiniu_url': '/api/upload_file/get_qiniu_url',
   '/v1/mp/user/bill/find': '/api/console/bill/find',
   '/v1/mp/user/withdraw/find': '/api/console/withdraw/find',
   '/v1/mp/user/user/find': '/api/console/user/find',
@@ -25,8 +27,8 @@ export const apiMap = {
   '/v1/mp/item/item/get': '/api/console/item/get',
   '/v1/mp/item/item/get_rich_text_content': '/api/console/item/get_rich_text_content',
   '/v1/mp/item/item/find': '/api/console/item/find',
-  '/v1/mp/item/item/close': '/api/console/item/make_up',
-  '/v1/mp/item/item/listed': '/api/console/item/make_down',
+  '/v1/mp/item/item/close': '/api/console/item/make_down',
+  '/v1/mp/item/item/listed': '/api/console/item/make_up',
   '/v1/mp/item/item/get_sms_template': '/api/console/item/get_sms_template',
   '/v1/mp/item/item/book_order_notice': '',
   '/v1/mp/item/item/unbook_order_notice': '',

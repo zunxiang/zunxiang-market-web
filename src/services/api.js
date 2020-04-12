@@ -4,17 +4,18 @@ import { apiMap } from './apiMap';
 
 export async function GET({ handler, message }) {
   if (!apiMap[handler]) {
+    console.log(`没有接口${apiMap[handler]}`);
     return Promise.resolve([404, `没有接口${apiMap[handler]}`]);
   }
   const msg = JSON.parse(message);
   if (handler.substr(-5, 5) === '/find') {
-    const { limit, offset, order, SUM: sum, ...query } = msg;
+    const { limit, offset, order, SUM: sum, query = [{}] } = msg;
     const params = {
       limit,
       offset,
       order,
       sum,
-      query: [query],
+      query,
     };
     return request(apiMap[handler], {
       method: 'POST',
@@ -26,16 +27,19 @@ export async function GET({ handler, message }) {
 }
 
 export async function POST({ handler, message }) {
+  if (!apiMap[handler]) {
+    console.log(`没有接口${apiMap[handler]}`);
+    return Promise.resolve([404, `没有接口${apiMap[handler]}`]);
+  }
   const msg = JSON.parse(message);
-  console.log(handler.substr(-4, 4));
-  if (handler.substr(-4, 4) === '/find') {
-    const { limit, offset, order, SUM: sum, ...query } = msg;
+  if (handler.substr(-5, 5) === '/find') {
+    const { limit, offset, order, SUM: sum, query = [{}] } = msg;
     const params = {
       limit,
       offset,
       order,
       sum,
-      query: [query],
+      query,
     };
     return request(apiMap[handler], {
       method: 'POST',
