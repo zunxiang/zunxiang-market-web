@@ -1,5 +1,7 @@
 import { GET } from '@/services/api';
 
+export const mimiProgramaHost = 'http://wx.shop.vipsys.net';
+
 export const BaseImgUrl = '//img.zxtgo.com/';
 export const getQiniuToken = () =>
   GET({

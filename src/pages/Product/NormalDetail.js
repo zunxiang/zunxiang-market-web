@@ -4,6 +4,7 @@ import { Menu, Dropdown, Icon, Button, message, Modal, Popconfirm, Card, Descrip
 import { Link } from 'dva/router';
 import { parse, stringify } from 'qs';
 import QRCode from 'qrcode-react';
+import { mimiProgramaHost } from '@/common/config';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import PackageList from './NormalPackageList';
 import { NormalTypes } from './common';
@@ -82,8 +83,8 @@ export default class BasicProfile extends Component {
         modalVisible: true,
         modalTitle: '产品预览',
         qrcodeTitle: record.title,
-        qrcodeSrc: `http://${location.host}/m/item_details.html?i=${record.i}&preview=true`,
-        mpCodeSrc: `https://www.zxtgo.com/production/${mpid}//db/v1/client/miniprogram_qrcode?${str}`,
+        qrcodeSrc: `https://${location.host}/m/item_details.html?i=${record.i}&preview=true`,
+        mpCodeSrc: `${mimiProgramaHost}/production/${mpid}/api/client/user/getwxacodeunlimit?${str}`,
       });
     } else {
       this.setState({
@@ -91,7 +92,7 @@ export default class BasicProfile extends Component {
         modalTitle: '购买地址',
         qrcodeTitle: record.title,
         qrcodeSrc: `http://${location.host}/m/item_details.html?i=${record.i}`,
-        mpCodeSrc: `https://www.zxtgo.com/production/${mpid}//db/v1/client/miniprogram_qrcode?${str}`,
+        mpCodeSrc: `${mimiProgramaHost}/production/${mpid}/api/client/user/getwxacodeunlimit?${str}`,
       });
     }
   };
@@ -254,7 +255,10 @@ export default class BasicProfile extends Component {
   );
 
   render() {
-    const { userid, loading } = this.props;
+    const {
+      // userid,
+      loading,
+    } = this.props;
     const { item, modalTitle, modalVisible, qrcodeSrc, qrcodeTitle, mpCodeSrc } = this.state;
     const Action = (
       <div>
@@ -281,7 +285,7 @@ export default class BasicProfile extends Component {
             </Button>
           </Popconfirm>
         )}
-        {item.notice_accounts && item.notice_accounts.includes(userid) ? (
+        {/* {item.notice_accounts && item.notice_accounts.includes(userid) ? (
           <Popconfirm
             title="确认取消订阅?"
             onConfirm={() => this.handleSubscript('unsubscript')}
@@ -303,7 +307,7 @@ export default class BasicProfile extends Component {
               订阅通知
             </Button>
           </Popconfirm>
-        )}
+        )} */}
         <Dropdown overlay={this.renderAction(item)} placement="bottomCenter">
           <Button className="ant-dropdown-link">
             更多操作
@@ -330,7 +334,7 @@ export default class BasicProfile extends Component {
           destroyOnClose
           footer={null}
         >
-          <div style={{ textAlign: 'center' }}>
+          <div style={{ textAlign: 'center', display: 'none' }}>
             <div>{qrcodeTitle}</div>
             <div style={{ margin: '10px' }}>
               <a href={qrcodeSrc}>{qrcodeSrc}</a>

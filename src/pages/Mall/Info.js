@@ -4,7 +4,6 @@ import { Card, Input, Form, Row, Col, Button, message, Spin } from 'antd';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import Upload from '@/components/FormItems/Upload';
 import { BaseImgUrl } from '@/common/config';
-import styles from './Style.less';
 
 const FormItem = Form.Item;
 
@@ -63,8 +62,8 @@ class InfoSetting extends PureComponent {
         type: 'mallSetting/set',
         payload: {
           ...fieldsValue,
-          subscription_qrcode: fieldsValue.subscription_qrcode[0].response.hash,
-          share_image: fieldsValue.share_image[0].response.hash,
+          // subscription_qrcode: fieldsValue.subscription_qrcode[0].response.hash,
+          // share_image: fieldsValue.share_image[0].response.hash,
           salesman_join_poster: fieldsValue.salesman_join_poster[0].response.hash,
         },
         callback: () => {
@@ -99,6 +98,7 @@ class InfoSetting extends PureComponent {
       <PageHeaderWrapper>
         <Spin spinning={loading}>
           <Form onSubmit={this.handleSubmit}>
+            {/*
             <Card title="默认分享信息" className={styles.card} bordered={false}>
               <Row gutter={16}>
                 <Col span={12}>
@@ -200,7 +200,7 @@ class InfoSetting extends PureComponent {
                   />
                 </Col>
               </Row>
-            </Card>
+            </Card> */}
             <Card title="基础服务信息">
               <Row>
                 <Col span={12}>

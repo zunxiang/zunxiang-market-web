@@ -352,6 +352,7 @@ export default [
         icon: 'wechat',
         path: '/subscript/bind',
         component: './User/SubscriptList',
+        hideInMenu: true,
       },
       {
         name: 'account',
@@ -363,6 +364,7 @@ export default [
             authority: ['app_account'],
             name: 'child-list',
             component: './Account/Child',
+            hideInMenu: true,
           },
           {
             path: '/account/setting/password',

@@ -1,12 +1,10 @@
 import React, { Component } from 'react';
 import moment from 'moment';
 import { connect } from 'dva';
-import { Card, List, Avatar, Row, Col, Statistic, Collapse } from 'antd';
+import { Card, List, Avatar, Row, Col, Statistic } from 'antd';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 
 import styles from './Workplace.less';
-
-const { Panel } = Collapse;
 
 @connect(({ user, loading }) => ({
   user,
@@ -111,7 +109,7 @@ export default class Workplace extends Component {
 
   render() {
     const {
-      notifyLoading,
+      // notifyLoading,
       user: { currentUser },
     } = this.props;
     const {
@@ -119,14 +117,14 @@ export default class Workplace extends Component {
       orderNum,
       userNum,
       salesmanNum,
-      notifys: { list },
+      // notifys: { list },
     } = this.state;
-    const customPanelStyle = {
+    /* const customPanelStyle = {
       background: '#fff',
       borderRadius: 4,
       marginBottom: 0,
       overflow: 'hidden',
-    };
+    }; */
     const pageHeaderContent = (
       <div className={styles.pageHeaderContent}>
         <div className={styles.avatar}>
@@ -186,7 +184,7 @@ export default class Workplace extends Component {
             </Card>
           </Col>
         </Row>
-        <Card
+        {/* <Card
           bodyStyle={{ padding: 0 }}
           style={{ marginTop: 24 }}
           bordered={false}
@@ -196,13 +194,11 @@ export default class Workplace extends Component {
           <Collapse accordion bordered={false}>
             {list.map(item => (
               <Panel header={item.title} key={item.i} style={customPanelStyle}>
-                {/* eslint-disable */}
                 <div dangerouslySetInnerHTML={{ __html: item.content }} />
-                {/* eslint-disable */}
               </Panel>
             ))}
           </Collapse>
-        </Card>
+        </Card> */}
       </PageHeaderWrapper>
     );
   }
