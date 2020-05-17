@@ -48,4 +48,5 @@ export const apiMap = {
   '/v1/mp/app_account/account/get_info': '/api/console/app_account/get_my_info',
   '/v1/mp/app_account/account/get_app_info': '/api/console/app/get',
   '/v1/mp/app_account/account/change_password': '/api/console/app_account/change_password',
+  '/api/kd100/getcoms': '/api/kd100/getcoms',
 };

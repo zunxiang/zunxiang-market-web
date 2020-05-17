@@ -1,8 +1,22 @@
-import React, { useState } from 'react';
-import { Form, Modal, Input } from 'antd';
+import React, { useState, useEffect } from 'react';
+import { Form, Modal, Input, Select } from 'antd';
+import { connect } from 'dva';
 
-const FinishGoodsModal = Form.create()(({ children, onSubmit, form }) => {
+const FinishGoodsModal = Form.create()(({ children, onSubmit, form, dispatch }) => {
   const [visible, setVisible] = useState(false);
+  const [kdList, setKdList] = useState([]);
+  useEffect(
+    () => {
+      dispatch({
+        type: 'order/getcoms',
+        payload: {},
+        calback: data => {
+          setKdList(data);
+        },
+      });
+    },
+    [dispatch]
+  );
   const { getFieldDecorator } = form;
   const onOk = () => {
     form.validateFieldsAndScroll((err, fieldsValue) => {
@@ -11,6 +25,7 @@ const FinishGoodsModal = Form.create()(({ children, onSubmit, form }) => {
       }
     });
   };
+
   return (
     <>
       <div style={{ display: 'inline-block' }} onClick={() => setVisible(true)}>
@@ -32,7 +47,15 @@ const FinishGoodsModal = Form.create()(({ children, onSubmit, form }) => {
                   message: '请输入快递名称',
                 },
               ],
-            })(<Input placeholder="请输入快递名称" />)}
+            })(
+              <Select style={{ width: '100%' }}>
+                {kdList.map(kd => (
+                  <Select.Option value={kd.code} key={kd.code}>
+                    {kd.name}
+                  </Select.Option>
+                ))}
+              </Select>
+            )}
           </Form.Item>
           <Form.Item label="快递单号">
             {getFieldDecorator('courier_number', {
@@ -50,4 +73,4 @@ const FinishGoodsModal = Form.create()(({ children, onSubmit, form }) => {
   );
 });
 
-export default FinishGoodsModal;
+export default connect()(FinishGoodsModal);

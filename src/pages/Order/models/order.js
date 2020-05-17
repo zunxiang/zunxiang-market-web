@@ -68,6 +68,15 @@ export default {
       if (code !== 0) return;
       if (callback) callback(response);
     },
+    *getcoms({ payload, callback }, { call }) {
+      const msg = {
+        handler: '/api/kd100/getcoms',
+        message: JSON.stringify(payload),
+      };
+      const [code, response] = yield call(GET, msg);
+      if (code !== 0) return;
+      if (callback) callback(response);
+    },
     *refund({ payload, callback }, { call }) {
       const msg = {
         handler: '/v1/mp/order/mp_order/refund',
