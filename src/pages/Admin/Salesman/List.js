@@ -2,19 +2,10 @@ import React, { PureComponent } from 'react';
 import { connect } from 'dva';
 import { Link } from 'dva/router';
 import { parse, stringify } from 'qs';
-import {
-  Table,
-  Card,
-  Form,
-  Icon,
-  Button,
-  Avatar,
-  Dropdown,
-  Menu,
-  message,
-  Select,
-  Badge,
-} from 'antd';
+import { DownOutlined, SyncOutlined } from '@ant-design/icons';
+import { Form } from '@ant-design/compatible';
+import '@ant-design/compatible/assets/index.css';
+import { Table, Card, Button, Avatar, Dropdown, Menu, message, Select, Badge } from 'antd';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import SearchForm from '@/components/FormGenerator/SearchForm';
 import { searchItems } from './Search/items';
@@ -128,7 +119,7 @@ class SalesmanList extends PureComponent {
           <Dropdown overlay={this.renderMenu(record)} placement="bottomCenter">
             <a className="ant-dropdown-link">
               更多操作
-              <Icon type="down" />
+              <DownOutlined />
             </a>
           </Dropdown>
         ),
@@ -302,7 +293,7 @@ class SalesmanList extends PureComponent {
       showTotal: total => (
         <span>
           <Button
-            icon="sync"
+            icon={<SyncOutlined />}
             shape="circle"
             size="small"
             type="dashed"

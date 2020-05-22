@@ -4,8 +4,8 @@ import { parse } from 'qs';
 import { Card, Table, Divider, Button, Tag, Modal, message, Descriptions } from 'antd';
 import Ellipsis from '@/components/Ellipsis';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
-import { orderType, orderStatus, orderStatusMap } from './common';
 import Prompt from '@/components/Prompt';
+import { orderType, orderStatus, orderStatusMap } from './common';
 import FinishGoodsModal from './Form/FinishGoodsModal';
 
 import styles from './OrderDetail.less';

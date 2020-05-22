@@ -1,5 +1,7 @@
 import React from 'react';
-import { Form, Input, InputNumber, DatePicker, Select } from 'antd';
+import { Form } from '@ant-design/compatible';
+import '@ant-design/compatible/assets/index.css';
+import { Input, InputNumber, DatePicker, Select } from 'antd';
 
 import styles from './style.less';
 

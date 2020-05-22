@@ -1,12 +1,13 @@
 import React, { Component, Suspense } from 'react';
 import { connect } from 'dva';
-import { Row, Col, Icon, Menu, Dropdown } from 'antd';
+import { EllipsisOutlined } from '@ant-design/icons';
+import { Row, Col, Menu, Dropdown } from 'antd';
 
 import GridContent from '@/components/PageHeaderWrapper/GridContent';
 import { getTimeDistance } from '@/utils/utils';
 
-import styles from './Analysis.less';
 import PageLoading from '@/components/PageLoading';
+import styles from './Analysis.less';
 
 const IntroduceRow = React.lazy(() => import('./IntroduceRow'));
 const SalesCard = React.lazy(() => import('./SalesCard'));
@@ -122,7 +123,7 @@ class Analysis extends Component {
     const dropdownGroup = (
       <span className={styles.iconGroup}>
         <Dropdown overlay={menu} placement="bottomRight">
-          <Icon type="ellipsis" />
+          <EllipsisOutlined />
         </Dropdown>
       </span>
     );

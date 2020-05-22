@@ -1,6 +1,8 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'dva';
-import { Card, Input, Form, Row, Col, Button, message, Spin } from 'antd';
+import { Form } from '@ant-design/compatible';
+import '@ant-design/compatible/assets/index.css';
+import { Card, Input, Row, Col, Button, message, Spin } from 'antd';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import Upload from '@/components/FormItems/Upload';
 import { BaseImgUrl } from '@/common/config';

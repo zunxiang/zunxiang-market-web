@@ -1,5 +1,6 @@
 import React, { Fragment } from 'react';
-import { List, Row, Col, Popover, Icon, Badge } from 'antd';
+import { MessageOutlined } from '@ant-design/icons';
+import { List, Row, Col, Popover, Badge } from 'antd';
 import { Link } from 'dva/router';
 import Ellipsis from '@/components/Ellipsis';
 import { payWay } from './payWay';
@@ -66,7 +67,7 @@ const OperateRemark = props => {
           title="供应商备注"
         >
           操作备注：
-          <Icon type="message" className={styles.messageIcon} />
+          <MessageOutlined className={styles.messageIcon} />
         </Popover>
       ) : (
         ''
@@ -91,7 +92,7 @@ const MerchantRemark = props => {
           title="商家备注"
         >
           商家备注：
-          <Icon type="message" className={styles.messageIcon} />
+          <MessageOutlined className={styles.messageIcon} />
         </Popover>
       </div>
     );
@@ -152,7 +153,7 @@ export const ListContent = props => {
               <span style={{ marginLeft: 8 }}>
                 {o.remarks ? (
                   <Popover content={o.remarks} title="备注">
-                    <Icon type="message" className={styles.messageIcon} />
+                    <MessageOutlined className={styles.messageIcon} />
                   </Popover>
                 ) : (
                   ''

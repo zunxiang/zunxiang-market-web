@@ -1,14 +1,16 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'dva';
-import { Form, Button, Card, Row, Col } from 'antd';
+import { Form } from '@ant-design/compatible';
+import '@ant-design/compatible/assets/index.css';
+import { Button, Card, Row, Col } from 'antd';
 import { routerRedux } from 'dva/router';
 import { parse } from 'qs';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import AreaSelector from '@/components/AreaSelector';
+import { Editor } from '@/components/FormItems/Editor';
 import { BasicFormItem } from './BasicFormItem';
 import MapFormItem from './MapFormItem';
 import { submitFormLayout, formItemLayout } from './common';
-import { Editor } from '@/components/FormItems/Editor';
 import './style.less';
 
 const FormItem = Form.Item;

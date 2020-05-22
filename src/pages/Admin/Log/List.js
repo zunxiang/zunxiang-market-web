@@ -1,7 +1,10 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'dva';
 import { parse, stringify } from 'qs';
-import { Table, Card, Form, Button } from 'antd';
+import { SyncOutlined } from '@ant-design/icons';
+import { Form } from '@ant-design/compatible';
+import '@ant-design/compatible/assets/index.css';
+import { Table, Card, Button } from 'antd';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import SearchForm from '@/components/FormGenerator/SearchForm';
 import { searchItems } from './Search/items';
@@ -137,7 +140,7 @@ class SalesmanList extends PureComponent {
       showTotal: total => (
         <span>
           <Button
-            icon="sync"
+            icon={<SyncOutlined />}
             shape="circle"
             size="small"
             type="dashed"

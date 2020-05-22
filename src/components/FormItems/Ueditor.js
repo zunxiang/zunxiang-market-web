@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Form } from 'antd';
+import { Form } from '@ant-design/compatible';
+import '@ant-design/compatible/assets/index.css';
 import ReactUeditor from 'ifanrx-react-ueditor';
 import { BaseImgUrl, getQiniuToken } from '@/common/config';
 import styles from './style.less';

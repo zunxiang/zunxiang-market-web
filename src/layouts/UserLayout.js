@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react';
 import { formatMessage } from 'umi/locale';
 import Link from 'umi/link';
-import { Icon } from 'antd';
+import { CopyrightOutlined } from '@ant-design/icons';
 import GlobalFooter from '@/components/GlobalFooter';
 import SelectLang from '@/components/SelectLang';
 import styles from './UserLayout.less';
@@ -27,7 +27,7 @@ const links = [
 
 const copyright = (
   <Fragment>
-    Copyright <Icon type="copyright" /> 2018 广州想享科技有限公司
+    Copyright <CopyrightOutlined /> 2018 广州想享科技有限公司
   </Fragment>
 );
 

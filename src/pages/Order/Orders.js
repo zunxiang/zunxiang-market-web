@@ -1,10 +1,13 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'dva';
 import { parse, stringify } from 'qs';
-import { Card, Form, Button, Descriptions } from 'antd';
+import { DownloadOutlined, SyncOutlined } from '@ant-design/icons';
+import { Form } from '@ant-design/compatible';
+import '@ant-design/compatible/assets/index.css';
+import { Card, Button, Descriptions } from 'antd';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
-import OrderList from './AllList';
 import SearchForm from '@/components/FormGenerator/SearchForm';
+import OrderList from './AllList';
 import { orderSearchItems } from './Search/all';
 
 import styles from './Orders.less';
@@ -146,7 +149,7 @@ export default class TableList extends PureComponent {
       showTotal: total => (
         <span>
           <Button
-            icon="sync"
+            icon={<SyncOutlined />}
             shape="circle"
             size="small"
             type="dashed"
@@ -179,7 +182,7 @@ export default class TableList extends PureComponent {
               extra={
                 <Button
                   style={{ marginLeft: 8 }}
-                  icon="download"
+                  icon={<DownloadOutlined />}
                   ghost
                   type="primary"
                   onClick={this.handleExport}

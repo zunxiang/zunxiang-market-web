@@ -1,7 +1,10 @@
 import React, { PureComponent, Fragment } from 'react';
 import { connect } from 'dva';
 import { parse, stringify } from 'qs';
-import { Card, Form, Table, Button, Divider, Popconfirm, message } from 'antd';
+import { DownloadOutlined, SyncOutlined } from '@ant-design/icons';
+import { Form } from '@ant-design/compatible';
+import '@ant-design/compatible/assets/index.css';
+import { Card, Table, Button, Divider, Popconfirm, message } from 'antd';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import SearchForm from '@/components/FormGenerator/SearchForm';
 
@@ -224,7 +227,7 @@ export default class withdrawList extends PureComponent {
     return (
       <span>
         <Button
-          icon="sync"
+          icon={<SyncOutlined />}
           shape="circle"
           size="small"
           type="dashed"
@@ -272,7 +275,7 @@ export default class withdrawList extends PureComponent {
                 <Fragment>
                   <Button
                     style={{ marginLeft: 8 }}
-                    icon="download"
+                    icon={<DownloadOutlined />}
                     ghost
                     type="primary"
                     onClick={this.handleExport}

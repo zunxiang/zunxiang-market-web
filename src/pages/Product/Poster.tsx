@@ -1,5 +1,6 @@
 import * as React from 'react';
-import { Button, Card, Col, Row, Upload, message, Icon, Modal } from 'antd';
+import { CloseOutlined } from '@ant-design/icons';
+import { Button, Card, Col, Row, Upload, message, Modal } from 'antd';
 import { BaseImgUrl, getQiniuToken } from '@/common/config';
 
 
@@ -94,18 +95,16 @@ export default class Poster extends React.Component<IPosterProps, IPostState> {
           {data.map(img => {
             return (
               <Col span={4} key={img} style={{ position: 'relative', border: '1px solid #e8e8e8' }}>
-                <Icon
-                  type="close"
+                <CloseOutlined
                   style={{ position: 'absolute', top: 0, right: 0 }}
-                  onClick={() => this.handleRemove(img)}
-                />
+                  onClick={() => this.handleRemove(img)} />
                 <img src={BaseImgUrl + img} alt="海报图片" style={{ width: '100%' }} />
               </Col>
-            )
+            );
           })}
         </Row>
       </Card>
-    )
+    );
   }
 
 }

@@ -1,9 +1,11 @@
 import React, { PureComponent, Fragment } from 'react';
 import { connect } from 'dva';
+import { PlusOutlined } from '@ant-design/icons';
+import { Form } from '@ant-design/compatible';
+import '@ant-design/compatible/assets/index.css';
 import {
   Table,
   Card,
-  Form,
   Input,
   Select,
   Button,
@@ -446,7 +448,7 @@ export default class TableList extends PureComponent {
             <Button
               onClick={() => this.handleAddEvent()}
               style={{ width: '100%', marginBottom: 16 }}
-              icon="plus"
+              icon={<PlusOutlined />}
               ghost
               type="primary"
             >

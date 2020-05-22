@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
-import { Modal, Form, Button, Input } from 'antd';
+import { Form } from '@ant-design/compatible';
+import '@ant-design/compatible/assets/index.css';
+import { Modal, Button, Input } from 'antd';
 import Upload from '../FormItems/Upload';
 
 const FormItem = Form.Item;
@@ -17,9 +19,10 @@ const FormItemGenerator = props => {
   if (type === 'textArea') {
     return (
       <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 18 }} label={label}>
-        {getFieldDecorator(filedName, filedOptions)(
-          <TextArea placeholder="请输入" rows={5} style={{ wordBreak: 'break-all' }} />
-        )}
+        {getFieldDecorator(
+          filedName,
+          filedOptions
+        )(<TextArea placeholder="请输入" rows={5} style={{ wordBreak: 'break-all' }} />)}
       </FormItem>
     );
   }

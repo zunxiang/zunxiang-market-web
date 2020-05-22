@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react';
 import { FormattedMessage, formatMessage } from 'umi/locale';
-import { Spin, Tag, Menu, Icon, Dropdown, Avatar, Tooltip } from 'antd';
+import { LogoutOutlined, QuestionCircleOutlined, SettingOutlined } from '@ant-design/icons';
+import { Spin, Tag, Menu, Dropdown, Avatar, Tooltip } from 'antd';
 import moment from 'moment';
 import groupBy from 'lodash/groupBy';
 import NoticeIcon from '../NoticeIcon';
@@ -78,7 +79,7 @@ export default class GlobalHeaderRight extends PureComponent {
           <FormattedMessage id="menu.account.center" defaultMessage="account center" />
         </Menu.Item> */}
         <Menu.Item key="password">
-          <Icon type="setting" />
+          <SettingOutlined />
           <FormattedMessage id="menu.account.settings" defaultMessage="account settings" />
         </Menu.Item>
         {/* <Menu.Item key="triggerError">
@@ -87,7 +88,7 @@ export default class GlobalHeaderRight extends PureComponent {
         </Menu.Item> */}
         <Menu.Divider />
         <Menu.Item key="logout">
-          <Icon type="logout" />
+          <LogoutOutlined />
           <FormattedMessage id="menu.account.logout" defaultMessage="logout" />
         </Menu.Item>
       </Menu>
@@ -122,7 +123,7 @@ export default class GlobalHeaderRight extends PureComponent {
             rel="noopener noreferrer"
             className={styles.action}
           >
-            <Icon type="question-circle-o" />
+            <QuestionCircleOutlined />
           </a>
         </Tooltip>
         <NoticeIcon

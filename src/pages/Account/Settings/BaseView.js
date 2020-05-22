@@ -1,6 +1,9 @@
 import React, { Component, Fragment } from 'react';
 import { formatMessage, FormattedMessage } from 'umi/locale';
-import { Form, Input, Upload, Select, Button } from 'antd';
+import { UploadOutlined } from '@ant-design/icons';
+import { Form } from '@ant-design/compatible';
+import '@ant-design/compatible/assets/index.css';
+import { Input, Upload, Select, Button } from 'antd';
 import { connect } from 'dva';
 import styles from './BaseView.less';
 import GeographicView from './GeographicView';
@@ -21,7 +24,7 @@ const AvatarView = ({ avatar }) => (
     </div>
     <Upload fileList={[]}>
       <div className={styles.button_view}>
-        <Button icon="upload">
+        <Button icon={<UploadOutlined />}>
           <FormattedMessage id="app.settings.basic.change-avatar" defaultMessage="Change avatar" />
         </Button>
       </div>

@@ -1,14 +1,15 @@
 import React, { PureComponent, Fragment } from 'react';
 import { connect } from 'dva';
 import moment from 'moment';
+import { DownOutlined, PlusOutlined, UpOutlined } from '@ant-design/icons';
+import { Form } from '@ant-design/compatible';
+import '@ant-design/compatible/assets/index.css';
 import {
   Row,
   Col,
   Card,
-  Form,
   Input,
   Select,
-  Icon,
   Button,
   Dropdown,
   Menu,
@@ -520,7 +521,7 @@ class TableList extends PureComponent {
                 重置
               </Button>
               <a style={{ marginLeft: 8 }} onClick={this.toggleForm}>
-                展开 <Icon type="down" />
+                展开 <DownOutlined />
               </a>
             </span>
           </Col>
@@ -595,7 +596,7 @@ class TableList extends PureComponent {
               重置
             </Button>
             <a style={{ marginLeft: 8 }} onClick={this.toggleForm}>
-              收起 <Icon type="up" />
+              收起 <UpOutlined />
             </a>
           </div>
         </div>
@@ -635,7 +636,11 @@ class TableList extends PureComponent {
           <div className={styles.tableList}>
             <div className={styles.tableListForm}>{this.renderForm()}</div>
             <div className={styles.tableListOperator}>
-              <Button icon="plus" type="primary" onClick={() => this.handleModalVisible(true)}>
+              <Button
+                icon={<PlusOutlined />}
+                type="primary"
+                onClick={() => this.handleModalVisible(true)}
+              >
                 新建
               </Button>
               {selectedRows.length > 0 && (
@@ -643,7 +648,7 @@ class TableList extends PureComponent {
                   <Button>批量操作</Button>
                   <Dropdown overlay={menu}>
                     <Button>
-                      更多操作 <Icon type="down" />
+                      更多操作 <DownOutlined />
                     </Button>
                   </Dropdown>
                 </span>

@@ -10,13 +10,13 @@ import pathToRegexp from 'path-to-regexp';
 import Media from 'react-media';
 import { formatMessage } from 'umi/locale';
 import Authorized from '@/utils/Authorized';
+import PageLoading from '@/components/PageLoading';
+import SiderMenu from '@/components/SiderMenu';
 import logo from '../assets/logo.svg';
 import Footer from './Footer';
 import Header from './AdminHeader';
 import Context from './MenuContext';
 import Exception403 from '../pages/Exception/403';
-import PageLoading from '@/components/PageLoading';
-import SiderMenu from '@/components/SiderMenu';
 
 // lazy load SettingDrawer
 const SettingDrawer = React.lazy(() => import('@/components/SettingDrawer'));

@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
-import { Upload, Button, Icon, Modal, Form } from 'antd';
+import { Form, Icon as LegacyIcon } from '@ant-design/compatible';
+import '@ant-design/compatible/assets/index.css';
+import { Upload, Button, Modal } from 'antd';
 import { getQiniuToken, BaseImgUrl } from '@/common/config';
 
 const FormItem = Form.Item;
@@ -87,10 +89,13 @@ export default class UploadImg extends Component {
     };
     return (
       <FormItem {...formItemProps}>
-        {getFieldDecorator(filedName, newFiledOptions)(
+        {getFieldDecorator(
+          filedName,
+          newFiledOptions
+        )(
           <Upload {...newUploadProps}>
             <Button>
-              <Icon type={upLoading ? 'loading' : 'upload'} />
+              <LegacyIcon type={upLoading ? 'loading' : 'upload'} />
               点击上传
             </Button>
           </Upload>

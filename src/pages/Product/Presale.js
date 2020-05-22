@@ -3,21 +3,13 @@ import { connect } from 'dva';
 import { Link } from 'dva/router';
 import { parse, stringify } from 'qs';
 import QRCode from 'qrcode-react';
-import {
-  Card,
-  Form,
-  Icon,
-  Button,
-  Dropdown,
-  Modal,
-  Menu,
-  Divider,
-  Popconfirm,
-  message,
-} from 'antd';
+import { DownloadOutlined, DownOutlined, SyncOutlined } from '@ant-design/icons';
+import { Form } from '@ant-design/compatible';
+import '@ant-design/compatible/assets/index.css';
+import { Card, Button, Dropdown, Modal, Menu, Divider, Popconfirm, message } from 'antd';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
-import ProductList from './PresaleList';
 import SearchForm from '@/components/FormGenerator/SearchForm';
+import ProductList from './PresaleList';
 import { preasleSearchItems } from './Search/presale';
 
 import styles from './style.less';
@@ -241,7 +233,7 @@ export default class TableList extends PureComponent {
           <Dropdown overlay={this.renderMenu(record)} placement="bottomCenter">
             <a className="ant-dropdown-link">
               更多操作
-              <Icon type="down" />
+              <DownOutlined />
             </a>
           </Dropdown>
         </div>
@@ -263,7 +255,7 @@ export default class TableList extends PureComponent {
         <Dropdown overlay={this.renderMenu(record)}>
           <a className="ant-dropdown-link">
             更多操作
-            <Icon type="down" />
+            <DownOutlined />
           </a>
         </Dropdown>
       </div>
@@ -372,7 +364,7 @@ export default class TableList extends PureComponent {
       showTotal: total => (
         <span>
           <Button
-            icon="sync"
+            icon={<SyncOutlined />}
             shape="circle"
             size="small"
             type="dashed"
@@ -410,7 +402,7 @@ export default class TableList extends PureComponent {
                 <Fragment>
                   <Button
                     style={{ marginLeft: 8 }}
-                    icon="download"
+                    icon={<DownloadOutlined />}
                     ghost
                     type="primary"
                     onClick={this.handleExport}

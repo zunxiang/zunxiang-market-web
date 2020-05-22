@@ -1,5 +1,7 @@
 import React, { Fragment } from 'react';
-import { Form, Input, Select } from 'antd';
+import { Form } from '@ant-design/compatible';
+import '@ant-design/compatible/assets/index.css';
+import { Input, Select } from 'antd';
 import { formItemLayout } from './common';
 import ImgFormItem from './ImgFormItem';
 import './style.less';

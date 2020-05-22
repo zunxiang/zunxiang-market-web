@@ -2,7 +2,10 @@ import React, { PureComponent } from 'react';
 import { connect } from 'dva';
 import { parse, stringify } from 'qs';
 import QRCode from 'qrcode-react';
-import { Row, Col, Card, Form, Input, Icon, Button, Modal, Badge, message, Select } from 'antd';
+import { DownloadOutlined, DownOutlined, SyncOutlined, UpOutlined } from '@ant-design/icons';
+import { Form } from '@ant-design/compatible';
+import '@ant-design/compatible/assets/index.css';
+import { Row, Col, Card, Input, Button, Modal, Badge, message, Select } from 'antd';
 import update from 'immutability-helper';
 import Ellipsis from '@/components/Ellipsis';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
@@ -305,7 +308,10 @@ class PresaleSort extends PureComponent {
     const { pageSize, currentPage } = this.state;
     const dragRow = list[dragIndex];
     const tempList = update(list, {
-      $splice: [[dragIndex, 1], [hoverIndex, 0, dragRow]],
+      $splice: [
+        [dragIndex, 1],
+        [hoverIndex, 0, dragRow],
+      ],
     });
     const newList = tempList.map((val, index) => ({
       ...val,
@@ -375,7 +381,7 @@ class PresaleSort extends PureComponent {
                 重置
               </Button>
               <a style={{ marginLeft: 8 }} onClick={this.toggleForm}>
-                展开 <Icon type="down" />
+                展开 <DownOutlined />
               </a>
             </span>
           </Col>
@@ -429,7 +435,7 @@ class PresaleSort extends PureComponent {
             </Button>
             <Button
               style={{ marginLeft: 8 }}
-              icon="download"
+              icon={<DownloadOutlined />}
               ghost
               type="primary"
               onClick={this.handleExport}
@@ -437,7 +443,7 @@ class PresaleSort extends PureComponent {
               导出
             </Button>
             <a style={{ marginLeft: 8 }} onClick={this.toggleForm}>
-              收起 <Icon type="up" />
+              收起 <UpOutlined />
             </a>
           </span>
         </div>
@@ -464,7 +470,7 @@ class PresaleSort extends PureComponent {
       showTotal: total => (
         <span>
           <Button
-            icon="sync"
+            icon={<SyncOutlined />}
             shape="circle"
             size="small"
             type="dashed"

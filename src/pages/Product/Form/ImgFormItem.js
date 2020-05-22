@@ -1,5 +1,7 @@
 import React, { PureComponent, Fragment } from 'react';
-import { Form, Icon, Upload, Modal, message } from 'antd';
+import { Form, Icon as LegacyIcon } from '@ant-design/compatible';
+import '@ant-design/compatible/assets/index.css';
+import { Upload, Modal, message } from 'antd';
 import { BaseImgUrl, getQiniuToken } from '@/common/config';
 import './style.less';
 
@@ -68,7 +70,7 @@ export default class ImgFormItem extends PureComponent {
     return (
       <Upload {...uploadProps}>
         <div>
-          <Icon type={upLoading ? 'loading' : 'plus'} />
+          <LegacyIcon type={upLoading ? 'loading' : 'plus'} />
           <div className="ant-upload-text">上传图片</div>
         </div>
       </Upload>

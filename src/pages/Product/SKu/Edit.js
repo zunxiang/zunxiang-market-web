@@ -1,5 +1,7 @@
 import React, { PureComponent, Fragment } from 'react';
-import { Form, InputNumber, Row, Col, DatePicker, Checkbox, Button } from 'antd';
+import { Form } from '@ant-design/compatible';
+import '@ant-design/compatible/assets/index.css';
+import { InputNumber, Row, Col, DatePicker, Checkbox, Button } from 'antd';
 import currency from 'currency.js';
 
 import styles from './Sku.less';

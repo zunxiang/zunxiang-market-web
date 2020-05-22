@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
-import { Form, Row, Col, Button, Icon } from 'antd';
+import { Form, Icon } from '@ant-design/compatible';
+import '@ant-design/compatible/assets/index.css';
+import { Row, Col, Button } from 'antd';
 import generteItems from './generateItems';
 import getParse from './parse';
 
@@ -102,11 +104,11 @@ export default class SearchForm extends Component {
                     重置
                   </Button>
                   {onRefresh ? (
-                    <Button icon="reload" style={{ marginLeft: 8 }} onClick={onRefresh} />
+                    <Button icon="redo" style={{ marginLeft: 8 }} onClick={onRefresh} />
                   ) : null}
                   <a style={{ marginLeft: 8 }} onClick={this.toggleForm}>
                     展开
-                    <Icon type="down" />
+                    <Icon name="down" />
                   </a>
                 </span>
               </Col>
@@ -123,11 +125,11 @@ export default class SearchForm extends Component {
                 </Button>
                 {extra}
                 {onRefresh ? (
-                  <Button icon="reload" style={{ marginLeft: 8 }} onClick={onRefresh} />
+                  <Button icon="redo" style={{ marginLeft: 8 }} onClick={onRefresh} />
                 ) : null}
                 <a style={{ marginLeft: 8 }} onClick={this.toggleForm}>
                   收起
-                  <Icon type="up" />
+                  <Icon name="up" />
                 </a>
               </span>
             </div>

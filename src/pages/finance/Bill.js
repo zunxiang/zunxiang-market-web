@@ -1,6 +1,8 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'dva';
-import { Table, Card, Form, InputNumber, Modal, Statistic, Button } from 'antd';
+import { Form } from '@ant-design/compatible';
+import '@ant-design/compatible/assets/index.css';
+import { Table, Card, InputNumber, Modal, Statistic, Button } from 'antd';
 import QRCode from 'qrcode-react';
 import currency from 'currency.js';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';

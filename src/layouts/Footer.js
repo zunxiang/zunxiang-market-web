@@ -1,5 +1,6 @@
 import React, { Fragment } from 'react';
-import { Layout, Icon } from 'antd';
+import { CopyrightOutlined } from '@ant-design/icons';
+import { Layout } from 'antd';
 import GlobalFooter from '@/components/GlobalFooter';
 
 const { Footer } = Layout;
@@ -30,7 +31,7 @@ const FooterView = () => (
       }
       copyright={
         <Fragment>
-          Copyright <Icon type="copyright" /> 2019 广州想享科技有限公司
+          Copyright <CopyrightOutlined /> 2019 广州想享科技有限公司
         </Fragment>
       }
     />

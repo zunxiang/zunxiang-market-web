@@ -1,6 +1,8 @@
 import React, { PureComponent, Fragment } from 'react';
 import { connect } from 'dva';
-import { Card, message, Popconfirm, Input, Button, Modal, Form, Select } from 'antd';
+import { Form } from '@ant-design/compatible';
+import '@ant-design/compatible/assets/index.css';
+import { Card, message, Popconfirm, Input, Button, Modal, Select } from 'antd';
 import update from 'immutability-helper';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import DragSortingTable from '@/components/DragSortingTable';
@@ -153,7 +155,10 @@ export default class BasicList extends PureComponent {
     const { banners } = this.state;
     const dragRow = banners[dragIndex];
     const newList = update(banners, {
-      $splice: [[dragIndex, 1], [hoverIndex, 0, dragRow]],
+      $splice: [
+        [dragIndex, 1],
+        [hoverIndex, 0, dragRow],
+      ],
     });
     dispatch({
       type: 'banner/set',

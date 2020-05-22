@@ -1,8 +1,8 @@
 import React, { Fragment } from 'react';
 import { List, Row, Col, Tag } from 'antd';
 import { Link } from 'dva/router';
-import { orderType, orderStatus, orderStatusMap } from './common';
 import Ellipsis from '@/components/Ellipsis';
+import { orderType, orderStatus, orderStatusMap } from './common';
 import styles from './NormalList.less';
 
 const DateInfo = props => {

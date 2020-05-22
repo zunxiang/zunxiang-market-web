@@ -1,11 +1,12 @@
 import React, { memo } from 'react';
-import { Row, Col, Icon, Tooltip } from 'antd';
+import { InfoCircleOutlined } from '@ant-design/icons';
+import { Row, Col, Tooltip } from 'antd';
 import { FormattedMessage } from 'umi/locale';
-import styles from './Analysis.less';
 import { ChartCard, MiniArea, MiniBar, MiniProgress, Field } from '@/components/Charts';
 import Trend from '@/components/Trend';
 import numeral from 'numeral';
 import Yuan from '@/utils/Yuan';
+import styles from './Analysis.less';
 
 const topColResponsiveProps = {
   xs: 24,
@@ -26,7 +27,7 @@ const IntroduceRow = memo(({ loading, visitData }) => (
           <Tooltip
             title={<FormattedMessage id="app.analysis.introduce" defaultMessage="Introduce" />}
           >
-            <Icon type="info-circle-o" />
+            <InfoCircleOutlined />
           </Tooltip>
         }
         loading={loading}
@@ -59,7 +60,7 @@ const IntroduceRow = memo(({ loading, visitData }) => (
           <Tooltip
             title={<FormattedMessage id="app.analysis.introduce" defaultMessage="Introduce" />}
           >
-            <Icon type="info-circle-o" />
+            <InfoCircleOutlined />
           </Tooltip>
         }
         total={numeral(8846).format('0,0')}
@@ -83,7 +84,7 @@ const IntroduceRow = memo(({ loading, visitData }) => (
           <Tooltip
             title={<FormattedMessage id="app.analysis.introduce" defaultMessage="Introduce" />}
           >
-            <Icon type="info-circle-o" />
+            <InfoCircleOutlined />
           </Tooltip>
         }
         total={numeral(6560).format('0,0')}
@@ -117,7 +118,7 @@ const IntroduceRow = memo(({ loading, visitData }) => (
           <Tooltip
             title={<FormattedMessage id="app.analysis.introduce" defaultMessage="Introduce" />}
           >
-            <Icon type="info-circle-o" />
+            <InfoCircleOutlined />
           </Tooltip>
         }
         total="78%"

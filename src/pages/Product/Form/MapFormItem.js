@@ -1,8 +1,10 @@
 import React, { PureComponent, Fragment } from 'react';
-import { Input, message, Form, Modal, Button } from 'antd';
+import { Form } from '@ant-design/compatible';
+import '@ant-design/compatible/assets/index.css';
+import { Input, message, Modal, Button } from 'antd';
 import ReactQMap from 'react-qmap';
-import { formItemLayout } from './common';
 import { mapKey } from '@/common/config';
+import { formItemLayout } from './common';
 
 const { Search } = Input;
 const FormItem = Form.Item;

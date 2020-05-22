@@ -1,5 +1,7 @@
 import React from 'react';
-import { Form, Cascader } from 'antd';
+import { Form } from '@ant-design/compatible';
+import '@ant-design/compatible/assets/index.css';
+import { Cascader } from 'antd';
 import areaData from './areaData';
 import filter from './filter';
 

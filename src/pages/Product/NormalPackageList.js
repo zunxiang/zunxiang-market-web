@@ -1,5 +1,6 @@
 import React, { PureComponent, Fragment } from 'react';
 import { connect } from 'dva';
+import { PlusOutlined } from '@ant-design/icons';
 import { Card, message, Popconfirm, Divider, Modal, Button } from 'antd';
 import { routerRedux, Link } from 'dva/router';
 import update from 'immutability-helper';
@@ -138,7 +139,10 @@ export default class BasicList extends PureComponent {
     } = this.props;
     const dragRow = list[dragIndex];
     const newList = update(list, {
-      $splice: [[dragIndex, 1], [hoverIndex, 0, dragRow]],
+      $splice: [
+        [dragIndex, 1],
+        [hoverIndex, 0, dragRow],
+      ],
     });
     const len = newList.length;
     dispatch({
@@ -257,7 +261,12 @@ export default class BasicList extends PureComponent {
     };
     const packList = list.map(p => ({
       ...p,
-      fee: p.fee ? JSON.parse(p.fee) : [[0, 0, 0, 0, 0], [0, 0, 0, 0, 0]],
+      fee: p.fee
+        ? JSON.parse(p.fee)
+        : [
+            [0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0],
+          ],
     }));
     return (
       <Card
@@ -271,7 +280,7 @@ export default class BasicList extends PureComponent {
           type="primary"
           ghost
           style={{ width: '100%', margin: '16px 0' }}
-          icon="plus"
+          icon={<PlusOutlined />}
           onClick={() => this.handleModalVisible(true)}
         >
           添加

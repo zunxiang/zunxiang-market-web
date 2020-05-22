@@ -1,6 +1,8 @@
 import React, { PureComponent } from 'react';
 import currency from 'currency.js';
-import { Form, Input, Button, Select, Row, Col, InputNumber } from 'antd';
+import { Form } from '@ant-design/compatible';
+import '@ant-design/compatible/assets/index.css';
+import { Input, Button, Select, Row, Col, InputNumber } from 'antd';
 import { Editor } from '@/components/FormItems/Editor';
 
 const FormItem = Form.Item;

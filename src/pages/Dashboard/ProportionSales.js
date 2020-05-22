@@ -1,9 +1,9 @@
 import React, { memo } from 'react';
 import { Card, Radio } from 'antd';
 import { FormattedMessage } from 'umi/locale';
-import styles from './Analysis.less';
 import { Pie } from '@/components/Charts';
 import Yuan from '@/utils/Yuan';
+import styles from './Analysis.less';
 
 const ProportionSales = memo(
   ({ dropdownGroup, salesType, loading, salesPieData, handleChangeSalesType }) => (

@@ -1,22 +1,26 @@
 import React, { useState, useEffect } from 'react';
-import { Form, Modal, Input, Select } from 'antd';
+import { Form } from '@ant-design/compatible';
+import '@ant-design/compatible/assets/index.css';
+import { Modal, Input, Select } from 'antd';
 import { connect } from 'dva';
 
 const FinishGoodsModal = Form.create()(({ children, onSubmit, form, dispatch }) => {
   const [visible, setVisible] = useState(false);
   const [kdList, setKdList] = useState([]);
-  useEffect(
-    () => {
-      dispatch({
-        type: 'order/getcoms',
-        payload: {},
-        calback: data => {
-          setKdList(data);
-        },
-      });
-    },
-    [dispatch]
-  );
+  useEffect(() => {
+    dispatch({
+      type: 'order/getcoms',
+      payload: {},
+      callback: data => {
+        setKdList(
+          Object.keys(data).map(k => ({
+            name: k,
+            code: data[k],
+          }))
+        );
+      },
+    });
+  }, [dispatch]);
   const { getFieldDecorator } = form;
   const onOk = () => {
     form.validateFieldsAndScroll((err, fieldsValue) => {
@@ -48,9 +52,13 @@ const FinishGoodsModal = Form.create()(({ children, onSubmit, form, dispatch }) 
                 },
               ],
             })(
-              <Select style={{ width: '100%' }}>
+              <Select
+                style={{ width: '100%' }}
+                filterOption={(inputVal, option) => option.props.children.indexOf(inputVal) > -1}
+                showSearch
+              >
                 {kdList.map(kd => (
-                  <Select.Option value={kd.code} key={kd.code}>
+                  <Select.Option value={kd.name} key={kd.code}>
                     {kd.name}
                   </Select.Option>
                 ))}

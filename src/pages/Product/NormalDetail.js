@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'dva';
-import { Menu, Dropdown, Icon, Button, message, Modal, Popconfirm, Card, Descriptions } from 'antd';
+import { DownOutlined } from '@ant-design/icons';
+import { Menu, Dropdown, Button, message, Modal, Popconfirm, Card, Descriptions } from 'antd';
 import { Link } from 'dva/router';
 import { parse, stringify } from 'qs';
 import QRCode from 'qrcode-react';
@@ -53,7 +54,12 @@ export default class BasicProfile extends Component {
             ...data,
             notice_accounts: data.notice_accounts ? data.notice_accounts.split(',') : [],
             poster: data.poster ? data.poster.split(',') : [],
-            fee: data.fee ? JSON.parse(data.fee) : [[0, 0, 0, 0, 0], [0, 0, 0, 0, 0]],
+            fee: data.fee
+              ? JSON.parse(data.fee)
+              : [
+                  [0, 0, 0, 0, 0],
+                  [0, 0, 0, 0, 0],
+                ],
           },
         });
         this.handleGetContent(data.rich_text_content_i);
@@ -311,7 +317,7 @@ export default class BasicProfile extends Component {
         <Dropdown overlay={this.renderAction(item)} placement="bottomCenter">
           <Button className="ant-dropdown-link">
             更多操作
-            <Icon type="down" />
+            <DownOutlined />
           </Button>
         </Dropdown>
       </div>

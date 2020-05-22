@@ -1,6 +1,7 @@
 import React, { PureComponent, Fragment } from 'react';
 import { connect } from 'dva';
 import { parse, stringify } from 'qs';
+import { DownloadOutlined } from '@ant-design/icons';
 import { Table, Card, Button, Badge, Popconfirm } from 'antd';
 import PageHeaderLayout from '@/components/PageHeaderWrapper';
 import SearchForm from '@/components/FormGenerator/SearchForm';
@@ -215,7 +216,7 @@ export default class TableList extends PureComponent {
               extra={
                 <Button
                   style={{ marginLeft: 8 }}
-                  icon="download"
+                  icon={<DownloadOutlined />}
                   ghost
                   type="primary"
                   onClick={this.handleExport}

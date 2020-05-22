@@ -1,5 +1,11 @@
 import React, { PureComponent } from 'react';
-import { List, Card, Icon, Dropdown, Menu, Avatar, Tooltip } from 'antd';
+import {
+  DownloadOutlined,
+  EditOutlined,
+  EllipsisOutlined,
+  ShareAltOutlined,
+} from '@ant-design/icons';
+import { List, Card, Dropdown, Menu, Avatar, Tooltip } from 'antd';
 import numeral from 'numeral';
 import { connect } from 'dva';
 import { formatWan } from '@/utils/utils';
@@ -57,16 +63,16 @@ class Center extends PureComponent {
               bodyStyle={{ paddingBottom: 20 }}
               actions={[
                 <Tooltip title="下载">
-                  <Icon type="download" />
+                  <DownloadOutlined />
                 </Tooltip>,
                 <Tooltip title="编辑">
-                  <Icon type="edit" />
+                  <EditOutlined />
                 </Tooltip>,
                 <Tooltip title="分享">
-                  <Icon type="share-alt" />
+                  <ShareAltOutlined />
                 </Tooltip>,
                 <Dropdown overlay={itemMenu}>
-                  <Icon type="ellipsis" />
+                  <EllipsisOutlined />
                 </Dropdown>,
               ]}
             >

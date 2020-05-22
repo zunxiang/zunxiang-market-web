@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'dva';
 import { parse, stringify } from 'qs';
-import { Table, Card, Form, Modal, Input, message, Button } from 'antd';
+import { Form } from '@ant-design/compatible';
+import '@ant-design/compatible/assets/index.css';
+import { Table, Card, Modal, Input, message, Button } from 'antd';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import SearchForm from '@/components/FormGenerator/SearchForm';
 import { Editor } from '@/components/FormItems/Editor';

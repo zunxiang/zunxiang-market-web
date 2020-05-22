@@ -1,6 +1,8 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'dva';
-import { Form, Button, Card, Row, Col, InputNumber } from 'antd';
+import { Form } from '@ant-design/compatible';
+import '@ant-design/compatible/assets/index.css';
+import { Button, Card, Row, Col, InputNumber } from 'antd';
 import { routerRedux } from 'dva/router';
 import currency from 'currency.js';
 import { parse } from 'qs';

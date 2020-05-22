@@ -1,11 +1,12 @@
 import React, { memo } from 'react';
-import { Row, Col, Table, Tooltip, Card, Icon } from 'antd';
+import { InfoCircleOutlined } from '@ant-design/icons';
+import { Row, Col, Table, Tooltip, Card } from 'antd';
 import { FormattedMessage } from 'umi/locale';
 import Trend from '@/components/Trend';
 import numeral from 'numeral';
-import styles from './Analysis.less';
 import NumberInfo from '@/components/NumberInfo';
 import { MiniArea } from '@/components/Charts';
+import styles from './Analysis.less';
 
 const columns = [
   {
@@ -61,7 +62,7 @@ const TopSearch = memo(({ loading, visitData2, searchData, dropdownGroup }) => (
               <Tooltip
                 title={<FormattedMessage id="app.analysis.introduce" defaultMessage="introduce" />}
               >
-                <Icon style={{ marginLeft: 8 }} type="info-circle-o" />
+                <InfoCircleOutlined style={{ marginLeft: 8 }} />
               </Tooltip>
             </span>
           }
@@ -83,7 +84,7 @@ const TopSearch = memo(({ loading, visitData2, searchData, dropdownGroup }) => (
               <Tooltip
                 title={<FormattedMessage id="app.analysis.introduce" defaultMessage="introduce" />}
               >
-                <Icon style={{ marginLeft: 8 }} type="info-circle-o" />
+                <InfoCircleOutlined style={{ marginLeft: 8 }} />
               </Tooltip>
             </span>
           }

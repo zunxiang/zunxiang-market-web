@@ -1,25 +1,16 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'dva';
-import {
-  Tag,
-  Card,
-  Icon,
-  message,
-  Spin,
-  Button,
-  Popconfirm,
-  Avatar,
-  Form,
-  Input,
-  Modal,
-} from 'antd';
+import { CloseOutlined, PlusOutlined } from '@ant-design/icons';
+import { Form } from '@ant-design/compatible';
+import '@ant-design/compatible/assets/index.css';
+import { Tag, Card, message, Spin, Button, Popconfirm, Avatar, Input, Modal } from 'antd';
 import update from 'immutability-helper';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import Upload from '@/components/FormItems/Upload';
 import Prompt from '@/components/Prompt';
+import { BaseImgUrl } from '@/common/config';
 import DndContext from './SearchType/DndContext';
 import SketchPicker from './SearchType/SketchPicker';
-import { BaseImgUrl } from '@/common/config';
 import styles from './Style.less';
 
 const FormItem = Form.Item;
@@ -227,7 +218,10 @@ class TypeSetting extends PureComponent {
     const { types } = this.state;
     const dragRow = types[dragIndex];
     const newList = update(types, {
-      $splice: [[dragIndex, 1], [hoverIndex, 0, dragRow]],
+      $splice: [
+        [dragIndex, 1],
+        [hoverIndex, 0, dragRow],
+      ],
     });
     this.setState({
       types: [...newList],
@@ -240,7 +234,10 @@ class TypeSetting extends PureComponent {
     const { children } = newTypes[parentIndex];
     const dragRow = children[dragIndex];
     const newChildren = update(children, {
-      $splice: [[dragIndex, 1], [hoverIndex, 0, dragRow]],
+      $splice: [
+        [dragIndex, 1],
+        [hoverIndex, 0, dragRow],
+      ],
     });
     newTypes[parentIndex].children = newChildren;
     this.setState({
@@ -274,7 +271,10 @@ class TypeSetting extends PureComponent {
     const { navs } = this.state;
     const dragRow = navs[dragIndex];
     const newList = update(navs, {
-      $splice: [[dragIndex, 1], [hoverIndex, 0, dragRow]],
+      $splice: [
+        [dragIndex, 1],
+        [hoverIndex, 0, dragRow],
+      ],
     });
     this.setState({
       navs: [...newList],
@@ -313,8 +313,7 @@ class TypeSetting extends PureComponent {
               moveRow={this.handleMoveNavTag}
               render={(nav, index) => (
                 <div key={nav.key} className={styles.navTag}>
-                  <Icon
-                    type="close"
+                  <CloseOutlined
                     className={styles.navClose}
                     onClick={() => this.handeRemoveNavTag(index)}
                   />
@@ -396,7 +395,7 @@ class TypeSetting extends PureComponent {
                     style={{ background: '#fff', borderStyle: 'dashed' }}
                     className={styles.listTag}
                   >
-                    <Icon type="plus" />
+                    <PlusOutlined />
                     添加
                   </Tag>
                 </Card>
