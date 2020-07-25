@@ -36,6 +36,7 @@ export default class BasicForms extends PureComponent {
           type: 'user/changePassword',
           payload: {
             ...fieldsValue,
+            password: fieldsValue.old_password,
           },
           callback: () => {
             message.success('修改成功');

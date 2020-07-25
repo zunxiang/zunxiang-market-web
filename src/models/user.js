@@ -1,6 +1,5 @@
 import { routerRedux } from 'dva/router';
 /* eslint-disable-next-line */
-import secureCipher from 'secure';
 import { GET, POST } from '@/services/api';
 import { reloadAuthorized } from '@/utils/Authorized';
 import { BaseImgUrl } from '@/common/config';
@@ -78,7 +77,7 @@ export default {
     *changePassword({ payload, callback }, { call }) {
       const msg = {
         handler: '/v1/mp/app_account/account/change_password',
-        message: JSON.stringify(secureCipher(JSON.stringify(payload))),
+        message: JSON.stringify(payload),
       };
       const [code] = yield call(POST, msg);
       if (code !== 0) return;
