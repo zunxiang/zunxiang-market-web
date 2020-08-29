@@ -11,7 +11,7 @@ import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 export default class BasicList extends Component {
   render() {
     const { mpid } = this.props;
-    const qrcodeBaseUrl = `https://www.zxtgo.com/production/${mpid}/db/v1/client/miniprogram_qrcode`;
+    const qrcodeBaseUrl = `https://wx.shop.vipsys.net/production/${mpid}/api/client/user/getwxacodeunlimit`;
     const indexQurey = stringify({
       scene: stringify({ key: 'value' }),
       page: 'pages/index/main',
